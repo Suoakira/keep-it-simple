@@ -1,2 +1,0 @@
-class UserGoal < ApplicationRecord
-end
