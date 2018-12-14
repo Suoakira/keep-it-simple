@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import API from "../API"
 
-class login extends Component {
+class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,13 +20,11 @@ class login extends Component {
         API.signin(user)
             .then(data => {
                 if (data.error) {
-                    alert("didnt work")
+                    console.log(`error: ${data.error}`)
                 } else {
                     signin(data.username)
-
                 }
             })
-
     }
 
 
@@ -36,13 +34,13 @@ class login extends Component {
 
             <div className="ui middle aligned center aligned grid">
                 <div className="column">
-                    <h3 className="ui header">Welcome to the Bloodborne games (Flatiron // 2018)</h3>
+                    <h3 className="ui header">test-login</h3>
                     <form className="ui large form" onSubmit={() => this.handleSubmit()}>
                         <div className="segment">
                             <div className="field">
                                 <div className="ui left icon input">
                                     <i className="user icon"></i>
-                                    <input type="text" name="username" onChange={(event) => this.handleChange(event)} value={this.state.email} placeholder="E-mail address" />
+                                    <input type="text" name="username" onChange={(event) => this.handleChange(event)} value={this.state.username} placeholder="E-mail address" />
                                 </div>
                             </div>
                             <div className="field">
@@ -63,4 +61,4 @@ class login extends Component {
     }
 }
  
-export default login
+export default Login
