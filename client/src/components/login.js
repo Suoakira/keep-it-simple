@@ -32,7 +32,8 @@ class Login extends Component {
 
     render() {
         return (
-                <div>
+            <div class="ui one column stackable center aligned page grid">
+                <div class="column six wide">
                     <h3 className="">test-login</h3>
                     <form className="ui large form" onSubmit={() => this.handleSubmit()}>
                         <div className="segment">
@@ -58,6 +59,7 @@ class Login extends Component {
                     </div>
                     </form>
                 </div>
+            </div>
 
 
         )
@@ -65,3 +67,4 @@ class Login extends Component {
 }
  
 export default Login
+

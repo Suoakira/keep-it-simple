@@ -34,8 +34,10 @@ class Register extends Component {
     render() {
         return (
 
-            <div className="ui middle aligned center aligned grid">
-                <div className="column">
+            <div class="ui one column stackable center aligned page grid">
+                <div class="column six wide">
+                   
+
                     <h3 className="ui header">test-register</h3>
                     <form className="ui large form" onSubmit={() => this.handleSubmit()}>
                         <div className="segment">
@@ -58,8 +60,7 @@ class Register extends Component {
                                 </div>
                             </div>
                             <Link to="/">
-                                <div className="ui fluid large teal submit button" onClick={() => this.handleSubmit()}>
-                                    Register
+                                <div className="ui fluid large teal submit button" onClick={() => this.handleSubmit()}>Register
                                 </div>
                             </Link>
                         </div>
