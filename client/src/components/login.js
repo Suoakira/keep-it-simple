@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import API from "../API"
+import { Link } from "react-router-dom"
 
 class Login extends Component {
     constructor(props) {
@@ -7,7 +8,6 @@ class Login extends Component {
         this.state = {
             username: "",
             password: ""
-
         }
     }
 
@@ -22,25 +22,24 @@ class Login extends Component {
                 if (data.error) {
                     console.log(`error: ${data.error}`)
                 } else {
-                    signin(data.username)
+                    signin(data)
+                    console.log("Success")
                 }
             })
-    }
+        }
 
 
 
     render() {
         return (
-
-            <div className="ui middle aligned center aligned grid">
-                <div className="column">
-                    <h3 className="ui header">test-login</h3>
+                <div>
+                    <h3 className="">test-login</h3>
                     <form className="ui large form" onSubmit={() => this.handleSubmit()}>
                         <div className="segment">
                             <div className="field">
                                 <div className="ui left icon input">
                                     <i className="user icon"></i>
-                                    <input type="text" name="username" onChange={(event) => this.handleChange(event)} value={this.state.username} placeholder="E-mail address" />
+                                    <input type="text" name="username" onChange={(event) => this.handleChange(event)} value={this.state.username} placeholder="Username" />
                                 </div>
                             </div>
                             <div className="field">
@@ -49,13 +48,17 @@ class Login extends Component {
                                     <input type="password" name="password" onChange={(event) => this.handleChange(event)} value={this.state.password} placeholder="Password" />
                                 </div>
                             </div>
-                            <div className="ui fluid large teal submit button" onClick={() => this.handleSubmit()}>Login</div>
+                        <Link to="/">
+                            <div className="ui fluid large teal submit button" onClick={() => this.handleSubmit()}>
+                                Login
+                            </div>
+                        </Link>
                         </div>
-                        <div className="ui error message">
-                        </div>
+                    <div className="ui error message">
+                    </div>
                     </form>
                 </div>
-            </div>
+
 
         )
     }

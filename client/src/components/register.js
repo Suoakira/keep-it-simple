@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
+import { Link } from "react-router-dom"
+
 import API from "../API"
+
 
 class Register extends Component {
     constructor(props) {
@@ -18,12 +21,12 @@ class Register extends Component {
     handleSubmit = () => {
         const { signin } = this.props
         const user = this.state
-        API.signin(user)
+        API.signup({ user: user })
             .then(data => {
                 if (data.error) {
                     console.log(`error: ${data.error}`)
                 } else {
-                    signin(data.username)
+                    signin(data)
                 }
             })
         }
@@ -45,7 +48,7 @@ class Register extends Component {
                             <div className="field">
                                 <div className="ui left icon input">
                                     <i className="user icon"></i>
-                                    <input type="text" name="username" onChange={(event) => this.handleChange(event)} value={this.state.username} placeholder="E-mail address" />
+                                    <input type="text" name="username" onChange={(event) => this.handleChange(event)} value={this.state.username} placeholder="Username" />
                                 </div>
                             </div>
                             <div className="field">
@@ -54,7 +57,11 @@ class Register extends Component {
                                     <input type="password" name="password" onChange={(event) => this.handleChange(event)} value={this.state.password} placeholder="Password" />
                                 </div>
                             </div>
-                            <div className="ui fluid large teal submit button" onClick={() => this.handleSubmit()}>Register</div>
+                            <Link to="/">
+                                <div className="ui fluid large teal submit button" onClick={() => this.handleSubmit()}>
+                                    Register
+                                </div>
+                            </Link>
                         </div>
                         <div className="ui error message">
                         </div>
