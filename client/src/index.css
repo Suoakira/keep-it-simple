@@ -14,17 +14,17 @@ code {
 }
 
 #rig {
-    max-width:700px;
+    max-width:650px;
     margin:0 auto; /*center aligned*/
     padding:0;
     font-size:0; /* Remember to change it back to normal font size if have captions */
     list-style:none;
-    background-color:#000;
+    background-color:#fff;
 }
 #rig li {
     display: inline-block;
     *display:inline;/*for IE6 - IE7*/
-    width:33.33333%;
+    width:33.3333333%;
     vertical-align:middle;
     box-sizing:border-box;
     margin:0;
@@ -43,7 +43,7 @@ code {
 /* If have the image layer */
 .rig-img {
     display:block;
-    width: 100%;
+    width: 102%;
     height: auto;
     border:none;
     transform:scale(1);
@@ -51,7 +51,7 @@ code {
 }
 
 #rig li:hover .rig-img {
-    transform:scale(1.10);
+    transform:scale(1.05);
 }
         
 /* If have the overlay layer */
@@ -101,7 +101,7 @@ code {
 
 @media (max-width: 9000px) {
     #rig li {
-        width:100/3%
+        width:33.33333%
     }
 }
 
@@ -116,3 +116,4 @@ code {
         width:50%;
     }
 }
+

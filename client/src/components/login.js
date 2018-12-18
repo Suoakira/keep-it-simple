@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import API from "../API"
-import { Link } from "react-router-dom"
+import { Link, Redirect } from "react-router-dom"
 
 class Login extends Component {
     constructor(props) {
@@ -24,6 +24,7 @@ class Login extends Component {
                 } else {
                     signin(data)
                     console.log("Success")
+                  
                 }
             })
         }
@@ -34,7 +35,8 @@ class Login extends Component {
         return (
             <div class="ui one column stackable center aligned page grid">
                 <div class="column six wide">
-                    <h3 className="">test-login</h3>
+                    
+                    <h3 className="">Login</h3>
                     <form className="ui large form" onSubmit={() => this.handleSubmit()}>
                         <div className="segment">
                             <div className="field">
@@ -50,7 +52,7 @@ class Login extends Component {
                                 </div>
                             </div>
                         <Link to="/">
-                            <div className="ui fluid large teal submit button" onClick={() => this.handleSubmit()}>
+                            <div className="ui fluid large black submit button" onClick={() => this.handleSubmit()}>
                                 Login
                             </div>
                         </Link>
@@ -67,4 +69,3 @@ class Login extends Component {
 }
  
 export default Login
-

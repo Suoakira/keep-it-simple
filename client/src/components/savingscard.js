@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom"
 
 class SavingsCards extends Component {
     constructor(props) {
@@ -10,11 +11,12 @@ class SavingsCards extends Component {
         return ( 
        
                 <li>
-                    <a className="rig-cell" href="#">
-                        <img className="rig-img" src={data.imageUrl} alt="savings-image" />
+                <Link exact to="./home/form"><a className="rig-cell" href="#">
+                        <img className="rig-img" src={data.imageUrl} alt="savings-image" /> 
                         <span className="rig-overlay"></span>
                         <span className="rig-text">{data.title}</span>
                     </a>
+                    </Link>
                 </li>
 
 
