@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 
 class Navbar extends Component {
     constructor(props) {
@@ -9,23 +9,27 @@ class Navbar extends Component {
     render() { 
         return ( 
         
-        <div class="ui inverted vertical masthead center aligned segment">
+        <div className="ui inverted vertical masthead center aligned segment">
   
-            <div class="ui container">
-                <div class="ui large secondary inverted pointing menu">
-                    <a class="toc item">
-                        <i class="sidebar icon"></i>
+            <div className="ui container">
+                <div className="ui large secondary inverted pointing menu">
+                    <a className="toc item">
+                        <i className="sidebar icon"></i>
                     </a>
-                    <a class="item">New Plan</a>
-                    <a class="item">Existing Plans</a>
+                        <NavLink className="item" exact to="/home/newplan">
+                            New Plan
+                        </NavLink>
+                        <NavLink className="item" exact to="/home/exisitingplans">
+                            Exisiting Plans
+                        </NavLink>
 
-                    <div class="right item">
-                            <Link to="/login">
-                                <a class="ui inverted button">Log in</a>
+                    <div className="right item">
+                            <Link className="ui inverted button" to="/login">
+                               Log in
                             </Link>
-                            <div class="or"></div>
-                            <Link to="/register">
-                                <a class="ui inverted button">Sign Up</a>
+                            <div className="or"></div>
+                            <Link className="ui inverted button" to="/register">
+                               Sign Up
                             </Link>
 
                     </div>

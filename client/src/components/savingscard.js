@@ -9,16 +9,20 @@ class SavingsCards extends Component {
     render() { 
         const { data } = this.props
         return ( 
-       
+            <Link exact to="/home/form">
                 <li>
-                <Link exact to="./home/form"><a className="rig-cell" href="#">
+                <a className="rig-cell" href="#">
                         <img className="rig-img" src={data.imageUrl} alt="savings-image" /> 
                         <span className="rig-overlay"></span>
-                        <span className="rig-text">{data.title}</span>
+                        <span className="rig-text">
+                            <h1 class="ui header">
+                                {data.title}
+                            </h1>
+                        </span>
                     </a>
-                    </Link>
+        
                 </li>
-
+            </Link>
 
      
          )

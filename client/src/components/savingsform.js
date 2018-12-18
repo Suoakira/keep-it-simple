@@ -11,6 +11,12 @@ class SavingsForm extends Component {
         super(props);
 
         this.state = {
+            name: '',
+            plan: '',
+            start_date: '',
+            end_date: '',
+            target_image: '',
+            category: '',
             date: '',
             time: '',
             dateTime: '',
@@ -18,7 +24,7 @@ class SavingsForm extends Component {
         };
     }
 
-    
+
 
     // this handle change is specifically for date periods
     handleChange = (event, { name, value }) => {
@@ -71,7 +77,7 @@ class SavingsForm extends Component {
                             </div>
                             
                         <div className="field">
-                            <label>what amount would you like to save?</label>
+                            <label>Amount would you'd like to save?</label>
                             <input placeholder="Amount" type="text" />
                         </div>
 

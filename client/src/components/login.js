@@ -23,7 +23,7 @@ class Login extends Component {
                     console.log(`error: ${data.error}`)
                 } else {
                     signin(data)
-                    console.log("Success")
+                    console.log(data)
                   
                 }
             })
