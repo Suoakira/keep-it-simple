@@ -5,10 +5,62 @@ class exisitingPlanCard extends Component {
         super(props);
         this.state = {  }
     }
+
+
+
+    formatDate = () => {
+        const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+        const date1 = new Date(Date.now())
+        const date2 = new Date(this.props.savingTargets.end_date)
+        const daysToGo = Math.round(Math.abs((date2.getTime() - date1.getTime()) / (oneDay)))
+        if (daysToGo > 0) {
+            return Math.round(Math.abs((date2.getTime() - date1.getTime()) / (oneDay)))
+        } else {
+            return "This plan has expired!"
+        }
+
+
+
+    }
+
+
+
+
+
     render() { 
+        this.formatDate()
         const { savingTargets } = this.props
             return (
-                <div>
+
+
+           
+                    <div className="card">
+                        <div className="image">
+                        <img src={savingTargets.target_image} />
+                        </div>
+                        <div className="content">
+                            <div className="header">{savingTargets.plan} {`${this.formatDate()} days to go`}</div>
+                                <div className="meta">
+                                <a>{savingTargets.category}</a>
+                                </div>
+                            <div className="description">
+                                {savingTargets.name}
+                            </div>
+                        </div>
+                            <div className="extra content">
+                                <span className="right floated">
+                                {savingTargets.start_data}
+                            </span>
+                                <span>
+                                   
+                                {savingTargets.end_date}
+                            </span>
+                            </div>
+                    </div>
+
+
+
+                /* <div>
                     <section className="cards">
                         <article className="card card--1">
                             <div className="card__info-hover">
@@ -28,11 +80,11 @@ class exisitingPlanCard extends Component {
                             <div className="card__info">
                                 <span className="card__category">{savingTargets.category}</span>
                                 <h3 className="card__title">{savingTargets.name}</h3>
-                                <span className="card__by">by <a href="#" class="card__author" title="author">Celeste Mills</a></span>
+                                <span className="card__by"> <a href="#" class="card__author" title="author">Celeste Mills</a></span>
                             </div>
                         </article>
                     </section>
-                </div>
+                </div> */
             )
          
     }

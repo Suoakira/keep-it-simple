@@ -26,12 +26,15 @@ class ExisitingPlans extends Component {
     render() { 
         return ( 
             <div>
-                {this.mapThroughPlans()}
-
-        </div> )
+                <div class="ui link cards">
+                    {this.mapThroughPlans()}
+                </div>
+            </div>
+             )
     }
 }
  
 export default ExisitingPlans;
+
 
 
