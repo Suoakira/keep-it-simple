@@ -23,7 +23,7 @@ class Login extends Component {
                     console.log(`error: ${data.error}`)
                 } else {
                     signin(data)
-                    console.log("Success")
+                    console.log(data)
                   
                 }
             })
@@ -56,11 +56,14 @@ class Login extends Component {
                                 Login
                             </div>
                         </Link>
+                        
                         </div>
                     <div className="ui error message">
                     </div>
                     </form>
                 </div>
+
+
             </div>
 
 

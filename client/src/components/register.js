@@ -27,6 +27,7 @@ class Register extends Component {
                     console.log(`error: ${data.error}`)
                 } else {
                     signin(data)
+                    console.log(`${data.username} has been signed in`)
                 }
             })
         }
