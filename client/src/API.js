@@ -32,6 +32,7 @@ class API {
             body: JSON.stringify(userSavingsTarget)
         }).then(resp => resp.json())
     }
+
 }
 
 export default API
