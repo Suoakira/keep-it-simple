@@ -7,6 +7,7 @@ class Navbar extends Component {
         this.state = {  }
     }
     render() { 
+        const { username, signout } = this.props
         return ( 
         
         <div className="ui inverted vertical masthead center aligned segment">
@@ -23,16 +24,29 @@ class Navbar extends Component {
                             Exisiting Plans
                         </NavLink>
 
-                    <div className="right item">
-                            <Link className="ui inverted button" to="/login">
-                               Log in
-                            </Link>
-                            <div className="or"></div>
-                            <Link className="ui inverted button" to="/register">
-                               Sign Up
-                            </Link>
+                        <div className="right item">
+                            {
+                                username?
 
-                    </div>
+                                <React.Fragment>
+                                        <Link onClick={(event) => signout()} className="ui inverted button" to="/login">
+                                        Logout
+                                    </Link>
+                                </React.Fragment>
+                                :
+                                <React.Fragment>
+                                    <Link className="ui inverted button" to="/login">
+                                        Log in
+                                    </Link>
+                                    <div className="or"></div>
+                                    <Link className="ui inverted button" to="/register">
+                                        Sign Up
+                                    </Link>
+                                </React.Fragment>      
+                                    }
+                            </div>
+
+                   
                 </div>
             </div>
         </div>

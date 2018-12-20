@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 
 class exisitingPlanCard extends Component {
     constructor(props) {
+        
         super(props);
-        this.state = {  }
+        this.state = { 
+            
+         }
     }
 
 
@@ -18,28 +21,36 @@ class exisitingPlanCard extends Component {
         } else {
             return "This plan has expired!"
         }
+    }
 
+    convertDateToString = () => 
+         new Date(Date.parse(this.props.savingTargets.start_date)).toDateString()
+        
 
-
+    componentWillMount() {
+        // this.setState({
+        //     savingTargets: this.props.storedUserDetails.saving_targets[0],
+        //     userSavingTargets: this.props.storedUserDetails.user_saving_targets[0]
+        // })
+        // console.log(this.props.storedUserDetails.saving_targets[0])
     }
 
 
-
-
-
     render() { 
-        this.formatDate()
+        this.convertDateToString()
+        const { userSavingTargets } = this.state
         const { savingTargets } = this.props
             return (
 
-
-           
+            <div class="four wide column">            
+                <div class="ui link cards">
                     <div className="card">
                         <div className="image">
                         <img src={savingTargets.target_image} />
+                        
                         </div>
                         <div className="content">
-                            <div className="header">{savingTargets.plan} {`${this.formatDate()} days to go`}</div>
+                        <div className="header"> {`${this.formatDate()} days to go to raise £placeholder`}</div>
                                 <div className="meta">
                                 <a>{savingTargets.category}</a>
                                 </div>
@@ -49,14 +60,16 @@ class exisitingPlanCard extends Component {
                         </div>
                             <div className="extra content">
                                 <span className="right floated">
-                                {savingTargets.start_data}
+                            Plan Launched {this.convertDateToString()}`
                             </span>
                                 <span>
                                    
-                                {savingTargets.end_date}
+                                {/* {savingTargets.end_date} */}
                             </span>
                             </div>
                     </div>
+                </div>
+            </div>
 
 
 

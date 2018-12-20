@@ -9,12 +9,10 @@ class ExisitingPlans extends Component {
 
           }
     }
+    
+    mapSavingPlans = () => 
+        this.props.storedUserDetails.saving_targets.map(savingTargets => <ExisitingPlansCard savingTargets={savingTargets} />)
 
-    mapThroughPlans = () => 
-    {
-        const { storedUserDetails } = this.state
-        return storedUserDetails.saving_targets.map(savingTargets => <ExisitingPlansCard savingTargets={savingTargets} /> )
-    }
 
 
     componentWillMount() {
@@ -24,12 +22,18 @@ class ExisitingPlans extends Component {
     }
 
     render() { 
+        const { storedUserDetails } = this.state
+        this.mapSavingPlans()
+        
         return ( 
-            <div>
-                <div class="ui link cards">
-                    {this.mapThroughPlans()}
+
+                <div class="ui grid">
+ 
+
+                    {this.mapSavingPlans()}
+
                 </div>
-            </div>
+    
              )
     }
 }

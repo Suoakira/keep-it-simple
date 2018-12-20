@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+
+
 import {
     DateInput,
     TimeInput,
@@ -8,30 +10,42 @@ import {
 
 class SavingsForm extends Component {
     constructor(props) {
-        super(props);
-
+        super(props)
         this.state = {
-            name: '',
-            plan: '',
-            start_date: '',
-            end_date: '',
-            target_image: '',
-            category: '',
-            date: '',
-            time: '',
-            dateTime: '',
-            datesRange: ''
-        };
-    }
+
+                name: undefined,
+                start_date: undefined,
+                end_date: undefined,
+                category: undefined,
+                target_image: undefined,
+                plan: undefined,
+                user_id: undefined,
+                datesRange: '',
+
+                // userSavingTargets
+                // user_id: undefined,
+                // saving_target_id: undefined,
+                amount: undefined,
+
+
+            
+            }
+        }
+    
+
+    handleInputChange = (event) =>
+        this.setState({ [event.target.name]: event.target.value })
+
 
 
 
     // this handle change is specifically for date periods
     handleChange = (event, { name, value }) => {
         if (this.state.hasOwnProperty(name)) {
-            this.setState({ [name]: value });
+            this.setState({ [name]: value })
         }
     }
+
 
     render() { 
         return (
@@ -45,20 +59,7 @@ class SavingsForm extends Component {
                                 <label className="ui left">
                                     Savings Category
                                 </label>
-                                <input placeholder="Category" type="text" />
-                                </div>
-                            </div>
-
-                            <div class="ui selection simple segment dropdown">
-                                
-                                <input type="hidden" name="gender" />
-                                <i className="dropdown icon"></i>
-                                <div className="default text">
-                                    Plan Type
-                                </div>
-                                <div className="menu">
-                                    <div className="item" data-value="1">Group Plan</div>
-                                    <div className="item" data-value="0">Personal Plan</div>
+                                    <input placeholder="Category" type="text" name="category" onChange={(event) => this.handleInputChange(event)} value={this.state.category} />
                                 </div>
                             </div>
 
@@ -66,23 +67,23 @@ class SavingsForm extends Component {
                                 <label>
                                     Name your plan
                             </label>
-                                <input placeholder="Image link" type="text" />
+                                <input placeholder="Image link" type="text" name="name" onChange={(event) => this.handleInputChange(event)} value={this.state.name} />
                             </div>
 
                             <div className="field">
                             <label>
                                 Post an image of your goal to keep you Motivated
                             </label>
-                                <input placeholder="Image link" type="text" />
+                                <input placeholder="Image link" type="text" name="target_image" onChange={(event) => this.handleInputChange(event)} value={this.state.target_image} />
                             </div>
                             
                         <div className="field">
                             <label>Amount would you'd like to save?</label>
-                            <input placeholder="Amount" type="text" />
+                                <input placeholder="Amount" type="number" name="amount" onChange={(event) => this.handleInputChange(event)} value={this.state.amount} />
                         </div>
 
                         <div className="field">
-                            <label>Timescale</label>
+                            <label>Start Date & End Date</label>
                         
                         <DatesRangeInput
                             name="datesRange"
