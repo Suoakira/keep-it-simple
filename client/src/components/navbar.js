@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom"
 
 class Navbar extends Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {  }
     }
     render() { 
@@ -45,18 +45,10 @@ class Navbar extends Component {
                                 </React.Fragment>      
                                     }
                             </div>
-
-                   
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-
-
-
-
-    
-                )
+        )
     }
 }
  

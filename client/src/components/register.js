@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom"
+import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
 
 import API from "../API"
 
@@ -15,8 +16,7 @@ class Register extends Component {
         }
     }
 
-    handleChange = (event) =>
-        this.setState({ [event.target.name]: event.target.value })
+    handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
     handleSubmit = () => {
         const { signin } = this.props
@@ -33,39 +33,42 @@ class Register extends Component {
         }
 
     render() {
+        const { username, password, email } = this.state
         return (
 
             <div class="ui one column stackable center aligned page grid">
                 <div class="column six wide">
                     <h3 className="ui header">Register</h3>
-                    <form className="ui large form" onSubmit={() => this.handleSubmit()}>
-                        <div className="segment">
-                            <div className="field">
-                                <div className="ui left icon input">
-                                    <i className="user icon"></i>
-                                    <input type="text" name="email" onChange={(event) => this.handleChange(event)} value={this.state.email} placeholder="E-mail address" />
-                                </div>
-                            </div>
-                            <div className="field">
-                                <div className="ui left icon input">
-                                    <i className="user icon"></i>
-                                    <input type="text" name="username" onChange={(event) => this.handleChange(event)} value={this.state.username} placeholder="Username" />
-                                </div>
-                            </div>
-                            <div className="field">
-                                <div className="ui left icon input">
-                                    <i className="lock icon"></i>
-                                    <input type="password" name="password" onChange={(event) => this.handleChange(event)} value={this.state.password} placeholder="Password" />
-                                </div>
-                            </div>
-                            <Link to="/">
-                                <div className="ui fluid large black submit button" onClick={() => this.handleSubmit()}>Register
-                                </div>
-                            </Link>
+                    <Form onSubmit={this.handleSubmit}>
+                        <div className="ui left icon input">
+                            <Form.Input
+                                placeholder='Email'
+                                name='email'
+                                value={email}
+                                onChange={this.handleChange} />
                         </div>
+                        <div className="ui left icon input">
+                            <Form.Input
+                                placeholder='Username'
+                                name='username'
+                                value={username}
+                                onChange={this.handleChange} />
+                        </div>
+                        <div className="ui left icon input">
+                            <Form.Input
+                                placeholder='Password'
+                                name='password'
+                                type='password'
+                                value={password}
+                                onChange={this.handleChange} />
+                        </div>
+                            <Form.Button
+                                content='Submit'
+                                onClick={() => this.handleSubmit()}
+                            />
                         <div className="ui error message">
                         </div>
-                    </form>
+                    </Form>
                 </div>
             </div>
 

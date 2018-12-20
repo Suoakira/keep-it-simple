@@ -81,7 +81,7 @@ class exisitingPlanCard extends Component {
                         </div>
                             <div className="extra content">
                                 <span className="right floated">
-                            Plan Launched {this.convertDateToString()}`
+                            Plan Launched {this.convertDateToString()}
                             </span>
                                 <span>
                                    

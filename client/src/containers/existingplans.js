@@ -13,8 +13,6 @@ class ExisitingPlans extends Component {
     mapSavingPlans = () => 
         this.props.storedUserDetails.saving_targets.map(savingTargets => <ExisitingPlansCard savingTargets={savingTargets} />)
 
-
-
     componentWillMount() {
         this.setState({
             storedUserDetails: this.props.storedUserDetails
@@ -28,10 +26,7 @@ class ExisitingPlans extends Component {
         return ( 
 
                 <div class="ui grid">
- 
-
                     {this.mapSavingPlans()}
-
                 </div>
     
              )

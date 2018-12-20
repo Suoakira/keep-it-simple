@@ -9,9 +9,9 @@ class detailsPage extends Component {
     render() { 
         return ( 
             <div>
-                
+
             </div>
-         );
+         )
     }
 }
  

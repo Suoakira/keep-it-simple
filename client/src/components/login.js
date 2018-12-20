@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import API from "../API"
 import { Link, Redirect } from "react-router-dom"
+import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
 
 class Login extends Component {
     constructor(props) {
@@ -10,9 +11,7 @@ class Login extends Component {
             password: ""
         }
     }
-
-    handleChange = (event) =>
-        this.setState({ [event.target.name]: event.target.value })
+    handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
     handleSubmit = () => {
         const { signin } = this.props
@@ -24,47 +23,48 @@ class Login extends Component {
                 } else {
                     signin(data)
                     console.log(data)
-                  
                 }
             })
         }
 
-
-
     render() {
+        const { username, password } = this.state
         return (
             <div class="ui one column stackable center aligned page grid">
                 <div class="column six wide">
-                    
                     <h3 className="">Login</h3>
-                    <form className="ui large form" onSubmit={() => this.handleSubmit()}>
-                        <div className="segment">
-                            <div className="field">
-                                <div className="ui left icon input">
-                                    <i className="user icon"></i>
-                                    <input type="text" name="username" onChange={(event) => this.handleChange(event)} value={this.state.username} placeholder="Username" />
-                                </div>
-                            </div>
-                            <div className="field">
+                    <Form onSubmit={this.handleSubmit}>
+                        <Form.Group>
+                            <div className="segment">                  
+                                <div className="ui left icon input">        
+                                    <Form.Input 
+                                    placeholder='Username' 
+                                    name='username' 
+                                    value={username} 
+                                    onChange={this.handleChange} />              
+                                </div>                   
                                 <div className="ui left icon input">
                                     <i className="lock icon"></i>
-                                    <input type="password" name="password" onChange={(event) => this.handleChange(event)} value={this.state.password} placeholder="Password" />
+                                    <Form.Input 
+                                    placeholder='Password' 
+                                    name='password' 
+                                    type="password"
+                                    value={password} 
+                                    onChange={this.handleChange} />
+                                </div>        
+                                <div>
+                                    <Form.Button 
+                                    content='Submit'
+                                        onClick={() => this.handleSubmit()}
+                                        />
                                 </div>
                             </div>
-                        <Link to="/">
-                            <div className="ui fluid large black submit button" onClick={() => this.handleSubmit()}>
-                                Login
-                            </div>
-                        </Link>
-                        
+                        <div className="ui error message">
                         </div>
-                    <div className="ui error message">
-                    </div>
-                    </form>
+                        </Form.Group>
+                    </Form>
                 </div>
             </div>
-
-
         )
     }
 }
