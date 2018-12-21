@@ -55,7 +55,8 @@ class App extends Component {
           },
           
         ]
-      },
+      }
+    
     }
   }
 
@@ -77,11 +78,11 @@ class App extends Component {
 
 
   render() {
-    const { signin,toggleTileClick } = this
-    const { storedUserDetails } = this.state
+    const { signin, toggleTileClick, signout } = this
+    const { storedUserDetails, username } = this.state
     return (
       <div>
-        <Navbar />
+        <Navbar username={username} signout={signout} />
         {/* <div className="main-banner">
 
               <img src="https://blog.dime.com/wp-content/uploads/2018/05/27-grow-your-savings.png" alt="" />
@@ -89,9 +90,9 @@ class App extends Component {
         </div> */}
         <Route exact path='/login' component={(props) => <Login signin={signin} />}/>
         <Route  exact path='/register' component={(props) => <Register signin={signin} />} />
-        <Route exact path='/home/form' component={(props) => <SavingsForm signin={signin} />} />
-        <Route exact path='/home/newplan' component={(props) => <SavingGrid signin={signin} />} />
-        <Route exact path='/home/exisitingplans' component={(props) => <ExistingPlans  signin={signin} storedUserDetails={storedUserDetails}  />} />
+        <Route exact path='/home/form' component={(props) => <SavingsForm username={username} />} />
+        <Route exact path='/home/newplan' component={(props) => <SavingGrid username={username} />} />
+        <Route exact path='/home/exisitingplans' component={(props) => <ExistingPlans username={username} storedUserDetails={storedUserDetails}  />} />
 
 
 

@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import API from "../API"
 
 class exisitingPlanCard extends Component {
     constructor(props) {
+        
         super(props);
-        this.state = {  }
+        this.state = {
+            userSavingTargets: undefined
+         }
     }
-
 
 
     formatDate = () => {
@@ -18,28 +21,57 @@ class exisitingPlanCard extends Component {
         } else {
             return "This plan has expired!"
         }
+    }
 
+    convertDateToString = () => 
+         new Date(Date.parse(this.props.savingTargets.start_date)).toDateString()
+    
+    // filterAmounts = (amounts) => {
+    //     const savingTargetId = this.props.savingTargets.id
+    //     console.log(savingTargetId)
+    //     return amounts.filter(amount => amount.id === savingTargetId )
+    // }
 
+    componentDidMount() {
+        
+        // fetch("http://localhost:3000/api/v1/saving_targets")
+        //     .then(data => data.json())
+        //     .then(savingTs => this.setState({ userSavingTargets: this.filterAmounts(savingTs) }))
+        // this.setState({
+        //     savingTargets: this.props.storedUserDetails.saving_targets[0],
+        //     userSavingTargets: this.props.storedUserDetails.user_saving_targets[0]
+        // })
+        // console.log(this.props.storedUserDetails.saving_targets[0])
 
+        fetch(`http://localhost:3000/api/v1/saving_targets/${this.props.savingTargets.id}`)
+            .then(data => data.json())
+            .then(savingTs => this.setState({ userSavingTargets: savingTs }))
     }
 
 
-
-
-
     render() { 
-        this.formatDate()
+    
+
+        const { userSavingTargets } = this.state
         const { savingTargets } = this.props
+        
             return (
 
-
-           
+                <div class="four wide colum">            
+                <div class="ui link cards">
                     <div className="card">
                         <div className="image">
                         <img src={savingTargets.target_image} />
+                        
                         </div>
                         <div className="content">
-                            <div className="header">{savingTargets.plan} {`${this.formatDate()} days to go`}</div>
+                                {this.state.userSavingTargets ?
+                                    <div className="header"> {`${this.formatDate()} days to go to raise £${this.state.userSavingTargets.user_saving_targets[0].amount}`}</div>
+                                :
+                                <p>loading placeholder</p>
+                                }
+
+
                                 <div className="meta">
                                 <a>{savingTargets.category}</a>
                                 </div>
@@ -49,14 +81,17 @@ class exisitingPlanCard extends Component {
                         </div>
                             <div className="extra content">
                                 <span className="right floated">
-                                {savingTargets.start_data}
+                            Plan Launched {this.convertDateToString()}
                             </span>
                                 <span>
                                    
-                                {savingTargets.end_date}
+                                {/* {savingTargets.end_date} */}
                             </span>
                             </div>
                     </div>
+                </div>
+            </div>
+        
 
 
 
@@ -86,6 +121,7 @@ class exisitingPlanCard extends Component {
                     </section>
                 </div> */
             )
+        
          
     }
 }

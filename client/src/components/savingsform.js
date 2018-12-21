@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
+
+
 import {
     DateInput,
     TimeInput,
@@ -8,101 +11,88 @@ import {
 
 class SavingsForm extends Component {
     constructor(props) {
-        super(props);
-
+        super(props)
         this.state = {
-            name: '',
-            plan: '',
-            start_date: '',
-            end_date: '',
-            target_image: '',
-            category: '',
-            date: '',
-            time: '',
-            dateTime: '',
-            datesRange: ''
-        };
-    }
 
+                name: undefined,
+                start_date: undefined,
+                end_date: undefined,
+                category: undefined,
+                target_image: undefined,
+                plan: undefined,
+                user_id: undefined,
+                datesRange: '',
+                // userSavingTargets
+                // user_id: undefined,
+                // saving_target_id: undefined,
+                amount: undefined,
+            }
+        }
+    
 
+    // handleChange = (e, { value }) => this.setState({ value })
 
     // this handle change is specifically for date periods
-    handleChange = (event, { name, value }) => {
-        if (this.state.hasOwnProperty(name)) {
-            this.setState({ [name]: value });
-        }
+    // handleChange = (event, { name, value }) => {
+    //     if (this.state.hasOwnProperty(name)) {
+    //         this.setState({ [name]: value })
+    //     }
+    // }
+
+
+    handleChange = (e, { name, value }) => this.setState({ [name]: value })
+
+    handleSubmit = () => {
+        const { name, category, target_image } = this.state
+
+        this.setState({ 
+            submittedName: name, 
+            submittedEmail: category,
+            submittedImage: target_image
+
+        
+        })
     }
 
     render() { 
+        const { value } = this.state
+        const { name, category, target_image, amount, plan } = this.state
+        const planOptions = [
+            { key: 'p', text: 'Personal', value: 'Personal' },
+            { key: 'g', text: 'Group', value: 'Group' },
+        ]
+
+
         return (
-            <div className="center-me"> 
-            <div className="ui one column stackable left aligned page grid">
-                <div className="column eight wide">
-                    <h3 className="">Create a Savings plan</h3>
-                    <form className="ui large form" onSubmit={() => this.handleSubmit()}>
-                            <div className="segment">
-                                <div class="field">
-                                <label className="ui left">
-                                    Savings Category
-                                </label>
-                                <input placeholder="Category" type="text" />
-                                </div>
-                            </div>
-
-                            <div class="ui selection simple segment dropdown">
-                                
-                                <input type="hidden" name="gender" />
-                                <i className="dropdown icon"></i>
-                                <div className="default text">
-                                    Plan Type
-                                </div>
-                                <div className="menu">
-                                    <div className="item" data-value="1">Group Plan</div>
-                                    <div className="item" data-value="0">Personal Plan</div>
-                                </div>
-                            </div>
-
-                            <div className="field">
-                                <label>
-                                    Name your plan
-                            </label>
-                                <input placeholder="Image link" type="text" />
-                            </div>
-
-                            <div className="field">
-                            <label>
-                                Post an image of your goal to keep you Motivated
-                            </label>
-                                <input placeholder="Image link" type="text" />
-                            </div>
-                            
-                        <div className="field">
-                            <label>Amount would you'd like to save?</label>
-                            <input placeholder="Amount" type="text" />
-                        </div>
-
-                        <div className="field">
-                            <label>Timescale</label>
-                        
-                        <DatesRangeInput
-                            name="datesRange"
-                            placeholder="From - To"
-                            value={this.state.datesRange}
-                            iconPosition="left"
-                            onChange={this.handleChange} />
-                        </div>
-      
-                        <div className="ui fluid large black submit button" onClick={() => this.handleSubmit()}>
-                            Create Goal
-                        </div> 
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        
-
-                    
+            
+                   <Form onSubmit={this.handleSubmit}>
+                        <Form.Group>
+              
+                            <Form.Input placeholder='Name' name='name' value={name} onChange={this.handleChange} />
+                            <Form.Input placeholder='Category' name='category' value={category} onChange={this.handleChange} />
+                            <Form.Input placeholder='Image' name='target_image' value={target_image} onChange={this.handleChange} />
+                            <Form.Input placeholder='Amount' name='amount' value={amount} onChange={this.handleChange} />
+                            <Form.Field
+                                control={Select}
+                                options={planOptions}
+                                label={{ children: 'Plan type?', htmlFor: 'form-select-control-gender' }}
+                                placeholder='Gender'
+                                search
+                                name="plan"
+                                value={plan}
+                                onChange={this.handleChange}
+                                searchInput={{ id: 'form-select-control-gender' }}
+                            />
+                            <DatesRangeInput
+                                name="datesRange"
+                                placeholder="From - To"
+                                value={this.state.datesRange}
+                                iconPosition="left"
+                                onChange={this.handleChange} />
+                            <Form.Button content='Submit' />
+                        </Form.Group>
+                    </Form>
+                               
          )
     }
 }

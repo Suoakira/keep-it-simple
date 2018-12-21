@@ -17,6 +17,23 @@ class API {
         }).then(resp => resp.json())
     }
 
+    static postSavingsTarget(savingsTarget) {
+        return fetch("http://localhost:3000/api/v1/users", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(savingsTarget)
+        }).then(resp => resp.json())
+    }
+
+    static postUserSavingsTarget(userSavingsTarget) {
+        return fetch("http://localhost:3000/api/v1/users", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userSavingsTarget)
+        }).then(resp => resp.json())
+    }
+
 }
 
 export default API
+
