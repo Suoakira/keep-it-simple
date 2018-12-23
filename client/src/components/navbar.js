@@ -23,6 +23,10 @@ class Navbar extends Component {
                         <NavLink className="item" exact to="/home/exisitingplans">
                             Exisiting Plans
                         </NavLink>
+                        <NavLink className="item" exact to="/home/planhistory">
+                            Plan History
+                        </NavLink>
+
 
                         <div className="right item">
                             {

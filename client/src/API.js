@@ -17,22 +17,21 @@ class API {
         }).then(resp => resp.json())
     }
 
-    static postSavingsTarget(savingsTarget) {
-        return fetch("http://localhost:3000/api/v1/users", {
+    static postSavingsTarget(saving_target) {
+        return fetch("http://localhost:3000/api/v1/saving_targets", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(savingsTarget)
+            body: JSON.stringify({saving_target})
         }).then(resp => resp.json())
     }
-
-    static postUserSavingsTarget(userSavingsTarget) {
-        return fetch("http://localhost:3000/api/v1/users", {
+    // deconstructed objects
+    static postUserSavingsTarget(user_saving_target) {
+        return fetch("http://localhost:3000/api/v1/user_saving_targets", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(userSavingsTarget)
+            body: JSON.stringify({user_saving_target})
         }).then(resp => resp.json())
     }
-
 }
 
 export default API

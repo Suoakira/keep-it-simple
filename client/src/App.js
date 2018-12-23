@@ -7,9 +7,7 @@ import Navbar from "./components/navbar"
 import SavingGrid from "./containers/savinggrid"
 import SavingsForm from "./components/savingsform"
 import ExistingPlans from "./containers/existingplans"
-
-
-
+import PlanHistory from "./components/planhistory"
 
 class App extends Component {
 
@@ -18,6 +16,7 @@ class App extends Component {
     this.state = {
       username: "One Punch Man",
       tileClick: false,
+      newSavingTarget: undefined,
       storedUserDetails: {
         "id": 1,
         "first_name": "Saitama",
@@ -60,6 +59,10 @@ class App extends Component {
     }
   }
 
+  updateSavingTarget = (savingTarget) => {
+    this.setState({ newSavingTarget: savingTarget })
+  }
+
   toggleTileClick = () => {
     this.setState({tileClick: !this.state.tileClick })
   }
@@ -68,7 +71,6 @@ class App extends Component {
     this.setState({ 
       username: user.username,
       storedUserDetails: user
-    
     })
   }
 
@@ -76,9 +78,8 @@ class App extends Component {
     this.setState({ username: "" })
   }
 
-
   render() {
-    const { signin, toggleTileClick, signout } = this
+    const { signin, toggleTileClick, signout, updateSavingTarget } = this
     const { storedUserDetails, username } = this.state
     return (
       <div>
@@ -90,13 +91,10 @@ class App extends Component {
         </div> */}
         <Route exact path='/login' component={(props) => <Login signin={signin} />}/>
         <Route  exact path='/register' component={(props) => <Register signin={signin} />} />
-        <Route exact path='/home/form' component={(props) => <SavingsForm username={username} />} />
+        <Route exact path='/home/form' component={(props) => <SavingsForm username={username} storedUserDetails={storedUserDetails} updateSavingTarget={updateSavingTarget} />} />
         <Route exact path='/home/newplan' component={(props) => <SavingGrid username={username} />} />
-        <Route exact path='/home/exisitingplans' component={(props) => <ExistingPlans username={username} storedUserDetails={storedUserDetails}  />} />
-
-
-
-
+        <Route exact path='/home/exisitingplans' component={(props) => <ExistingPlans username={username} storedUserDetails={storedUserDetails} newSavingTarget={this.state.newSavingTarget} />} />
+        <Route exact path='/home/planhistory' component={(props) => <PlanHistory />} />
     </div>
 
 

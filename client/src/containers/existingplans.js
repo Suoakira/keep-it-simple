@@ -5,35 +5,38 @@ class ExisitingPlans extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            storedUserDetails: null
-
+            newSavingTarget: this.props.newSavingTarget
           }
     }
-    
-    mapSavingPlans = () => 
-        this.props.storedUserDetails.saving_targets.map(savingTargets => <ExisitingPlansCard savingTargets={savingTargets} />)
+
+    mapSavingPlans = () => {
+        const copyArray = this.state.storedUserDetails.saving_targets
+        return copyArray.map(savingTargets => <ExisitingPlansCard savingTargets={savingTargets} />)
+    }
 
     componentWillMount() {
-        this.setState({
-            storedUserDetails: this.props.storedUserDetails
-        })
+        fetch(`http://localhost:3000/api/v1/users/${this.props.storedUserDetails.id}`)
+            .then(resp => resp.json())
+            .then(data => this.setState({ storedUserDetails: data }))
     }
 
     render() { 
-        const { storedUserDetails } = this.state
-        this.mapSavingPlans()
         
+        const { storedUserDetails } = this.state
+  
         return ( 
-
-                <div class="ui grid">
-                    {this.mapSavingPlans()}
+                <div className="ui grid">
+                {storedUserDetails?
+                    this.mapSavingPlans()
+                    :
+                    <p>loading</p>
+                    }
                 </div>
-    
-             )
+        )
     }
 }
  
-export default ExisitingPlans;
+export default ExisitingPlans
 
 
 

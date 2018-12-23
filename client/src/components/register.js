@@ -66,8 +66,7 @@ class Register extends Component {
                                 content='Submit'
                                 onClick={() => this.handleSubmit()}
                             />
-                        <div className="ui error message">
-                        </div>
+
                     </Form>
                 </div>
             </div>
