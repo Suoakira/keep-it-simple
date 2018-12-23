@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
+import { Form, Input, TextArea, Button, Select, Segment } from 'semantic-ui-react'
 import API from "../API"
 
 
@@ -75,9 +75,9 @@ class SavingsForm extends Component {
         ]
 
         return (
-            
+                <Segment inverted>
                    <Form onSubmit={this.handleSubmit}>
-                        <Form.Group>
+                        <Form.Group widths="equal">
               
                             <Form.Input placeholder='Name' name='name' value={name} onChange={this.handleChange} />
                             <Form.Input placeholder='Category' name='category' value={category} onChange={this.handleChange} />
@@ -104,6 +104,7 @@ class SavingsForm extends Component {
                             <Form.Button content='Submit' />
                         </Form.Group>
                     </Form>
+                </Segment>
          )
     }
 }
