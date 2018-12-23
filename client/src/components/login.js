@@ -59,8 +59,6 @@ class Login extends Component {
                                         />
                                 </div>
                             </div>
-                        <div className="ui error message">
-                        </div>
                         </Form.Group>
                     </Form>
                 </div>
