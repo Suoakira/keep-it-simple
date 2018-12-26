@@ -36,38 +36,42 @@ class Register extends Component {
         const { username, password, email } = this.state
         return (
 
-            <div class="ui one column stackable center aligned page grid">
-                <div class="column six wide">
-                    <h3 className="ui header">Register</h3>
-                    <Form onSubmit={this.handleSubmit}>
-                        <div className="ui left icon input">
+            <div class="savings-background">
+                <div class="ui text container" id="container1">
+                    <div id="div1">
+                    <Form inverted onSubmit={this.handleSubmit}>
+                        <Form.Group>
                             <Form.Input
+                                label="Email"
                                 placeholder='Email'
                                 name='email'
                                 value={email}
                                 onChange={this.handleChange} />
-                        </div>
-                        <div className="ui left icon input">
+                        </Form.Group>
+                        <Form.Group>
+
                             <Form.Input
+                                label="Username"
                                 placeholder='Username'
                                 name='username'
                                 value={username}
                                 onChange={this.handleChange} />
-                        </div>
-                        <div className="ui left icon input">
+                        </Form.Group>
+                        <Form.Group>
                             <Form.Input
+                                label="Password"
                                 placeholder='Password'
                                 name='password'
                                 type='password'
                                 value={password}
                                 onChange={this.handleChange} />
+                        </Form.Group>
+                        <div>
+                            <div class="ui huge primary button" onClick={() => this.handleSubmit()}>Register <i class="right arrow icon"></i></div>
                         </div>
-                            <Form.Button
-                                content='Submit'
-                                onClick={() => this.handleSubmit()}
-                            />
 
                     </Form>
+                    </div>
                 </div>
             </div>
 

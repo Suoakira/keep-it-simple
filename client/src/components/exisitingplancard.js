@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from 'semantic-ui-react'
 import API from "../API"
 
 class exisitingPlanCard extends Component {
@@ -54,6 +55,16 @@ class exisitingPlanCard extends Component {
     convertDateToString = () => 
          new Date(Date.parse(this.props.savingTargets.start_date)).toDateString()
 
+    
+    deletePlan = () => {
+        API.deleteSavingTarget(this.props.savingTargets)
+        this.props.localeDelete(this.props.savingTargets)
+    }
+
+    mapThroughUserSavingTargets = () =>
+        this.state.userSavingTargets.user_saving_targets.map(save => console.log(save))
+    
+
     componentDidMount() {
         fetch(`http://localhost:3000/api/v1/saving_targets/${this.props.savingTargets.id}`)
             .then(data => data.json())
@@ -75,7 +86,6 @@ class exisitingPlanCard extends Component {
         console.log(`days expired on plan ${this.noDaysExpired()}`)
         console.log(`amount per day £${this.averageSavingperDay()}`)
         console.log(`Left to save £${this.leftToSave()}`)
-
         console.log(`amount you have saved so far £${this.hasSavedSofar()}`)
 
         console.log("-------------")
@@ -90,7 +100,7 @@ class exisitingPlanCard extends Component {
                         </div>
                         <div className="content">
                                 {this.state.userSavingTargets ?
-                                    <div className="header"> {`${this.noDaysToGo()} days to go to raise £${this.state.userSavingTargets.user_saving_targets[0].amount}`}</div>
+                                    <div className="header"> {`${this.noDaysToGo()} days to go to raise £${this.mapThroughUserSavingTargets()}`}</div>
                                 :
                                 <p>loading placeholder</p>
                                 }
@@ -105,10 +115,22 @@ class exisitingPlanCard extends Component {
                                 <span className="right floated">
                             Plan Launched {this.convertDateToString()}
                             </span>
-                                <span>
+                            <span>
+                                    
                                 {/* {savingTargets.end_date} */}
                             </span>
                             </div>
+                            <div className="extra content">
+                                <Button 
+                                negative
+                                size="small"
+                                onClick={() => this.deletePlan()}
+                                >
+                                    X
+                                    </Button>
+                                
+                            </div>
+
                     </div>
                 </div>
             </div>

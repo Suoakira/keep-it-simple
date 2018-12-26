@@ -32,6 +32,12 @@ class API {
             body: JSON.stringify({user_saving_target})
         }).then(resp => resp.json())
     }
+
+    static deleteSavingTarget(savingTarget) {
+        return fetch(`http://localhost:3000/api/v1/saving_targets/${savingTarget.id}`, {
+        method: 'DELETE'
+        })
+    }
 }
 
 export default API
