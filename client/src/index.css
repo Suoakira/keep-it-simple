@@ -267,7 +267,7 @@ border-bottom-right-radius: 12px;
    /* background-position: center; */
    background-size: cover;
 
-   height: 550px;
+   height: 60em;
  }
 
  #container1{
@@ -280,14 +280,26 @@ border-bottom-right-radius: 12px;
 
 #div1 {
     display: flex;
-    padding-top: 140px;
-    padding-left: 450px;
+    padding-top: 125px;
+    padding-left: 45em;
     justify-content: right;
     align-items: right;
     align-content: right;
     flex-wrap: wrap;
 }
 
+/* ------------------------------------------------Savings Form ------------------------------------------------ */
+
+.savings-form {
+    margin-left: 25em;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
 /* ------------------------------------labels ------------------------------------------------------------- */
 
+.search-bar {
+    margin: 1%;
+}
 

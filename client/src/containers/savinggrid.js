@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import '../App'
 import SavingsData from "../savedata"
 import SavingsCard from "../components/savingscard"
+import { Redirect } from "react-router-dom"
 
 class SavingsGird extends Component {
     constructor(props) {
@@ -9,11 +10,19 @@ class SavingsGird extends Component {
         this.state = {  }
     }
     render() { 
+        const { username } = this.props
         return ( 
+            username ?
             <div>
                 <ul id="rig">
                     { SavingsData.map(data => <SavingsCard data={data} /> ) }
                 </ul>
+            </div>
+            :
+            <div>
+            <Redirect
+                to="/login" /> 
+                { alert("PLACEHOLDER MODAL: You must be logged in to visit this page") }
             </div>
          );
     }

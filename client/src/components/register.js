@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from "react-router-dom"
+import { Link, Redirect } from "react-router-dom"
 import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
 
 import API from "../API"
@@ -35,7 +35,10 @@ class Register extends Component {
     render() {
         const { username, password, email } = this.state
         return (
-
+            this.props.username ?
+                <Redirect
+                    to="/home/newplan" />
+                :
             <div class="savings-background">
                 <div class="ui text container" id="container1">
                     <div id="div1">

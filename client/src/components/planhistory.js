@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { Redirect } from "react-router-dom"
 
 class PlanHistory extends Component {
     constructor(props) {
@@ -6,9 +7,21 @@ class PlanHistory extends Component {
         this.state = {  }
     }
     render() { 
-        return ( <div>
+        const { username } = this.props
+        return ( 
+        username ?
+        <div>
             <p>Place Holder fancy stats page</p>
-        </div> );
+        </div>
+        :
+        <div>
+            <Redirect
+                to="/login" />
+            {alert("PLACEHOLDER MODAL: You must be logged in to visit this page")}
+        </div>
+        
+        
+        )
     }
 }
  

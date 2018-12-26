@@ -28,50 +28,54 @@ class Login extends Component {
         }
 
     render() {
+        const { signin } = this.props
         const { username, password } = this.state
         return (
 
-
-            <div class="savings-background">
-                <div class="ui text container" id="container1">
-                    <div id="div1">
-                        <Form  inverted onSubmit={this.handleSubmit}>
-                            <Form.Group>
-                                <div className="segment">
-                                        <Form.Group>
-                                            <Form.Input
-                        
-                                                label="Username"
-                                                placeholder='Username'
-                                                name='username'
-                                                value={username}
-                                                onChange={this.handleChange} />
-                                        </Form.Group>
-                                
-                                    <div className="ui left icon input">
-                                        <i className="lock icon"></i>
-                                        <Form.Group>
-                                            <Form.Input
-                                                label="Password"
-                                                placeholder='Password'
-                                                name='password'
-                                                type="password"
-                                                value={password}
-                                                onChange={this.handleChange} />
-                                        </Form.Group>
+            this.props.username?
+                <Redirect
+                    to="/home/newplan" /> 
+                    :
+                <div class="savings-background">
+                    <div class="ui text container" id="container1">
+                        <div id="div1">
+                            <Form  inverted onSubmit={this.handleSubmit}>
+                                <Form.Group>
+                                    <div className="segment">
+                                            <Form.Group>
+                                                <Form.Input
+                            
+                                                    label="Username"
+                                                    placeholder='Username'
+                                                    name='username'
+                                                    value={username}
+                                                    onChange={this.handleChange} />
+                                            </Form.Group>
+                                    
+                                        <div className="ui left icon input">
+                                            <i className="lock icon"></i>
+                                            <Form.Group>
+                                                <Form.Input
+                                                    label="Password"
+                                                    placeholder='Password'
+                                                    name='password'
+                                                    type="password"
+                                                    value={password}
+                                                    onChange={this.handleChange} />
+                                            </Form.Group>
+                                        </div>
+                                        <div>
+                
+                                            <div class="ui huge primary button" onClick={() => this.handleSubmit()}>Login <i class="right arrow icon"></i></div>
+                            
+                                        </div>
                                     </div>
-                                    <div>
-            
-                                        <div class="ui huge primary button" onClick={() => this.handleSubmit()}>Login <i class="right arrow icon"></i></div>
-                         
-                                    </div>
-                                </div>
-                            </Form.Group>
-                        </Form>
-                </div>
-                </div>
+                                </Form.Group>
+                            </Form>
+                    </div>
+                    </div>
 
-            </div>
+                </div>
 
 
             // <div class="ui one column stackable center aligned page grid">

@@ -61,6 +61,14 @@ class exisitingPlanCard extends Component {
         this.props.localeDelete(this.props.savingTargets)
     }
 
+    percentToSave = () => {
+        if (this.state.userSavingTargets) {
+            const percent= (this.leftToSave()/this.state.userSavingTargets.user_saving_targets[0].amount) * 100
+            return Math.round(percent)
+        }
+
+    }
+
     mapThroughUserSavingTargets = () =>
         this.state.userSavingTargets.user_saving_targets.map(save => console.log(save))
     
@@ -100,7 +108,8 @@ class exisitingPlanCard extends Component {
                         </div>
                         <div className="content">
                                 {this.state.userSavingTargets ?
-                                    <div className="header"> {`${this.noDaysToGo()} days to go to raise £${this.mapThroughUserSavingTargets()}`}</div>
+                                    <div className="header"> {`${this.noDaysToGo()} days left 
+                                    £${this.leftToSave()}/${this.state.userSavingTargets.user_saving_targets[0].amount}(${this.percentToSave()}%)`}</div>
                                 :
                                 <p>loading placeholder</p>
                                 }

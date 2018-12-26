@@ -77,11 +77,11 @@ class SavingsForm extends Component {
         ]
 
         return (
+            <div className="savings-form">
             <Grid>
                 <Grid.Row>
-                    <Grid.Column width={8}>
-                        <Segment>
-                 
+                    <Grid.Column width={2}>
+                       
                         <Form onSubmit={this.handleSubmit}>
                             <Form.Group>
                                 <Form.Input label="Plan Name"placeholder='Name' name='name' value={name} onChange={this.handleChange} />
@@ -125,24 +125,20 @@ class SavingsForm extends Component {
                                     onChange={this.handleChange} />
                                 
                             </Form.Group>
-                        <Form.Button content='Submit' />
+                                <div class="ui medium primary button" onClick={() => this.handleSubmit()}>Create Plan <i class="right arrow icon"></i></div>
                         </Form>
-                        </Segment>
+            
         
                     </Grid.Column>
-                    <Grid.Column >
-                        <Segment>
-                        
-
-                        </Segment>
+                    <Grid.Column width={4}>
+                            <img src="https://intloveincorporated.blob.core.windows.net/contentimages/main/savings-growth1.jpg" alt="plant growing out of hand" />
 
                     </Grid.Column>
                 </Grid.Row>
-    
-
-
+            
       
                 </Grid>
+            </div>
 
 
          )
