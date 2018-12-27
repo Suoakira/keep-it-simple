@@ -109,7 +109,8 @@ class exisitingPlanCard extends Component {
 
             return (
             this.hasStartDatePassed(this.props.savingTargets.start_date) ?
-                <div class="four wide colum">            
+
+            <div class="four wide ">  
                 <div class="ui link cards">
                     <div className="card">
                         <div className="image">
@@ -182,6 +183,7 @@ class exisitingPlanCard extends Component {
                     </div>
                 </div>
             </div>
+ 
             :
             null
         

@@ -303,7 +303,10 @@ border-bottom-right-radius: 12px;
     margin: 1%;
 }
 
-.button-bar {
-    margin: 1%;
+.wrapper {   
+    width: 800px;
+    margin: 0 auto;
 }
+
+
 

@@ -55,49 +55,50 @@ class ExisitingPlans extends Component {
   
         return ( 
             <React.Fragment>
-            
-            <div class="ui big icon input search-bar">
-                    <input 
-                    type="text"
-                    name="searchFilter"
-                     placeholder="Find a Plan..."
-                    onChange={this.handleChange}
-                         />
-                <i class="search icon"></i>
-            </div>
-                {togglePlan ?
-                <Button
-                    primary
-                    size="large"
-                    onClick={() => toggleButton()}
-                >
-                    Upcoming Plans
-                </Button>
-                :
-                <Button
-                    primary
-                    size="large"
-                    onClick={() => toggleButton()}
-                >
-                    Current Plans
-                </Button>
+
+                <div class="ui big icon input search-bar">
+                        <input 
+                        type="text"
+                        name="searchFilter"
+                        placeholder="Find a Plan..."
+                        onChange={this.handleChange}
+                            />
+                    <i class="search icon"></i>
+                </div>
+                    {togglePlan ?
+                    <Button
+                        primary
+                        size="large"
+                        onClick={() => toggleButton()}
+                    >
+                        Upcoming Plans
+                    </Button>
+                    :
+                    <Button
+                        primary
+                        size="large"
+                        onClick={() => toggleButton()}
+                    >
+                        Current Plans
+                    </Button>
                 }
+  
 
             {username?
-                <div className="ui grid">
+                <div className="ui grid container center-grid">
 
                     {storedUserDetails?
-
+                  
                         this.mapSavingPlans()
+             
                         :
                         <Loader active inline='centered' />
                         }
                 </div>
                 :
-                <div>
+                <div>    
                 <Redirect
                     to="/login" /> 
-                    {alert("PLACEHOLDER MODAL: You must be logged in to visit this page")}
                 </div>
             }
             </React.Fragment>

@@ -22,7 +22,6 @@ class SavingsGird extends Component {
             <div>
             <Redirect
                 to="/login" /> 
-                { alert("PLACEHOLDER MODAL: You must be logged in to visit this page") }
             </div>
          );
     }

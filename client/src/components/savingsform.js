@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Form, Input, TextArea, Button, Select, Segment } from 'semantic-ui-react'
-import { Grid, Image } from 'semantic-ui-react'
+import { Button, Divider, Grid, Header, Icon, Search, Segment, Select, Form } from 'semantic-ui-react'
+
 import API from "../API"
 import { Redirect } from "react-router-dom"
 
@@ -77,68 +77,69 @@ class SavingsForm extends Component {
         ]
 
         return (
-            <div className="savings-form">
-            <Grid>
-                <Grid.Row>
-                    <Grid.Column width={2}>
-                       
-                        <Form onSubmit={this.handleSubmit}>
-                            <Form.Group>
-                                <Form.Input label="Plan Name"placeholder='Name' name='name' value={name} onChange={this.handleChange} />
-                            </Form.Group>
+            <div className="wrapper">
+                <Segment placeholder>
+                    <Grid columns={2} stackable textAlign='center'>
+                    
+                            <Grid.Row verticalAlign='middle'>
+                                <Grid.Column>
 
-                            <Form.Group>
-                                
-                                <Form.Field
-                        
-                                    control={Select}
-                                    options={planOptions}
-                                    label={{ children: 'Plan type?', htmlFor: 'form-select-control-gender' }}
-                                    placeholder='Plan'
-                                    search
-                                    name="plan"
-                                    value={plan}
-                                    onChange={this.handleChange}
-                                    searchInput={{ id: 'form-select-control-gender' }}
-                                />
-                            </Form.Group>
+                                    <Form onSubmit={this.handleSubmit}>
+                                <Form.Group>
+                                    <Form.Input label="Plan Name"placeholder='Name' name='name' value={name} onChange={this.handleChange} />
+                                </Form.Group>
 
-                            <Form.Group>
-                            <Form.Input label="Category" placeholder='Category' name='category' value={category} onChange={this.handleChange} />
-                            </Form.Group>
-
-                            <Form.Group>
-                            <Form.Input label="Image Url" placeholder='Image' name='target_image' value={target_image} onChange={this.handleChange}  />
-                            </Form.Group>
-
-                            <Form.Group>
-                            <Form.Input label="Amount to save" placeholder='Amount' name='amount' value={amount} onChange={this.handleChange} />
-                            </Form.Group>
+                                <Form.Group>
+                                    
+                                    <Form.Field
                             
-                            <Form.Group>
-                                <DatesRangeInput
-                                    label="Plan Start/End dates"
-                                    name="datesRange"
-                                    placeholder="From - To"
-                                    value={this.state.datesRange}
-                                    iconPosition="left"
-                                    onChange={this.handleChange} />
-                                
-                            </Form.Group>
-                                <div class="ui medium primary button" onClick={(event) => this.handleSubmit(event)}>Create Plan <i class="right arrow icon"></i></div>
-                        </Form>
-            
-        
-                    </Grid.Column>
-                    <Grid.Column width={4}>
-                            <img src="https://intloveincorporated.blob.core.windows.net/contentimages/main/savings-growth1.jpg" alt="plant growing out of hand" />
+                                        control={Select}
+                                        options={planOptions}
+                                        label={{ children: 'Plan type?', htmlFor: 'form-select-control-gender' }}
+                                        placeholder='Plan'
+                                        search
+                                        name="plan"
+                                        value={plan}
+                                        onChange={this.handleChange}
+                                        searchInput={{ id: 'form-select-control-gender' }}
+                                    />
+                                </Form.Group>
 
-                    </Grid.Column>
-                </Grid.Row>
-            
-      
-                </Grid>
+                                <Form.Group>
+                                <Form.Input label="Category" placeholder='Category' name='category' value={category} onChange={this.handleChange} />
+                                </Form.Group>
+
+                                <Form.Group>
+                                <Form.Input label="Image Url" placeholder='Image' name='target_image' value={target_image} onChange={this.handleChange}  />
+                                </Form.Group>
+
+                                <Form.Group>
+                                <Form.Input label="Amount to save" placeholder='Amount' name='amount' value={amount} onChange={this.handleChange} />
+                                </Form.Group>
+                                
+                                <Form.Group>
+                                    <DatesRangeInput
+                                        label="Plan Start/End dates"
+                                        name="datesRange"
+                                        placeholder="From - To"
+                                        value={this.state.datesRange}
+                                        iconPosition="left"
+                                        onChange={this.handleChange} />
+                                    
+                                </Form.Group>
+                                    <div class="ui medium primary button" onClick={(event) => this.handleSubmit(event)}>Create Plan <i class="right arrow icon"></i></div>
+                            </Form>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <img src="https://intloveincorporated.blob.core.windows.net/contentimages/main/savings-growth1.jpg" alt="plant growing out of hand" />
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+            </Segment>
             </div>
+
+
+ 
 
 
          )

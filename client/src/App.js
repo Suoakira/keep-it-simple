@@ -9,12 +9,14 @@ import SavingsForm from "./components/savingsform"
 import ExistingPlans from "./containers/existingplans"
 import PlanHistory from "./components/planhistory"
 
+
 class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       username: "One Punch Man",
+      signInModal: true,
       tileClick: false,
       newSavingTarget: undefined,
       storedUserDetails: {
