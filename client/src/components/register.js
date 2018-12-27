@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from "react-router-dom"
-import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
+import { Form, Input, TextArea, Button, Select, Header, Icon } from 'semantic-ui-react'
 
 import API from "../API"
 
@@ -42,7 +42,7 @@ class Register extends Component {
             <div class="savings-background">
                 <div class="ui text container" id="container1">
                     <div id="div1">
-                    <Form inverted onSubmit={this.handleSubmit}>
+                    <Form onSubmit={this.handleSubmit}>
                         <Form.Group>
                             <Form.Input
                                 label="Email"
@@ -71,6 +71,11 @@ class Register extends Component {
                         </Form.Group>
                         <div>
                             <div class="ui huge primary button" onClick={() => this.handleSubmit()}>Register <i class="right arrow icon"></i></div>
+                        </div>
+                        <div class="ui text container">
+                            <b>        
+                            Already have an account? Sign in <Link to="/login">here</Link>.
+                            </b>
                         </div>
 
                     </Form>

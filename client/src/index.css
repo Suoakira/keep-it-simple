@@ -264,29 +264,23 @@ border-bottom-right-radius: 12px;
 .savings-background  {
    background-image: url("https://commercebankwyoming.com/Portals/0/EasyGalleryImages/1688/ImageSlider/Thumbs/iStock585090668.jpg");
    background-repeat: no-repeat;
-   /* background-position: center; */
+   background-position: center;
    background-size: cover;
-
    height: 60em;
  }
 
  #container1{
     display: flex;
-    justify-content: center;
-    align-items: right;
-    align-content: right;
-    flex-wrap: wrap;
-}
-
-#div1 {
-    display: flex;
-    padding-top: 125px;
-    padding-left: 45em;
     justify-content: right;
     align-items: right;
     align-content: right;
     flex-wrap: wrap;
+    padding-top: 12.5em;
+    padding-left: 35%;
+    width: 200%;
+    height: auto;
 }
+
 
 /* ------------------------------------------------Savings Form ------------------------------------------------ */
 
@@ -306,6 +300,11 @@ border-bottom-right-radius: 12px;
 .wrapper {   
     width: 800px;
     margin: 0 auto;
+    padding-top: 50px;
+}
+#savings-image1 {
+    width: 100%;
+
 }
 
 

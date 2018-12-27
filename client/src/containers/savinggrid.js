@@ -13,7 +13,7 @@ class SavingsGird extends Component {
         const { username } = this.props
         return ( 
             username ?
-            <div>
+            <div className = "wrapper" >
                 <ul id="rig">
                     { SavingsData.map(data => <SavingsCard data={data} /> ) }
                 </ul>
