@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { Form, Input, TextArea, Button, Select, Segment } from 'semantic-ui-react'
+import { Button, Divider, Grid, Header, Icon, Search, Segment, Select, Form } from 'semantic-ui-react'
+
 import API from "../API"
+import { Redirect } from "react-router-dom"
 
 
 import {
@@ -75,36 +77,77 @@ class SavingsForm extends Component {
         ]
 
         return (
-                <Segment inverted>
-                   <Form onSubmit={this.handleSubmit}>
-                        <Form.Group widths="equal">
-              
-                            <Form.Input placeholder='Name' name='name' value={name} onChange={this.handleChange} />
-                            <Form.Input placeholder='Category' name='category' value={category} onChange={this.handleChange} />
-                            <Form.Input placeholder='Image' name='target_image' value={target_image} onChange={this.handleChange} />
-                            <Form.Input placeholder='Amount' name='amount' value={amount} onChange={this.handleChange} />
+            <div className="wrapper">
+                <Segment placeholder>
+                    <Grid columns={2} stackable textAlign='center'>
+                    
+                            <Grid.Row verticalAlign='middle'>
+                                <Grid.Column>
+                                <Header>Create Savings Plan</Header>
+                                    <Form onSubmit={this.handleSubmit}>
+                                <Form.Group>
+                                    <Form.Input label="Plan Name"placeholder='Name' name='name' value={name} onChange={this.handleChange} />
+                                </Form.Group>
 
-                            <Form.Field
-                                control={Select}
-                                options={planOptions}
-                                label={{ children: 'Plan type?', htmlFor: 'form-select-control-gender' }}
-                                placeholder='Plan'
-                                search
-                                name="plan"
-                                value={plan}
-                                onChange={this.handleChange}
-                                searchInput={{ id: 'form-select-control-gender' }}
-                            />
-                            <DatesRangeInput
-                                name="datesRange"
-                                placeholder="From - To"
-                                value={this.state.datesRange}
-                                iconPosition="left"
-                                onChange={this.handleChange} />
-                            <Form.Button content='Submit' />
-                        </Form.Group>
-                    </Form>
-                </Segment>
+                                <Form.Group>
+                                    
+                                    <Form.Field
+                            
+                                        control={Select}
+                                        options={planOptions}
+                                        label={{ children: 'Plan type?', htmlFor: 'form-select-control-gender' }}
+                                        placeholder='Plan'
+                                        search
+                                        name="plan"
+                                        value={plan}
+                                        onChange={this.handleChange}
+                                        searchInput={{ id: 'form-select-control-gender' }}
+                                    />
+                                </Form.Group>
+
+                                <Form.Group>
+                                <Form.Input label="Category" placeholder='Category' name='category' value={category} onChange={this.handleChange} />
+                                </Form.Group>
+
+                                <Form.Group>
+                                <Form.Input label="Image Url" placeholder='Image' name='target_image' value={target_image} onChange={this.handleChange}  />
+                                </Form.Group>
+
+                                <Form.Group>
+                                <Form.Input label="Amount to save" placeholder='Amount' name='amount' value={amount} onChange={this.handleChange} />
+                                </Form.Group>
+                                
+                                <Form.Group>
+                                    <DatesRangeInput
+                                        label="Plan Start/End dates"
+                                        name="datesRange"
+                                        placeholder="From - To"
+                                        value={this.state.datesRange}
+                                        iconPosition="left"
+                                        onChange={this.handleChange} />
+                                    
+                                </Form.Group>
+                                    <div class="ui medium primary button" onClick={(event) => this.handleSubmit(event)}>Create Plan <i class="right arrow icon"></i></div>
+                            </Form>
+                            </Grid.Column>
+                            <Grid.Column>
+                                
+
+                                    
+                                    <div>
+                                    <img src="https://cmkt-image-prd.global.ssl.fastly.net/0.1.0/ps/2014090/1360/2035/m1/fpnw/wm1/qdrpofpduuwwhs9zz7ayfuobitf8xwo42xcvdclixbrxaa4iabpct82rvc5zxrlf-.jpg?1481494830&s=dca5b92f8fe1937750c7cd78d4777c1d" id="savings-image1" alt="plant growing out of hand" />
+                                    </div>
+             
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+            </Segment>
+            </div>
+
+
+ 
+
+
          )
     }
 }

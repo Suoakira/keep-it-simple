@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import API from "../API"
 import { Link, Redirect } from "react-router-dom"
-import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
+import { Form, Input, TextArea, Button, Icon, Header } from 'semantic-ui-react'
 
 class Login extends Component {
     constructor(props) {
@@ -28,41 +28,68 @@ class Login extends Component {
         }
 
     render() {
+        const { signin } = this.props
         const { username, password } = this.state
         return (
-            <div class="ui one column stackable center aligned page grid">
-                <div class="column six wide">
-                    <h3 className="">Login</h3>
-                    <Form onSubmit={this.handleSubmit}>
-                        <Form.Group>
-                            <div className="segment">                  
-                                <div className="ui left icon input">        
-                                    <Form.Input 
-                                    placeholder='Username' 
-                                    name='username' 
-                                    value={username} 
-                                    onChange={this.handleChange} />              
-                                </div>                   
-                                <div className="ui left icon input">
-                                    <i className="lock icon"></i>
-                                    <Form.Input 
-                                    placeholder='Password' 
-                                    name='password' 
-                                    type="password"
-                                    value={password} 
-                                    onChange={this.handleChange} />
-                                </div>        
-                                <div>
-                                    <Form.Button 
-                                    content='Submit'
-                                        onClick={() => this.handleSubmit()}
-                                        />
+
+            this.props.username?
+                <Redirect
+                    to="/home/newplan" /> 
+                    :
+
+            <div class="savings-background">
+                <div class="ui text container" id="container1">
+                    <div id="div1">
+                        <Form onSubmit={this.handleSubmit}>
+                            <Form.Group>
+                                <div className="segment">
+                                        <Form.Group>
+                                            <Form.Input
+                        
+                                                label="Username"
+                                                placeholder='Username'
+                                                name='username'
+                                                value={username}
+                                                onChange={this.handleChange} />
+                                        </Form.Group>
+                                
+                                    <div className="ui left icon input">
+                                        <i className="lock icon"></i>
+                                        <Form.Group>
+                                            <Form.Input
+                                                label="Password"
+                                                placeholder='Password'
+                                                name='password'
+                                                type="password"
+                                                value={password}
+                                                onChange={this.handleChange} />
+                                        </Form.Group>
+                                    </div>
+                                    <div>
+            
+                                        <div class="ui huge primary button" onClick={() => this.handleSubmit()}>Login <i class="right arrow icon"></i></div>
+                         
+                                    </div>
+                                        <div class="ui text container">
+                                            <b>
+                                                Dont have an account? <Link to="/register">Register</Link>.
+                                            </b>
+                                        </div>
                                 </div>
-                            </div>
-                        </Form.Group>
-                    </Form>
+                            </Form.Group>
+                        </Form>
                 </div>
+                </div>
+
             </div>
+
+
+            // <div class="ui one column stackable center aligned page grid">
+            //     <div class="column six wide">
+            //         <h3 className="">Login</h3>
+
+            //     </div>
+            // </div>
         )
     }
 }

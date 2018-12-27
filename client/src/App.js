@@ -9,12 +9,14 @@ import SavingsForm from "./components/savingsform"
 import ExistingPlans from "./containers/existingplans"
 import PlanHistory from "./components/planhistory"
 
+
 class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       username: "One Punch Man",
+      signInModal: true,
       tileClick: false,
       newSavingTarget: undefined,
       storedUserDetails: {
@@ -78,6 +80,8 @@ class App extends Component {
     this.setState({ username: "" })
   }
 
+  
+
   render() {
     const { signin, toggleTileClick, signout, updateSavingTarget } = this
     const { storedUserDetails, username } = this.state
@@ -89,12 +93,12 @@ class App extends Component {
               <img src="https://blog.dime.com/wp-content/uploads/2018/05/27-grow-your-savings.png" alt="" />
 
         </div> */}
-        <Route exact path='/login' component={(props) => <Login signin={signin} />}/>
-        <Route  exact path='/register' component={(props) => <Register signin={signin} />} />
+        <Route exact path='/login' component={(props) => <Login signin={signin} username={username} />}/>
+        <Route exact path='/register' component={(props) => <Register signin={signin} username={username} />} />
         <Route exact path='/home/form' component={(props) => <SavingsForm username={username} storedUserDetails={storedUserDetails} updateSavingTarget={updateSavingTarget} />} />
         <Route exact path='/home/newplan' component={(props) => <SavingGrid username={username} />} />
         <Route exact path='/home/exisitingplans' component={(props) => <ExistingPlans username={username} storedUserDetails={storedUserDetails} newSavingTarget={this.state.newSavingTarget} />} />
-        <Route exact path='/home/planhistory' component={(props) => <PlanHistory />} />
+        <Route exact path='/home/planhistory' component={(props) => <PlanHistory username={username} />} />
     </div>
 
 
