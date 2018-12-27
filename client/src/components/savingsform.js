@@ -125,7 +125,7 @@ class SavingsForm extends Component {
                                     onChange={this.handleChange} />
                                 
                             </Form.Group>
-                                <div class="ui medium primary button" onClick={() => this.handleSubmit()}>Create Plan <i class="right arrow icon"></i></div>
+                                <div class="ui medium primary button" onClick={(event) => this.handleSubmit(event)}>Create Plan <i class="right arrow icon"></i></div>
                         </Form>
             
         

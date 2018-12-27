@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 import ExisitingPlansCard from "../components/exisitingplancard"
 import { Redirect } from "react-router-dom"
-import { Button, Header, Icon, Modal } from 'semantic-ui-react'
+import { Button, Header, Icon, Modal, Loader } from 'semantic-ui-react'
 
 class ExisitingPlans extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchFilter: ""
+            searchFilter: "",
+            togglePlan: true
           }
     }
 
     handleChange = (event) => this.setState({ [event.target.name]: event.target.value })
+
+    toggleButton = () => {
+        this.setState({
+            togglePlan: !this.state.togglePlan
+        })
+    }
     
     mapSavingPlans = () => {
         const { localeDelete } = this
@@ -34,12 +41,6 @@ class ExisitingPlans extends Component {
         this.setState({ storedUserDetails: copyUserSts })
     }
 
-    // componentDidUpdate() {
-    //     fetch(`http://localhost:3000/api/v1/users/${this.props.storedUserDetails.id}`)
-    //         .then(resp => resp.json())
-    //         .then(data => this.setState({ storedUserDetails: data }))
-    // }
-
     componentDidMount() {
         fetch(`http://localhost:3000/api/v1/users/${this.props.storedUserDetails.id}`)
             .then(resp => resp.json())
@@ -47,9 +48,10 @@ class ExisitingPlans extends Component {
     }
 
     render() { 
-        this.filterPlans(this.state.searchFilter)
+        // this.filterPlans(this.state.searchFilter)
+        const { toggleButton } = this
         const { username } = this.props
-        const { storedUserDetails } = this.state
+        const { storedUserDetails, togglePlan } = this.state
   
         return ( 
             <React.Fragment>
@@ -63,6 +65,24 @@ class ExisitingPlans extends Component {
                          />
                 <i class="search icon"></i>
             </div>
+                {togglePlan ?
+                <Button
+                    primary
+                    size="large"
+                    onClick={() => toggleButton()}
+                >
+                    Upcoming Plans
+                </Button>
+                :
+                <Button
+                    primary
+                    size="large"
+                    onClick={() => toggleButton()}
+                >
+                    Current Plans
+                </Button>
+                }
+
             {username?
                 <div className="ui grid">
 
@@ -70,7 +90,7 @@ class ExisitingPlans extends Component {
 
                         this.mapSavingPlans()
                         :
-                        <p>loading</p>
+                        <Loader active inline='centered' />
                         }
                 </div>
                 :

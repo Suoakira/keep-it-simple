@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Button } from 'semantic-ui-react'
+import { Button, List, Progress, Loader } from 'semantic-ui-react'
 import API from "../API"
 
 class exisitingPlanCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userSavingTargets: undefined
+            userSavingTargets: undefined,
+            percent: 0
          }
     }
 
@@ -17,7 +18,7 @@ class exisitingPlanCard extends Component {
     }
 
     leftToSave = () => {
-        return (this.noDaysToGo() * this.averageSavingperDay())        
+        return (this.noDaysToGo() * this.averageSavingperDay())       
     }
 
     hasSavedSofar = () => {
@@ -41,6 +42,14 @@ class exisitingPlanCard extends Component {
         return this.noDaysBetween(startDate, endDate)
     }
 
+    hasStartDatePassed = (date) => {
+        if (Date.now() > new Date(date).valueOf()) {
+            return true
+        } else {
+            return false
+        }
+    }
+
     noDaysToGo = () => {
         const currentDate = new Date(Date.now())
         const endDate = new Date(this.props.savingTargets.end_date)
@@ -49,7 +58,7 @@ class exisitingPlanCard extends Component {
             return daysToGo
         } else {
             return 0
-        }
+        }   
     }
 
     convertDateToString = () => 
@@ -99,7 +108,7 @@ class exisitingPlanCard extends Component {
         console.log("-------------")
 
             return (
-
+            this.hasStartDatePassed(this.props.savingTargets.start_date) ?
                 <div class="four wide colum">            
                 <div class="ui link cards">
                     <div className="card">
@@ -107,19 +116,59 @@ class exisitingPlanCard extends Component {
                         <img src={savingTargets.target_image} />
                         </div>
                         <div className="content">
-                                {this.state.userSavingTargets ?
-                                    <div className="header"> {`${this.noDaysToGo()} days left 
-                                    £${this.leftToSave()}/${this.state.userSavingTargets.user_saving_targets[0].amount}(${this.percentToSave()}%)`}</div>
-                                :
-                                <p>loading placeholder</p>
-                                }
-                                <div className="meta">
+                            <div className="header">
                                 <a>{savingTargets.category}</a>
-                                </div>
+                             </div>
                             <div className="description">
                                 {savingTargets.name}
                             </div>
                         </div>
+                        <React.Fragment>
+                            {this.state.userSavingTargets ?
+                                <div className="extra content">
+                                    <List>
+                                        <List.Item>
+                                            <List.Icon name='calendar' />
+                                            <List.Content>{this.noDaysToGo()} Days to Deadline</List.Content>
+                                        </List.Item>
+                                        <List.Item>
+                                            <List.Icon name='lock' />
+                                            <List.Content>{this.hasSavedSofar()}</List.Content>
+                                        </List.Item>
+                                        <List.Item>
+                                            <List.Icon name='pound sign' />
+                                                <List.Content>{(this.state.userSavingTargets.user_saving_targets[0].amount - this.leftToSave())}/{this.state.userSavingTargets.user_saving_targets[0].amount} Raised</List.Content>
+                                        </List.Item>
+                                        <List.Item>
+                                            <List.Content>
+                                                <Progress percent={100 - this.percentToSave()} indicating progress />
+                                            </List.Content>
+                                        </List.Item>      
+                                    </List>
+                                </div>
+                                    :
+                                    <Loader active inline='centered' />
+                   
+                            }
+                            </React.Fragment>
+                            <div className="extra content">
+                            <span className="right floated">
+                                <Button
+                                    negative
+                                    size="small"
+                                    onClick={() => this.deletePlan()}
+                                >
+                                    X
+                                </Button>
+                                <Button
+                                    primary
+                                    size="small"
+                                    onClick=""
+                                >
+                                    More Info
+                                </Button>
+                            </span>
+                            </div>
                             <div className="extra content">
                                 <span className="right floated">
                             Plan Launched {this.convertDateToString()}
@@ -129,20 +178,12 @@ class exisitingPlanCard extends Component {
                                 {/* {savingTargets.end_date} */}
                             </span>
                             </div>
-                            <div className="extra content">
-                                <Button 
-                                negative
-                                size="small"
-                                onClick={() => this.deletePlan()}
-                                >
-                                    X
-                                    </Button>
-                                
-                            </div>
 
                     </div>
                 </div>
             </div>
+            :
+            null
         
             )
         
