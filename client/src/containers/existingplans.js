@@ -27,19 +27,19 @@ class ExisitingPlans extends Component {
     }
 
     localeDelete = (saving) => {
-        let copyUserSts = this.state.storedUserDetails
-        const filteredSts = copyUserSts.saving_targets.filter(savingTargets => savingTargets.id !== saving.id )
+        let copyUserSts = [...this.state.storedUserDetails.saving_targets]
+        const filteredSts = copyUserSts.filter(savingTargets => savingTargets.id !== saving.id )
         copyUserSts.saving_targets = filteredSts
         this.setState({ storedUserDetails: copyUserSts})
     }
 
-    filterPlans = (input) => {
-        const filteredPlans = this.state.storedUserDetails.saving_targets.filter(
-            plan => plan.name.toLowerCase().includes(input.toLowerCase()))
-        let copyUserSts = this.state.storedUserDetails
-        copyUserSts.saving_targets = filteredPlans
-        this.setState({ storedUserDetails: copyUserSts })
-    }
+    // filterPlans = (input) => {
+    //     const filteredPlans = this.state.storedUserDetails.saving_targets.filter(
+    //         plan => plan.name.toLowerCase().includes(input.toLowerCase()))
+    //     let copyUserSts = this.state.storedUserDetails
+    //     copyUserSts.saving_targets = filteredPlans
+    //     this.setState({ storedUserDetails: copyUserSts })
+    // }
 
     componentDidMount() {
         fetch(`http://localhost:3000/api/v1/users/${this.props.storedUserDetails.id}`)

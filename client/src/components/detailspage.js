@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Button, Header, Image, Modal } from 'semantic-ui-react'
+import { Button, Header, Image, Modal, Progress, Statistic, Loader } from 'semantic-ui-react'
 import { Doughnut } from 'react-chartjs-2';
 
-class ModalExampleDimmer extends Component {
+class DetailsModal extends Component {
     state = { 
         
      }
@@ -29,36 +29,68 @@ class ModalExampleDimmer extends Component {
                         '#FFCE56',    
                     ]
                 }]
-            }
+            },
+            percentToSave: this.props.percentSave
         })
         
     }
-
+    // https://github.com/jerairrest/react-chartjs-2 for documentation on carting
     render() {
         const { open, close, image, name, category, daysToGo, totalDays, daysSoFar, savingPerDay, leftToSave, savedSoFar } = this.props
+        const { percentToSave } = this.state
 
 
 
         return (
             <div>
-
-                <Modal dimmer="blurring" open={open} onClose={close} centered={false}>
+                <Modal dimmer="blurring" open={open} onClose={close} closeOnDimmerClick={false} centered={false}>
                     <Modal.Header>{name}</Modal.Header>
                     <Modal.Content image>
-                        <Image wrapped size='large' src={image} />
+                
                         <Modal.Description>
-                            <Header>{category}</Header>
-                            <p>Days till plan complete: {daysToGo}</p>
-                            <p>Plan Duration in days{totalDays}</p>
-                            <p>Days that have passed: {daysSoFar}</p>
-                            <p>Amount saved per day: £{savingPerDay}</p>
-                            <p>Total amount left to save: £{leftToSave}</p>
-                            <p>Amount you have saved so far:£{savedSoFar}</p>
-                            <Doughnut data={this.state.data1} />            
-                        </Modal.Description>
-                    </Modal.Content>
-                    <Modal.Actions>
+                            <Header>Deadline Breakdown</Header>
+                            <Statistic.Group>
+                                <Statistic color='red'>
+                                    <Statistic.Value>{daysToGo}</Statistic.Value>
+                                    <Statistic.Label>Days To Target</Statistic.Label>
+                                </Statistic>
+                            </Statistic.Group>
+                            <Statistic.Group>
+                                
+                                <Statistic color='yellow'>
+                                    <Statistic.Value>{daysSoFar}days </Statistic.Value>
+                                    <Statistic.Label>Savings Streak</Statistic.Label>
+                                </Statistic>
+                            </Statistic.Group>
+                            <Statistic.Group>
+                                <Statistic color='olive'>
+                                    <Statistic.Value>£{savingPerDay}</Statistic.Value>
+                                    <Statistic.Label>Saved Per Day</Statistic.Label>
+                                </Statistic>
 
+                                <Statistic color='teal'>
+                                    <Statistic.Value>£{savedSoFar}</Statistic.Value>
+                                    <Statistic.Label>Total Saved</Statistic.Label>
+                                </Statistic>
+
+                            </Statistic.Group>
+                        </Modal.Description>
+                        <Modal.Description>
+                
+                            <Doughnut data={this.state.data1} /> 
+                       
+                        </Modal.Description>
+                        
+                    </Modal.Content>
+                        {this.props.percentSave?
+                        <Header>To Funding Goal
+                            <Progress percent={100 - this.props.percentSave} indicating progress />  
+                        </Header>   
+                        :
+                        <Loader>Loading</Loader>
+                        }
+
+                    <Modal.Actions>
                         <Button
                             primary
                             icon='checkmark'
@@ -67,10 +99,11 @@ class ModalExampleDimmer extends Component {
                             onClick={close}
                         />
                     </Modal.Actions>
+                    
                 </Modal>
             </div>
         )
     }
 }
 
-export default ModalExampleDimmer
+export default DetailsModal

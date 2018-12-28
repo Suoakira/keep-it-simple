@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { Button, List, Progress, Loader } from 'semantic-ui-react'
 import API from "../API"
 import DetailsModal from "../components/detailspage"
+import DeleteModal from "../components/deletemodal"
 
 class exisitingPlanCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
             userSavingTargets: undefined,
-            open: false, 
+            open: false,
+            openDelete: false, 
             percent: 0
          }
     }
@@ -87,6 +89,14 @@ class exisitingPlanCard extends Component {
     open = () => this.setState({ open: true })
     close = () => this.setState({ open: false })
 
+    // delete modal open close
+    showDelete = () => this.setState({ openDelete: true })
+    closeDelete = () => this.setState({ openDelete: false })
+    closeAndDelete = () => {
+        this.deletePlan()
+        this.setState({ openDelete: false })
+    }
+
     
 
     componentDidMount() {
@@ -100,20 +110,10 @@ class exisitingPlanCard extends Component {
 
     render() { 
 
-        const { open } = this.state
-        const { close } = this
-        const { userSavingTargets } = this.state
+        const { open, openDelete, userSavingTargets } = this.state
+        const { close, closeDelete, closeAndDelete } = this
         const { savingTargets } = this.props
-        console.log("-------------")
-        console.log(savingTargets.name)
-        console.log(`days to go ${this.noDaysToGo()}`)
-        console.log(`plan total days ${this.totalNoDays()}`)
-        console.log(`days expired on plan ${this.noDaysExpired()}`)
-        console.log(`amount per day £${this.averageSavingperDay()}`)
-        console.log(`Left to save £${this.leftToSave()}`)
-        console.log(`amount you have saved so far £${this.hasSavedSofar()}`)
 
-        console.log("-------------")
 
             return (
             this.hasStartDatePassed(this.props.savingTargets.start_date) ?
@@ -165,7 +165,7 @@ class exisitingPlanCard extends Component {
                                 <Button
                                     negative
                                     size="small"
-                                    onClick={() => this.deletePlan()}
+                                    onClick={() => this.showDelete()}
                                 >
                                     X
                                 </Button>
@@ -176,6 +176,12 @@ class exisitingPlanCard extends Component {
                                 >
                                     More Info
                                 </Button>
+                                <DeleteModal
+                                name={savingTargets.name}
+                                openDelete={openDelete}
+                                closeDelete={closeDelete}
+                                closeAndDelete={closeAndDelete}
+                                        />
                                 <DetailsModal 
                                 open={open} 
                                 close={close}
@@ -188,6 +194,7 @@ class exisitingPlanCard extends Component {
                                 savingPerDay={this.averageSavingperDay()}
                                 leftToSave={this.leftToSave()}
                                 savedSoFar={this.hasSavedSofar()}
+                                percentSave={this.percentToSave()}
                                 />
                             </span>
                             </div>
