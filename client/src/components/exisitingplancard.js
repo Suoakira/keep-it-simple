@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Button, List, Progress, Loader } from 'semantic-ui-react'
 import API from "../API"
+import DetailsModal from "../components/detailspage"
 
 class exisitingPlanCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
             userSavingTargets: undefined,
+            open: false, 
             percent: 0
          }
     }
@@ -80,6 +82,11 @@ class exisitingPlanCard extends Component {
 
     mapThroughUserSavingTargets = () =>
         this.state.userSavingTargets.user_saving_targets.map(save => console.log(save))
+
+    // more info button modal operation
+    open = () => this.setState({ open: true })
+    close = () => this.setState({ open: false })
+
     
 
     componentDidMount() {
@@ -93,7 +100,8 @@ class exisitingPlanCard extends Component {
 
     render() { 
 
-
+        const { open } = this.state
+        const { close } = this
         const { userSavingTargets } = this.state
         const { savingTargets } = this.props
         console.log("-------------")
@@ -164,10 +172,23 @@ class exisitingPlanCard extends Component {
                                 <Button
                                     primary
                                     size="small"
-                                    onClick=""
+                                    onClick={() => this.open() }
                                 >
                                     More Info
                                 </Button>
+                                <DetailsModal 
+                                open={open} 
+                                close={close}
+                                image={savingTargets.target_image}
+                                name={savingTargets.name}
+                                category={savingTargets.category}
+                                daysToGo={this.noDaysToGo()}
+                                totalDays={this.totalNoDays()}
+                                daysSoFar={this.noDaysExpired()}
+                                savingPerDay={this.averageSavingperDay()}
+                                leftToSave={this.leftToSave()}
+                                savedSoFar={this.hasSavedSofar()}
+                                />
                             </span>
                             </div>
                             <div className="extra content">
