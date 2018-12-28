@@ -27,7 +27,6 @@ class Navbar extends Component {
                             Plan History
                         </NavLink>
 
-
                         <div className="right item">
                             {
                                 username?

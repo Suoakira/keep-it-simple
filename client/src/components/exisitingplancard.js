@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Button, List, Progress, Loader } from 'semantic-ui-react'
 import API from "../API"
+import DetailsModal from "../components/detailspage"
+import DeleteModal from "../components/deletemodal"
 
 class exisitingPlanCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
             userSavingTargets: undefined,
+            open: false,
+            openDelete: false, 
             percent: 0
          }
     }
@@ -80,6 +84,19 @@ class exisitingPlanCard extends Component {
 
     mapThroughUserSavingTargets = () =>
         this.state.userSavingTargets.user_saving_targets.map(save => console.log(save))
+
+    // more info button modal operation
+    open = () => this.setState({ open: true })
+    close = () => this.setState({ open: false })
+
+    // delete modal open close
+    showDelete = () => this.setState({ openDelete: true })
+    closeDelete = () => this.setState({ openDelete: false })
+    closeAndDelete = () => {
+        this.deletePlan()
+        this.setState({ openDelete: false })
+    }
+
     
 
     componentDidMount() {
@@ -93,19 +110,10 @@ class exisitingPlanCard extends Component {
 
     render() { 
 
-
-        const { userSavingTargets } = this.state
+        const { open, openDelete, userSavingTargets } = this.state
+        const { close, closeDelete, closeAndDelete } = this
         const { savingTargets } = this.props
-        console.log("-------------")
-        console.log(savingTargets.name)
-        console.log(`days to go ${this.noDaysToGo()}`)
-        console.log(`plan total days ${this.totalNoDays()}`)
-        console.log(`days expired on plan ${this.noDaysExpired()}`)
-        console.log(`amount per day £${this.averageSavingperDay()}`)
-        console.log(`Left to save £${this.leftToSave()}`)
-        console.log(`amount you have saved so far £${this.hasSavedSofar()}`)
 
-        console.log("-------------")
 
             return (
             this.hasStartDatePassed(this.props.savingTargets.start_date) ?
@@ -157,17 +165,37 @@ class exisitingPlanCard extends Component {
                                 <Button
                                     negative
                                     size="small"
-                                    onClick={() => this.deletePlan()}
+                                    onClick={() => this.showDelete()}
                                 >
                                     X
                                 </Button>
                                 <Button
                                     primary
                                     size="small"
-                                    onClick=""
+                                    onClick={() => this.open() }
                                 >
                                     More Info
                                 </Button>
+                                <DeleteModal
+                                name={savingTargets.name}
+                                openDelete={openDelete}
+                                closeDelete={closeDelete}
+                                closeAndDelete={closeAndDelete}
+                                        />
+                                <DetailsModal 
+                                open={open} 
+                                close={close}
+                                image={savingTargets.target_image}
+                                name={savingTargets.name}
+                                category={savingTargets.category}
+                                daysToGo={this.noDaysToGo()}
+                                totalDays={this.totalNoDays()}
+                                daysSoFar={this.noDaysExpired()}
+                                savingPerDay={this.averageSavingperDay()}
+                                leftToSave={this.leftToSave()}
+                                savedSoFar={this.hasSavedSofar()}
+                                percentSave={this.percentToSave()}
+                                />
                             </span>
                             </div>
                             <div className="extra content">
