@@ -119,7 +119,7 @@ class ExisitingPlans extends Component {
                         <Segment>
                             <Segment>
                                 <Header size='large'>Group Plans
-                                    <Header.Subheader>A collection of your group saving goals.</Header.Subheader>
+                                    <Header.Subheader>A collection your of group saving goals.</Header.Subheader>
                                 </Header>
                             </Segment>
                             <div className="ui grid container">
