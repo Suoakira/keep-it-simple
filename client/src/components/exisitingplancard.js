@@ -118,9 +118,9 @@ class exisitingPlanCard extends Component {
             return (
             this.hasStartDatePassed(this.props.savingTargets.start_date) ?
 
-            <div class="four wide ">  
-                <div class="ui link cards">
-                    <div className="card">
+            <div className="four wide ">  
+                <div className="ui link cards">
+                    <div className="card" id="cardpad">
                         <div className="image">
                         <img src={savingTargets.target_image} />
                         </div>

@@ -19,7 +19,6 @@ class PlanHistory extends Component {
                 to="/login" />
         </div>
         
-        
         )
     }
 }
