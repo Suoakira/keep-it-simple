@@ -296,16 +296,28 @@ border-bottom-right-radius: 12px;
 .search-bar {
     margin: 1%;
 }
+/* ----------------- search bar and filter --------------------- */
+.button-pad {
+    margin: 1%;
+}
 
 .wrapper {   
-    width: 800px;
+    width: 984px;
     margin: 0 auto;
-    padding-top: 50px;
+    padding-top: 20px;
+
 }
 #savings-image1 {
     width: 100%;
 
 }
+
+#cardpad {
+    margin-top: 37px;
+    margin-bottom: 37px;
+}
+
+
 
 
 

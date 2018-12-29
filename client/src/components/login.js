@@ -32,11 +32,10 @@ class Login extends Component {
         const { username, password } = this.state
         return (
 
-            this.props.username?
-                <Redirect
-                    to="/home/newplan" /> 
+        this.props.username?
+            <Redirect
+                to="/home/newplan" /> 
                     :
-
             <div class="savings-background">
                 <div class="ui text container" id="container1">
                     <div id="div1">
@@ -78,18 +77,10 @@ class Login extends Component {
                                 </div>
                             </Form.Group>
                         </Form>
-                </div>
+                    </div>
                 </div>
 
             </div>
-
-
-            // <div class="ui one column stackable center aligned page grid">
-            //     <div class="column six wide">
-            //         <h3 className="">Login</h3>
-
-            //     </div>
-            // </div>
         )
     }
 }

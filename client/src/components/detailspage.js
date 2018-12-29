@@ -4,51 +4,70 @@ import { Doughnut } from 'react-chartjs-2';
 
 class DetailsModal extends Component {
     state = { 
-        
+        usernames: [],
+        amounts: []
      }
 
 
     close = () => this.setState({ open: false })
 
+     getUserName = (id) => {
+        const copyUsers = [...this.state.users]
+        const user = copyUsers.filter(user => user.id === id)
+        return user[0].username
+     }
+
+     mapData = () => {
+         this.props.userSavingTargets.user_saving_targets.map(data => this.setState({
+             usernames: [...this.state.usernames, this.getUserName(data.user_id)],
+             amounts: [...this.state.amounts, data.amount]
+         })      
+        )
+     }
+
     componentDidMount() {
-        this.setState({
-            data1: {
-                labels: [
-                    'Days Passed',
-                    "Days to Go" 
-                ],
-                datasets: [{
-                    data: [this.props.daysSoFar, this.props.daysToGo],
-                    backgroundColor: [
-                        '#FF6384',
-                        '#FFCE56',
-                        
+        fetch("http://localhost:3000/api/v1/users")
+            .then(data => data.json())
+            .then(users => 
+                this.setState({
+                users: users,
+                data1: {
+                    labels: [
+                        'Days Passed',
+                        "Days to Go"
                     ],
-                    hoverBackgroundColor: [
-                        '#FF6384',
-                        '#FFCE56',    
-                    ]
-                }]
-            },
-            percentToSave: this.props.percentSave
-        })
-        
+                    datasets: [{
+                        data: [this.props.daysSoFar, this.props.daysToGo],
+                        backgroundColor: [
+                            '#FF6384',
+                            '#FFCE56',
+
+                        ],
+                        hoverBackgroundColor: [
+                            '#FF6384',
+                            '#FFCE56',
+                        ]
+                    }]
+                },
+                percentToSave: this.props.percentSave
+            })
+        ).then(() => this.mapData())
     }
     // https://github.com/jerairrest/react-chartjs-2 for documentation on carting
     render() {
         const { open, close, image, name, category, daysToGo, totalDays, daysSoFar, savingPerDay, leftToSave, savedSoFar } = this.props
         const { percentToSave } = this.state
-
-
-
         return (
+            this.state.users?
             <div>
+                    {console.log(this.state.usernames)} 
+                    {console.log(this.state.amounts)}   
                 <Modal dimmer="blurring" open={open} onClose={close} closeOnDimmerClick={false} centered={false}>
                     <Modal.Header>{name}</Modal.Header>
                     <Modal.Content image>
                 
                         <Modal.Description>
-                            <Header>Deadline Breakdown</Header>
+                                <Header>Deadline Breakdown</Header>
                             <Statistic.Group>
                                 <Statistic color='red'>
                                     <Statistic.Value>{daysToGo}</Statistic.Value>
@@ -89,7 +108,7 @@ class DetailsModal extends Component {
                         :
                         <Loader>Loading</Loader>
                         }
-
+                        
                     <Modal.Actions>
                         <Button
                             primary
@@ -102,6 +121,8 @@ class DetailsModal extends Component {
                     
                 </Modal>
             </div>
+            :
+            <Loader>Loading</Loader>
         )
     }
 }

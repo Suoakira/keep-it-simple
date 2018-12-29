@@ -76,14 +76,22 @@ class exisitingPlanCard extends Component {
 
     percentToSave = () => {
         if (this.state.userSavingTargets) {
-            const percent= (this.leftToSave()/this.state.userSavingTargets.user_saving_targets[0].amount) * 100
+            const percent = (this.leftToSave() / this.totalAmount()) * 100
             return Math.round(percent)
         }
-
     }
 
-    mapThroughUserSavingTargets = () =>
-        this.state.userSavingTargets.user_saving_targets.map(save => console.log(save))
+    totalAmount = () => {
+        let amount = 0
+        this.state.userSavingTargets.user_saving_targets.forEach(savingTarget => amount += savingTarget.amount)
+        return amount
+    }
+
+    totalStateAmount = (array) => {
+        let amount = 0
+        array.forEach(savingTarget => amount += savingTarget.amount)
+        return amount
+    }
 
     // more info button modal operation
     open = () => this.setState({ open: true })
@@ -104,7 +112,7 @@ class exisitingPlanCard extends Component {
             .then(data => data.json())
             .then(savingTs => this.setState({ 
                 userSavingTargets: savingTs,
-                amount: savingTs.user_saving_targets[0].amount
+                amount: this.totalStateAmount(savingTs.user_saving_targets)
             }))
     }
 
@@ -113,14 +121,11 @@ class exisitingPlanCard extends Component {
         const { open, openDelete, userSavingTargets } = this.state
         const { close, closeDelete, closeAndDelete } = this
         const { savingTargets } = this.props
-
-
             return (
             this.hasStartDatePassed(this.props.savingTargets.start_date) ?
-
-            <div class="four wide ">  
-                <div class="ui link cards">
-                    <div className="card">
+            <div className="four wide ">  
+                <div className="ui link cards">
+                    <div className="card" id="cardpad">
                         <div className="image">
                         <img src={savingTargets.target_image} />
                         </div>
@@ -134,7 +139,9 @@ class exisitingPlanCard extends Component {
                         </div>
                         <React.Fragment>
                             {this.state.userSavingTargets ?
+                              
                                 <div className="extra content">
+
                                     <List>
                                         <List.Item>
                                             <List.Icon name='calendar' />
@@ -146,7 +153,7 @@ class exisitingPlanCard extends Component {
                                         </List.Item>
                                         <List.Item>
                                             <List.Icon name='pound sign' />
-                                                <List.Content>{(this.state.userSavingTargets.user_saving_targets[0].amount - this.leftToSave())}/{this.state.userSavingTargets.user_saving_targets[0].amount} Raised</List.Content>
+                                                    <List.Content>{(this.totalAmount() - this.leftToSave())}/{this.totalAmount()} Raised</List.Content>
                                         </List.Item>
                                         <List.Item>
                                             <List.Content>
@@ -195,6 +202,7 @@ class exisitingPlanCard extends Component {
                                 leftToSave={this.leftToSave()}
                                 savedSoFar={this.hasSavedSofar()}
                                 percentSave={this.percentToSave()}
+                                userSavingTargets={this.state.userSavingTargets}
                                 />
                             </span>
                             </div>
