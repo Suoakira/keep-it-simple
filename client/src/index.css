@@ -317,6 +317,17 @@ border-bottom-right-radius: 12px;
     margin-bottom: 37px;
 }
 
+.no-plans {
+    text-align: center;
+    padding:50px
+}
+
+/* ---------------------------- details page---------------------------------------- */
+.stats-pad {
+    text-align: center;
+    padding: 10px;
+}
+
 
 
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ExisitingPlansCard from "../components/exisitingplancard"
-import { Redirect } from "react-router-dom"
+import { Redirect, Link } from "react-router-dom"
 import { Button, Header, Icon, Modal, Loader, Segment } from 'semantic-ui-react'
 import { Pagination } from 'semantic-ui-react'
 
@@ -32,15 +32,17 @@ class ExisitingPlans extends Component {
     mapPersonalPlans = () => {
         const { localeDelete } = this
         const copySaveTargets = [...this.state.storedUserDetails.saving_targets]
+        const userId = this.state.storedUserDetails.id
         const personalPlan = copySaveTargets.filter(savingTargets => savingTargets.plan.toLowerCase() === "personal")
-        return personalPlan.map(savingTargets => <ExisitingPlansCard savingTargets={savingTargets} localeDelete={localeDelete} />)
+        return personalPlan.map(savingTargets => <ExisitingPlansCard savingTargets={savingTargets} localeDelete={localeDelete} userId={userId}/>)
     }
 
     mapGroupPlans = () => {
         const { localeDelete } = this
         const copySaveTargets = [...this.state.storedUserDetails.saving_targets]
+        const userId = this.state.storedUserDetails.id
         const groupPlan = copySaveTargets.filter(savingTargets => savingTargets.plan.toLowerCase() === "group")
-        return groupPlan.map(savingTargets => <ExisitingPlansCard savingTargets={savingTargets} localeDelete={localeDelete} />)
+        return groupPlan.map(savingTargets => <ExisitingPlansCard savingTargets={savingTargets} localeDelete={localeDelete} userId={userId} />)
     }
 
     localeDelete = (saving) => {
@@ -112,9 +114,19 @@ class ExisitingPlans extends Component {
                                     <Header.Subheader>A collection of your personal saving goals.</Header.Subheader>
                                 </Header>
                             </Segment>
+                                {!!this.mapPersonalPlans()[0] ?
                                 <div className="ui grid container">
                                     {this.mapPersonalPlans()}
                                 </div>
+                
+                                :
+                                <div className="no-plans">
+                                    <Header>You have no personal saving plans</Header>
+                                        <Link to="/home/newplan"><button class="ui primary button">
+                                            Create A Plan<i class="arrow right icon"></i></button>
+                                        </Link>
+                                </div>
+                                }
                         </Segment>
                         <Segment>
                             <Segment>
@@ -122,16 +134,24 @@ class ExisitingPlans extends Component {
                                     <Header.Subheader>A collection your of group saving goals.</Header.Subheader>
                                 </Header>
                             </Segment>
+                            {!!this.mapGroupPlans()[0] ?
                             <div className="ui grid container">
                                     {this.mapGroupPlans()}
                             </div>
+                            :
+                            <div className="no-plans">
+                                <Header>You have no group saving plans</Header>
+                                <Link to="/home/newplan"><button class="ui primary button">
+                                    Create A Plan<i class="arrow right icon"></i></button>
+                                </Link>
+                            </div>
+                            }
                         </Segment>
                     </React.Fragment>
                             :
                         <Loader active inline='centered' />
                         }
                 </React.Fragment>
-                
                 :
                 <React.Fragment>
                 <Redirect

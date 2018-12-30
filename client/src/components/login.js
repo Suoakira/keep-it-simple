@@ -65,7 +65,6 @@ class Login extends Component {
                                         </Form.Group>
                                     </div>
                                     <div>
-            
                                         <div class="ui huge primary button" onClick={() => this.handleSubmit()}>Login <i class="right arrow icon"></i></div>
                          
                                     </div>
