@@ -3,6 +3,7 @@ import { Button, List, Progress, Loader } from 'semantic-ui-react'
 import API from "../API"
 import DetailsModal from "../components/detailspage"
 import DeleteModal from "../components/deletemodal"
+import MapComments from "../containers/mapcomments"
 
 class exisitingPlanCard extends Component {
     constructor(props) {
@@ -10,7 +11,8 @@ class exisitingPlanCard extends Component {
         this.state = {
             userSavingTargets: undefined,
             open: false,
-            openDelete: false, 
+            openDelete: false,
+            openComment: false,
             percent: 0
          }
     }
@@ -105,9 +107,11 @@ class exisitingPlanCard extends Component {
         this.setState({ openDelete: false })
     }
 
-    
+    // comment modal open close
+    showComment = () => this.setState({ openComment: true })
+    closeComment = () => this.setState({ openComment: false })
 
-    componentDidMount() {
+    componentWillMount() {
         fetch(`http://localhost:3000/api/v1/saving_targets/${this.props.savingTargets.id}`)
             .then(data => data.json())
             .then(savingTs => this.setState({ 
@@ -118,11 +122,11 @@ class exisitingPlanCard extends Component {
 
     render() { 
 
-        const { open, openDelete, userSavingTargets } = this.state
-        const { close, closeDelete, closeAndDelete } = this
-        const { savingTargets } = this.props
+        const { open, openDelete, userSavingTargets, openComment } = this.state
+        const { close, closeDelete, closeAndDelete, showComment, closeComment } = this
+        const { savingTargets, userId } = this.props
             return (
-            this.hasStartDatePassed(this.props.savingTargets.start_date) ?
+                this.hasStartDatePassed(this.props.savingTargets.start_date) ?
             <div className="four wide ">  
                 <div className="ui link cards">
                     <div className="card" id="cardpad">
@@ -153,7 +157,7 @@ class exisitingPlanCard extends Component {
                                         </List.Item>
                                         <List.Item>
                                             <List.Icon name='pound sign' />
-                                                    <List.Content>{(this.totalAmount() - this.leftToSave())}/{this.totalAmount()} Raised</List.Content>
+                                                    <List.Content>{this.hasSavedSofar()}/{this.totalAmount()} Raised</List.Content>
                                         </List.Item>
                                         <List.Item>
                                             <List.Content>
@@ -181,8 +185,15 @@ class exisitingPlanCard extends Component {
                                     size="small"
                                     onClick={() => this.open() }
                                 >
-                                    More Info
+                                    Stats
                                 </Button>
+                                <Button
+                                    primary
+                                    size="small"
+                                    onClick={() => showComment() }
+                                >
+                                <i class="comment icon"></i>
+                                Comments</Button>
                                 <DeleteModal
                                 name={savingTargets.name}
                                 openDelete={openDelete}
@@ -204,7 +215,15 @@ class exisitingPlanCard extends Component {
                                 percentSave={this.percentToSave()}
                                 userSavingTargets={this.state.userSavingTargets}
                                 />
+                                <MapComments
+                                    open={openComment}
+                                    close={closeComment}
+                                    userSavingTargets={this.state.userSavingTargets}
+                                    savingTargetId={savingTargets.id}
+                                    userId={userId}
+                                 />
                             </span>
+                                
                             </div>
                             <div className="extra content">
                                 <span className="right floated">
