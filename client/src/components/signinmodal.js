@@ -7,7 +7,7 @@ const ModalBasicExample = (props) => (
         <Header icon='sign in alternate' content='Please Sign in' />
         <Modal.Content>
             <p>
-                You must bee logged in to view this page.   
+                You must be logged in to view this page.   
                 Please<Link to="/login">Login</Link> or <Link to="/Register">Register.</Link>
             </p>
         </Modal.Content>

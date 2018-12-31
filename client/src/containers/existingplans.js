@@ -28,13 +28,23 @@ class ExisitingPlans extends Component {
         const filters = copySaveTargets.filter(savingTargets => Date.now() < new Date(savingTargets.start_date).getTime())
         console.log(filters)
     }
+    hasStartDatePassed = (startDate, endDate) => {
+        if ((Date.now() > new Date(startDate).valueOf()) && (Date.now() < new Date(endDate).valueOf())) {
+            return true
+        } else {
+            return false
+        }
+    }
     
     mapPersonalPlans = () => {
         const { localeDelete } = this
         const copySaveTargets = [...this.state.storedUserDetails.saving_targets]
         const userId = this.state.storedUserDetails.id
         const personalPlan = copySaveTargets.filter(savingTargets => savingTargets.plan.toLowerCase() === "personal")
-        return personalPlan.map(savingTargets => <ExisitingPlansCard savingTargets={savingTargets} localeDelete={localeDelete} userId={userId}/>)
+
+        // clean up this code
+        const filters = personalPlan.filter(savingTargets => this.hasStartDatePassed(savingTargets.start_date, savingTargets.end_date))
+        return filters.map(savingTargets => <ExisitingPlansCard savingTargets={savingTargets} localeDelete={localeDelete} userId={userId}/>)
     }
 
     mapGroupPlans = () => {
@@ -42,7 +52,11 @@ class ExisitingPlans extends Component {
         const copySaveTargets = [...this.state.storedUserDetails.saving_targets]
         const userId = this.state.storedUserDetails.id
         const groupPlan = copySaveTargets.filter(savingTargets => savingTargets.plan.toLowerCase() === "group")
-        return groupPlan.map(savingTargets => <ExisitingPlansCard savingTargets={savingTargets} localeDelete={localeDelete} userId={userId} />)
+
+        // clean up this code
+        const filters = groupPlan.filter(savingTargets => this.hasStartDatePassed(savingTargets.start_date, savingTargets.end_date) )
+        return filters.map(savingTargets => 
+        <ExisitingPlansCard savingTargets={savingTargets} localeDelete={localeDelete} userId={userId} />)
     }
 
     localeDelete = (saving) => {
@@ -115,10 +129,14 @@ class ExisitingPlans extends Component {
                                 </Header>
                             </Segment>
                                 {!!this.mapPersonalPlans()[0] ?
+                                
+                                
+                                <React.Fragment>
                                 <div className="ui grid container">
                                     {this.mapPersonalPlans()}
-                                </div>
-                
+                                </div>                          
+
+                                </React.Fragment>
                                 :
                                 <div className="no-plans">
                                     <Header>You have no personal saving plans</Header>
@@ -128,6 +146,10 @@ class ExisitingPlans extends Component {
                                 </div>
                                 }
                         </Segment>
+                                    <div className="pagination">
+                                        <Button compact primary size="tiny" floated='right'>Next<i class="long arrow alternate right icon"></i></Button>
+                                        <Button compact primary size="tiny" floated='left'><i class="long arrow alternate left icon"></i>Prev</Button>
+                                    </div>  
                         <Segment>
                             <Segment>
                                 <Header size='large'>Group Plans
@@ -135,9 +157,11 @@ class ExisitingPlans extends Component {
                                 </Header>
                             </Segment>
                             {!!this.mapGroupPlans()[0] ?
-                            <div className="ui grid container">
-                                    {this.mapGroupPlans()}
-                            </div>
+                            <React.Fragment>
+                                <div className="ui grid container">
+                                        {this.mapGroupPlans()}
+                                </div>
+                            </React.Fragment>
                             :
                             <div className="no-plans">
                                 <Header>You have no group saving plans</Header>
@@ -147,6 +171,10 @@ class ExisitingPlans extends Component {
                             </div>
                             }
                         </Segment>
+                                    <div className="pagination">
+                                        <Button compact primary size="tiny" floated='right'>Next<i class="long arrow alternate right icon"></i></Button>
+                                        <Button compact primary size="tiny" floated='left'><i class="long arrow alternate left icon"></i>Prev</Button>
+                                    </div> 
                     </React.Fragment>
                             :
                         <Loader active inline='centered' />

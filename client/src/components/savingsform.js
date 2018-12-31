@@ -114,7 +114,7 @@ class SavingsForm extends Component {
                                 </Form.Group>
 
                                 <Form.Group>
-                                <Form.Input label="Amount to save" placeholder='Amount' name='amount' value={amount} onChange={this.handleChange} />
+                                <Form.Input label="Amount to save (£)" placeholder='Amount' name='amount' value={amount} onChange={this.handleChange} />
                                 </Form.Group>
                                 
                                 <Form.Group>

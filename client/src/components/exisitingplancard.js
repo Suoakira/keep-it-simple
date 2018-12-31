@@ -48,14 +48,6 @@ class exisitingPlanCard extends Component {
         return this.noDaysBetween(startDate, endDate)
     }
 
-    hasStartDatePassed = (date) => {
-        if (Date.now() > new Date(date).valueOf()) {
-            return true
-        } else {
-            return false
-        }
-    }
-
     noDaysToGo = () => {
         const currentDate = new Date(Date.now())
         const endDate = new Date(this.props.savingTargets.end_date)
@@ -126,7 +118,6 @@ class exisitingPlanCard extends Component {
         const { close, closeDelete, closeAndDelete, showComment, closeComment } = this
         const { savingTargets, userId } = this.props
             return (
-                this.hasStartDatePassed(this.props.savingTargets.start_date) ?
             <div className="four wide ">  
                 <div className="ui link cards">
                     <div className="card" id="cardpad">
@@ -238,10 +229,6 @@ class exisitingPlanCard extends Component {
                     </div>
                 </div>
             </div>
- 
-            :
-            null
-        
             )
         
          
