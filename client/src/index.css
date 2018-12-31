@@ -328,6 +328,10 @@ border-bottom-right-radius: 12px;
     padding: 10px;
 }
 
+/* ----------------------- plans grid----------------------------------------------------- */
+.pagination {
+    padding-bottom: 25px;
+}
 
 
 

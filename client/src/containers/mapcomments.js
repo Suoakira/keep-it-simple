@@ -45,7 +45,9 @@ class MapComments extends Component {
                 if (data.error) {
                     console.log(`error: ${data.error}`)
                 } else {
-                    this.setState({ userComments: [...this.state.userComments, data]})
+                    this.setState({
+                        userComments: [...this.state.userComments, data]
+                    })
                 }
             })
     }
@@ -81,8 +83,6 @@ class MapComments extends Component {
                                 value={comment}
                                 onChange={this.handleChange}
                                  />
-                            
-                            
                         <Button onClick={() => this.handleSubmit()} content='Add Reply' labelPosition='left' icon='edit' primary />
                         </Form>
                     </Comment.Group>
