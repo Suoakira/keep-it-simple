@@ -291,6 +291,14 @@ border-bottom-right-radius: 12px;
     align-content: center;
 }
 
+.make-center {
+    text-align: center;
+    color: #F08080;
+    font-weight: bold;
+    font-size: small;
+    padding-bottom: 6px;
+}
+
 /* ------------------------------------labels ------------------------------------------------------------- */
 
 .search-bar {

@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from "react-router-dom"
-import { Form, Input, TextArea, Button, Select, Header, Icon } from 'semantic-ui-react'
+import { Header, Label, Message } from 'semantic-ui-react'
+import {
+    Form, Input, TextArea, Checkbox, Radio, RadioGroup, Dropdown, Select,
+} from 'formsy-semantic-ui-react'
+
 
 import API from "../API"
 
@@ -11,7 +15,12 @@ class Register extends Component {
         this.state = {
             username: "",
             password: "",
-            email: ""
+            email: "",
+            usernameValid: false,
+            passwordValid: false,
+            emailValid: false,
+            error: ""
+
 
         }
     }
@@ -25,11 +34,12 @@ class Register extends Component {
             .then(data => {
                 if (data.error) {
                     console.log(`error: ${data.error}`)
+                    this.setState({ error: data.error })
                 } else {
                     signin(data)
                     console.log(`${data.username} has been signed in`)
                 }
-            })
+            }).then(() => this.setState({ username: '', password: '', email: ""  }))
         }
 
     render() {
@@ -45,33 +55,64 @@ class Register extends Component {
                     <Header size='huge'>Keep It Simple
                         <Header.Subheader>An easier way to manage your savings.</Header.Subheader>
                     </Header>
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form onSubmit={this.handleSubmit} error>
                         <Form.Group>
                             <Form.Input
+                                required
                                 label="Email"
                                 placeholder='Email'
                                 name='email'
-                                value={email}
-                                onChange={this.handleChange} />
+                                value={email.toLowerCase()}
+                                onChange={this.handleChange}
+                                validations="isEmail"
+                                validationErrors={{ isEmail: 'Email not valid' }}
+                                errorLabel={<Label color="red" pointing />}
+                                 />
+
                         </Form.Group>
                         <Form.Group>
 
                             <Form.Input
+                                required
                                 label="Username"
                                 placeholder='Username'
                                 name='username'
                                 value={username}
-                                onChange={this.handleChange} />
+                                onChange={this.handleChange}
+                                 />
                         </Form.Group>
                         <Form.Group>
                             <Form.Input
+                                required
                                 label="Password"
                                 placeholder='Password'
                                 name='password'
                                 type='password'
                                 value={password}
-                                onChange={this.handleChange} />
+                                onChange={this.handleChange}
+                                validations="minLength:8"
+                                validationErrors={{
+                                    minLength: 'Minimin of 8 characters',
+                                    isDefaultRequiredValue: 'Password is Required',
+                                }}
+                                errorLabel={<Label color="red" pointing="left" />}
+                                
+                                 />
+
                         </Form.Group>
+                                {this.state.error ?
+                                    <Message
+                                        style={{ width: "40%" }}
+                                        error
+                                        header='Action Forbidden'
+                                        content={this.state.error}
+                                    />
+                                    :
+                                    null
+                                }
+           
+
+                             
                         <div>
                             <div class="ui huge primary button" onClick={() => this.handleSubmit()}>Register <i class="right arrow icon"></i></div>
                         </div>

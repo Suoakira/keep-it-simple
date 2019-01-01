@@ -77,7 +77,7 @@ class MapComments extends Component {
                                 :
                                 null
                             }
-                        <Form onSubmit={() => this.handleSubmit()}reply>
+                        <Form reply>
                             <Form.TextArea
                                 name='comment'
                                 value={comment}
