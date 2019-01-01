@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Divider, Grid, Header, Icon, Search, Segment, Select, Form } from 'semantic-ui-react'
+import { Button, Divider, Grid, Header, Icon, Search, Segment, Select, Form, Message } from 'semantic-ui-react'
 
 import API from "../API"
 import { Redirect } from "react-router-dom"
@@ -26,7 +26,9 @@ class SavingsForm extends Component {
                 datesRange: '',
                 amount: undefined,
                 user_id: undefined,
-                propSavingTargets: undefined
+                propSavingTargets: undefined,
+                errorST: "",
+                errorUST: ""
             }
         }
 
@@ -50,7 +52,14 @@ class SavingsForm extends Component {
         }
         API.postSavingsTarget(SavingTarget)
             .then(resp => {
+                if (resp.error){
+                    console.log(resp.error)
+                    this.setState({ errorST: resp.error })
+                    this.setState({error: resp.error})
+                } else {
                 SavingTargetId = resp.id
+                console.log(resp)
+                }
             })
             .then(() => API.postUserSavingsTarget(
                 {
@@ -58,7 +67,14 @@ class SavingsForm extends Component {
                 saving_target_id: SavingTargetId,
                 amount: amount
                 }
-            ))     
+            )).then(resp => {
+                if (resp.error) {
+                    console.log(resp.error)
+                    this.setState({ errorUST: resp.error })
+                } else {
+                    console.log(resp)
+                }
+                })     
     }
     // make post user_saving_targets(user, saving_target, amount) ????
 
@@ -84,11 +100,20 @@ class SavingsForm extends Component {
                             <Grid.Row verticalAlign='middle'>
                                 <Grid.Column>
                                 <Header>Create Savings Plan</Header>
-                                    <Form onSubmit={this.handleSubmit}>
+                            <Form error>
                                 <Form.Group>
-                                    <Form.Input label="Plan Name"placeholder='Name' name='name' value={name} onChange={this.handleChange} />
+                                    <Form.Input label="Plan Name" placeholder='Name' name='name' value={name} onChange={this.handleChange} />
                                 </Form.Group>
 
+                                    {(this.state.errorST && this.state.errorUST && !this.state.name) ?
+                                        <div className="make-center">
+                                            <p>Please enter a valid Plan Name.</p>
+                                        </div>
+                                        :
+                                        null
+                                    }
+
+    
                                 <Form.Group>
                                     
                                     <Form.Field
@@ -103,19 +128,49 @@ class SavingsForm extends Component {
                                         onChange={this.handleChange}
                                         searchInput={{ id: 'form-select-control-gender' }}
                                     />
+
                                 </Form.Group>
+                                    {(this.state.errorST && this.state.errorUST && !this.state.plan) ?
+                                        <div className="make-center">
+                                            <p>Please select a Plan type.</p>
+                                        </div>
+                                        :
+                                        null
+                                    }
 
                                 <Form.Group>
-                                <Form.Input label="Category" placeholder='Category' name='category' value={category} onChange={this.handleChange} />
+                                        <Form.Input label="Category" placeholder='Category' name='category' value={category} onChange={this.handleChange} />
                                 </Form.Group>
+                                    {(this.state.errorST && this.state.errorUST && !this.state.category) ?
+                                        <div className="make-center">
+                                            <p>Please enter a valid category Name</p>
+                                        </div>
+                                        :
+                                        null
+                                    }
 
                                 <Form.Group>
                                 <Form.Input label="Image Url" placeholder='Image' name='target_image' value={target_image} onChange={this.handleChange}  />
                                 </Form.Group>
+                                    {(this.state.errorST && this.state.errorUST && !this.state.target_image) ?
+                                        <div className="make-center">
+                                            <p>Please enter a valid image url.</p>
+                                        </div>
+                                        :
+                                        null
+                                    }
 
                                 <Form.Group>
-                                <Form.Input label="Amount to save (£)" placeholder='Amount' name='amount' value={amount} onChange={this.handleChange} />
+                                <Form.Input type="number" label="Amount to save (£)" placeholder='Amount' name='amount' value={amount} onChange={this.handleChange} />
                                 </Form.Group>
+
+                                    {(this.state.errorST && this.state.errorUST && !this.state.target_image) ?
+                                        <div className="make-center">
+                                            <p>Please enter an amount to save.</p>
+                                        </div>
+                                        :
+                                        null
+                                    }
                                 
                                 <Form.Group>
                                     <DatesRangeInput
@@ -127,12 +182,34 @@ class SavingsForm extends Component {
                                         onChange={this.handleChange} />
                                     
                                 </Form.Group>
+
+                                    {(this.state.errorST && this.state.errorUST && !this.state.start_date && !this.state.end_date ) ?
+                                        <div className="make-center">
+                                            <p>Please enter a valid start, and end date</p>
+                                        </div>
+                                        :
+                                        null
+                                    }
                                     <div class="ui medium primary button" onClick={(event) => this.handleSubmit(event)}>Create Plan <i class="right arrow icon"></i></div>
+                                    {this.state.error ?
+                                        <Message
+                                            error
+                                            header='Action Forbidden'
+                                            content={this.state.error}
+                                        />
+                                        :
+                                        null
+                                    }
                             </Form>
                             </Grid.Column>
                             <Grid.Column>
                                     <div>
+                                        {!this.state.target_image?
                                         <img src="https://cmkt-image-prd.global.ssl.fastly.net/0.1.0/ps/2014090/1360/2035/m1/fpnw/wm1/qdrpofpduuwwhs9zz7ayfuobitf8xwo42xcvdclixbrxaa4iabpct82rvc5zxrlf-.jpg?1481494830&s=dca5b92f8fe1937750c7cd78d4777c1d" id="savings-image1" alt="plant growing out of hand" />
+                                        :
+                                        <img src={this.state.target_image}/>
+                                        }
+
                                     </div>
              
                             </Grid.Column>

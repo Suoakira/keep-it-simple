@@ -8,6 +8,7 @@ import SavingGrid from "./containers/savinggrid"
 import SavingsForm from "./components/savingsform"
 import ExistingPlans from "./containers/existingplans"
 import PlanHistory from "./containers/planhistory"
+import Footer from "./components/footer"
 
 
 class App extends Component {
@@ -99,6 +100,9 @@ class App extends Component {
         <Route exact path='/home/newplan' component={(props) => <SavingGrid username={username} />} />
         <Route exact path='/home/exisitingplans' component={(props) => <ExistingPlans username={username} storedUserDetails={storedUserDetails} newSavingTarget={this.state.newSavingTarget} />} />
         <Route exact path='/home/planhistory' component={(props) => <PlanHistory username={username} userId={storedUserDetails.id} />} />
+
+        <Footer />
+
     </div>
     )
   }

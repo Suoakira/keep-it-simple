@@ -17,7 +17,7 @@ class SavingsGird extends Component {
             <div className = "wrapper" >
                 <Segment>
                     <Segment>
-                        <Header size='large'>Savings Categorys
+                        <Header size='large'>Create Savings Plan
                                 <Header.Subheader>Pick a saving plan from the categorys below, or pick other to create your own.</Header.Subheader>
                         </Header>
                     </Segment>
