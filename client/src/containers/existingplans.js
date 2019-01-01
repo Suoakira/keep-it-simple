@@ -9,7 +9,11 @@ class ExisitingPlans extends Component {
         super(props);
         this.state = {
             searchFilter: "",
-            togglePlan: true
+            togglePlan: true,
+            pageUpP: 0,
+            pageDownP: 3,
+            pageUpG: 0,
+            pageDownG: 3
           }
     }
 
@@ -35,27 +39,67 @@ class ExisitingPlans extends Component {
             return false
         }
     }
+
+    // Pagination code, could be refactored to DRY later
+
+    pagination = (array, pageUp, pageDown) => {
+        return array.slice(pageUp, pageDown)  
+    }
+
+    pageUpP = () => {
+        if ( this.state.pageDownP !== this.mapPersonalPlans().length + 2) {
+        this.setState({ pageUpP: this.state.pageUpP + 1, pageDownP: this.state.pageDownP + 1 })
+        } 
+    }
+    pageDownP = () => {
+        if (this.state.pageUpP !== 0) {
+        this.setState({ pageUpP: this.state.pageUpP - 1, pageDownP: this.state.pageDownP - 1 })
+        }
+    }
+    // refactor sections of code to be one DRY section
+    pageUpG = () => {
+        if (this.state.pageDownG !== this.mapGroupPlans().length + 2) {
+            this.setState({ pageUpG: this.state.pageUpG + 1, pageDownG: this.state.pageDownG + 1 })
+        }
+    }
+    pageDownG = () => {
+        if (this.state.pageUpG !== 0) {
+            this.setState({ pageUpG: this.state.pageUpG - 1, pageDownG: this.state.pageDownG - 1 })
+        }
+    }
+
     
+
     mapPersonalPlans = () => {
         const { localeDelete } = this
         const copySaveTargets = [...this.state.storedUserDetails.saving_targets]
         const userId = this.state.storedUserDetails.id
-        const personalPlan = copySaveTargets.filter(savingTargets => savingTargets.plan.toLowerCase() === "personal")
 
-        // clean up this code
-        const filters = personalPlan.filter(savingTargets => this.hasStartDatePassed(savingTargets.start_date, savingTargets.end_date))
-        return filters.map(savingTargets => <ExisitingPlansCard savingTargets={savingTargets} localeDelete={localeDelete} userId={userId}/>)
+        const personalPlan = copySaveTargets.filter(savingTargets => 
+            ((savingTargets.plan.toLowerCase() === "personal") 
+            && 
+            (this.hasStartDatePassed(savingTargets.start_date, savingTargets.end_date)
+            &&
+            (savingTargets.name.toLowerCase().includes(this.state.searchFilter.toLowerCase()))
+            )))
+
+        return personalPlan.map(savingTargets => <ExisitingPlansCard savingTargets={savingTargets} localeDelete={localeDelete} userId={userId}/>)
     }
 
     mapGroupPlans = () => {
         const { localeDelete } = this
         const copySaveTargets = [...this.state.storedUserDetails.saving_targets]
         const userId = this.state.storedUserDetails.id
-        const groupPlan = copySaveTargets.filter(savingTargets => savingTargets.plan.toLowerCase() === "group")
 
-        // clean up this code
-        const filters = groupPlan.filter(savingTargets => this.hasStartDatePassed(savingTargets.start_date, savingTargets.end_date) )
-        return filters.map(savingTargets => 
+        const groupPlan = copySaveTargets.filter(savingTargets => 
+            ((savingTargets.plan.toLowerCase() === "group") 
+            && 
+            (this.hasStartDatePassed(savingTargets.start_date, savingTargets.end_date)
+            &&
+                (savingTargets.name.toLowerCase().includes(this.state.searchFilter.toLowerCase()))
+            )))
+        
+        return groupPlan.map(savingTargets => 
         <ExisitingPlansCard savingTargets={savingTargets} localeDelete={localeDelete} userId={userId} />)
     }
 
@@ -65,14 +109,6 @@ class ExisitingPlans extends Component {
         copyUserSts.saving_targets = filteredSts
         this.setState({ storedUserDetails: copyUserSts})
     }
-
-    // filterPlans = (input) => {
-    //     const filteredPlans = this.state.storedUserDetails.saving_targets.filter(
-    //         plan => plan.name.toLowerCase().includes(input.toLowerCase()))
-    //     let copyUserSts = this.state.storedUserDetails
-    //     copyUserSts.saving_targets = filteredPlans
-    //     this.setState({ storedUserDetails: copyUserSts })
-    // }
 
     componentDidMount() {
         fetch(`http://localhost:3000/api/v1/users/${this.props.storedUserDetails.id}`)
@@ -133,7 +169,7 @@ class ExisitingPlans extends Component {
                                 
                                 <React.Fragment>
                                 <div className="ui grid container">
-                                    {this.mapPersonalPlans()}
+                                                    {this.pagination(this.mapPersonalPlans(), this.state.pageUpP, this.state.pageDownP)}
                                 </div>                          
 
                                 </React.Fragment>
@@ -146,10 +182,10 @@ class ExisitingPlans extends Component {
                                 </div>
                                 }
                         </Segment>
-                                    <div className="pagination">
-                                        <Button compact primary size="tiny" floated='right'>Next<i class="long arrow alternate right icon"></i></Button>
-                                        <Button compact primary size="tiny" floated='left'><i class="long arrow alternate left icon"></i>Prev</Button>
-                                    </div>  
+                            <div className="pagination">
+                                <Button onClick={() => this.pageUpP()} compact primary size="tiny" floated='right'>Next<i class="long arrow alternate right icon"></i></Button>
+                                <Button onClick={() => this.pageDownP()} compact primary size="tiny" floated='left'><i class="long arrow alternate left icon"></i>Prev</Button>
+                            </div>  
                         <Segment>
                             <Segment>
                                 <Header size='large'>Group Plans
@@ -159,7 +195,7 @@ class ExisitingPlans extends Component {
                             {!!this.mapGroupPlans()[0] ?
                             <React.Fragment>
                                 <div className="ui grid container">
-                                        {this.mapGroupPlans()}
+                                    {this.pagination(this.mapGroupPlans(), this.state.pageUpG, this.state.pageDownG)}
                                 </div>
                             </React.Fragment>
                             :
@@ -171,10 +207,10 @@ class ExisitingPlans extends Component {
                             </div>
                             }
                         </Segment>
-                                    <div className="pagination">
-                                        <Button compact primary size="tiny" floated='right'>Next<i class="long arrow alternate right icon"></i></Button>
-                                        <Button compact primary size="tiny" floated='left'><i class="long arrow alternate left icon"></i>Prev</Button>
-                                    </div> 
+                            <div className="pagination">
+                                <Button onClick={() => this.pageUpG()} compact primary size="tiny" floated='right'>Next<i class="long arrow alternate right icon"></i></Button>
+                                <Button onClick={() => this.pageDownG()} compact primary size="tiny" floated='left'><i class="long arrow alternate left icon"></i>Prev</Button>
+                            </div>  
                     </React.Fragment>
                             :
                         <Loader active inline='centered' />

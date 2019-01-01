@@ -42,6 +42,9 @@ class Register extends Component {
             <div class="savings-background">
                 <div class="ui text container" id="container1">
                     <div id="div1">
+                    <Header size='huge'>Keep It Simple
+                        <Header.Subheader>An easier way to manage your savings.</Header.Subheader>
+                    </Header>
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Group>
                             <Form.Input
