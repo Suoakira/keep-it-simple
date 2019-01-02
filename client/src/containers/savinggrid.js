@@ -28,7 +28,7 @@ class SavingsGird extends Component {
                     </Segment>
                 </ul>
                     </Segment>
-                        
+                    <div className="historypad"></div>
             </div>
             :
             <div>

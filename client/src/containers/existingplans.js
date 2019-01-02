@@ -169,7 +169,7 @@ class ExisitingPlans extends Component {
                                 
                                 <React.Fragment>
                                 <div className="ui grid container">
-                                                    {this.pagination(this.mapPersonalPlans(), this.state.pageUpP, this.state.pageDownP)}
+                                    {this.pagination(this.mapPersonalPlans(), this.state.pageUpP, this.state.pageDownP)}
                                 </div>                          
 
                                 </React.Fragment>
@@ -223,6 +223,9 @@ class ExisitingPlans extends Component {
                 </React.Fragment>
                 }
 
+                </div>
+                <div className="footpad">
+  
                 </div>
             </React.Fragment>
         

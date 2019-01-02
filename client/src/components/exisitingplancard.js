@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, List, Progress, Loader } from 'semantic-ui-react'
+import { Button, List, Progress, Loader, Statistic } from 'semantic-ui-react'
 import API from "../API"
 import DetailsModal from "../components/detailspage"
 import DeleteModal from "../components/deletemodal"
@@ -113,11 +113,13 @@ class exisitingPlanCard extends Component {
     }
 
     render() { 
-
+        
         const { open, openDelete, userSavingTargets, openComment } = this.state
         const { close, closeDelete, closeAndDelete, showComment, closeComment } = this
         const { savingTargets, userId } = this.props
             return (
+
+            this.state.userSavingTargets ?
             <div className="four wide ">  
                 <div className="ui link cards">
                     <div className="card" id="cardpad">
@@ -138,17 +140,17 @@ class exisitingPlanCard extends Component {
                                 <div className="extra content">
 
                                     <List>
-                                        <List.Item>
-                                            <List.Icon name='calendar' />
-                                            <List.Content>{this.noDaysToGo()} Days to Deadline</List.Content>
+                                        <List.Item>                                
+                                            <List.Icon className="coloricons" name='calendar' />
+                                            <List.Content><b>{this.noDaysToGo()}</b> Days to Deadline</List.Content>                                  
                                         </List.Item>
                                         <List.Item>
-                                            <List.Icon name='lock' />
-                                            <List.Content>{this.hasSavedSofar()}</List.Content>
+                                            <List.Icon className="coloricons"  name='lock' />
+                                                    <List.Content><b>{this.percentToSave()}</b> saved per day</List.Content>
                                         </List.Item>
                                         <List.Item>
-                                            <List.Icon name='pound sign' />
-                                                    <List.Content>{this.hasSavedSofar()}/{this.totalAmount()} Raised</List.Content>
+                                                    <List.Icon className="coloricons" name='pound sign' />
+                                                    <List.Content><b>{this.hasSavedSofar()}</b>/<b>{this.totalAmount()}</b> Raised</List.Content>
                                         </List.Item>
                                         <List.Item>
                                             <List.Content>
@@ -178,13 +180,19 @@ class exisitingPlanCard extends Component {
                                 >
                                     Stats
                                 </Button>
+                                
                                 <Button
                                     primary
                                     size="small"
                                     onClick={() => showComment() }
                                 >
                                 <i class="comment icon"></i>
-                                Comments</Button>
+                                {(savingTargets.plan == "group") ?
+                                "Comments"
+                                :
+                                "Notes"
+                                }
+                                </Button>
                                 <DeleteModal
                                 name={savingTargets.name}
                                 openDelete={openDelete}
@@ -192,22 +200,23 @@ class exisitingPlanCard extends Component {
                                 closeAndDelete={closeAndDelete}
                                         />
                                 <DetailsModal 
-                                open={open} 
-                                close={close}
-                                image={savingTargets.target_image}
-                                name={savingTargets.name}
-                                category={savingTargets.category}
-                                daysToGo={this.noDaysToGo()}
-                                totalDays={this.totalNoDays()}
-                                daysSoFar={this.noDaysExpired()}
-                                savingPerDay={this.averageSavingperDay()}
-                                leftToSave={this.leftToSave()}
-                                savedSoFar={this.hasSavedSofar()}
-                                percentSave={this.percentToSave()}
-                                userSavingTargets={this.state.userSavingTargets}
+                                    open={open} 
+                                    close={close}
+                                    image={savingTargets.target_image}
+                                    name={savingTargets.name}
+                                    category={savingTargets.category}
+                                    daysToGo={this.noDaysToGo()}
+                                    totalDays={this.totalNoDays()}
+                                    daysSoFar={this.noDaysExpired()}
+                                    savingPerDay={this.averageSavingperDay()}
+                                    leftToSave={this.leftToSave()}
+                                    savedSoFar={this.hasSavedSofar()}
+                                    percentSave={this.percentToSave()}
+                                    userSavingTargets={this.state.userSavingTargets}
                                 />
                                 <MapComments
                                     open={openComment}
+                                    savingTargets={savingTargets}
                                     close={closeComment}
                                     userSavingTargets={this.state.userSavingTargets}
                                     savingTargetId={savingTargets.id}
@@ -220,8 +229,7 @@ class exisitingPlanCard extends Component {
                                 <span className="right floated">
                             Plan Launched {this.convertDateToString()}
                             </span>
-                            <span>
-                                    
+                            <span>  
                                 {/* {savingTargets.end_date} */}
                             </span>
                             </div>
@@ -229,6 +237,11 @@ class exisitingPlanCard extends Component {
                     </div>
                 </div>
             </div>
+            :
+
+            <Loader>Loading</Loader>
+            
+
             )
         
          

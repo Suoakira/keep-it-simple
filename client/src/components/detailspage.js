@@ -6,7 +6,8 @@ import { Line } from 'rc-progress';
 class DetailsModal extends Component {
     state = { 
         usernames: [],
-        amounts: []
+        amounts: [],
+        users: undefined
      }
 
     close = () => this.setState({ open: false })
@@ -18,7 +19,7 @@ class DetailsModal extends Component {
      }
 
     mapData = () => {
-         this.props.userSavingTargets.user_saving_targets.map(data => this.setState({
+         this.state.userSavingTargets.map(data => this.setState({
              usernames: [...this.state.usernames, this.getUserName(data.user_id)],
              amounts: [...this.state.amounts, data.amount]
          })      
@@ -43,7 +44,7 @@ class DetailsModal extends Component {
         </Header> )
      }
 
-    componentDidMount() {
+    componentWillMount() {
         fetch("http://localhost:3000/api/v1/users")
             .then(data => data.json())
             .then(users => 
@@ -57,26 +58,27 @@ class DetailsModal extends Component {
                     datasets: [{
                         data: [this.props.daysSoFar, this.props.daysToGo],
                         backgroundColor: [
-                            '#FF6384',
-                            '#FFCE56',
+                            '#f6546a',
+                            '#3399ff',
 
                         ],
                         hoverBackgroundColor: [
-                            '#FF6384',
-                            '#FFCE56',
+                            '#f6546a',
+                            '#3399ff',
                         ]
                     }]
                 },
-                percentToSave: this.props.percentSave
-            })
-        ).then(() => this.mapData())
+                percentToSave: this.props.percentSave,
+                userSavingTargets: this.props.userSavingTargets.user_saving_targets
+                }, () => this.mapData())
+        )
     }
     // https://github.com/jerairrest/react-chartjs-2 for documentation on carting
     render() {
         const { open, close, image, name, category, daysToGo, totalDays, daysSoFar, savingPerDay, leftToSave, savedSoFar } = this.props
         const { percentToSave } = this.state
         return (
-            this.state.users?
+            this.state.users && this.state.userSavingTargets ?
                 
            
             <div>
@@ -158,6 +160,7 @@ class DetailsModal extends Component {
             </div>
             :
             <Loader>Loading</Loader>
+            
         )
     }
 }

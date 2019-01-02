@@ -262,7 +262,7 @@ border-bottom-right-radius: 12px;
 /* ----------------------------------------Login Banner ---------------------------------------------- */
 
 .savings-background  {
-   background-image: url("https://commercebankwyoming.com/Portals/0/EasyGalleryImages/1688/ImageSlider/Thumbs/iStock585090668.jpg");
+   background-image: url("./images/savings.jpg");
    background-repeat: no-repeat;
    background-position: center;
    background-size: cover;
@@ -336,10 +336,47 @@ border-bottom-right-radius: 12px;
     padding: 10px;
 }
 
-/* ----------------------- plans grid----------------------------------------------------- */
+/* ----------------------- padding ----------------------------------------------------- */
 .pagination {
     padding-bottom: 25px;
 }
+
+.footpad {
+    padding-top: 33px;
+}
+
+.historypad {
+    padding-top: 10px;
+}
+/* -------------------------------- overflowing text ----------------------------------------- */
+
+.box-area {
+    max-height: 350px;
+    overflow-y: scroll;
+}
+
+.historyarea {
+    max-height: 350px;
+    overflow: auto;
+}
+
+/* ------------------------------- icons --------------------------------------- */
+
+.coloricons {
+    color: #FE9A76;
+}
+
+/* ---------------------------------- footer --------------------------------- */
+.Site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.Site-content {
+  flex: 1;
+}
+
 
 
 
