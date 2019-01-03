@@ -61,9 +61,6 @@ class MapComments extends Component {
 }
 
     componentDidMount() {
-
-
-
         fetch("http://localhost:3000/api/v1/users")
             .then(data => data.json())
             .then(users => this.setState({ 
@@ -88,7 +85,7 @@ class MapComments extends Component {
                             "Notes"
                             }
                         </Header>
-                        {(this.props.userSavingTargets && this.state.users) ?
+                        {(this.props.userSavingTargets && this.state.users && this.state.userComments) ?
                         <div className="box-area">
                                 {this.mapComments()}
                         </div>

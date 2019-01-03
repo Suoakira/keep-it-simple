@@ -120,7 +120,7 @@ class PlanHistory extends Component {
 
                     <Table.Body>
                         {this.state.savingTargets ?
-                            this.mapEndRows()
+                            this.mapEndRows().reverse()
                             :
                             null
                         }

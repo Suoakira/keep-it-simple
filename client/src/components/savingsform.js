@@ -197,7 +197,7 @@ class SavingsForm extends Component {
                                         placeholder="From - To"
                                         value={this.state.datesRange}
                                         iconPosition="left"
-                                                    minDate= {new Date()}
+                                        /* minDate= {new Date()} */
                                         onChange={this.handleChange} />
                                     
                                 </Form.Group>
@@ -224,7 +224,7 @@ class SavingsForm extends Component {
                             <Grid.Column>
                                     <div>
                                     {!this.state.target_image?
-                                    <img src="https://cmkt-image-prd.global.ssl.fastly.net/0.1.0/ps/2014090/1360/2035/m1/fpnw/wm1/qdrpofpduuwwhs9zz7ayfuobitf8xwo42xcvdclixbrxaa4iabpct82rvc5zxrlf-.jpg?1481494830&s=dca5b92f8fe1937750c7cd78d4777c1d" id="savings-image1" alt="plant growing out of hand" />
+                                                <img src="https://www.mstreetbank.com/wp-content/uploads/2018/04/piggy-bank-update.jpg" id="savings-image1" alt="plant growing out of hand" />
                                     :
                                     <Segment>
                                         <img src={this.state.target_image}/>

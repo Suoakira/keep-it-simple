@@ -140,23 +140,6 @@ class ExisitingPlans extends Component {
                                     />
                             <i class="search icon"></i>
                         </div>
-                            {togglePlan ?
-                            <Button
-                                primary
-                                size="large"
-                                onClick={() => toggleButton()}
-                            >
-                                Upcoming Plans
-                            </Button>
-                            :
-                            <Button
-                                primary
-                                size="large"
-                                onClick={() => toggleButton()}
-                            >
-                                Current Plans
-                            </Button>    
-                            }
                     </div>
             {username?
                 <React.Fragment>
