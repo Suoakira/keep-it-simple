@@ -89,21 +89,18 @@ class App extends Component {
     const { storedUserDetails, username } = this.state
     return (
       <div>
-        <Navbar username={username} signout={signout} />
-        {/* <div className="main-banner">
-
-              <img src="https://blog.dime.com/wp-content/uploads/2018/05/27-grow-your-savings.png" alt="" />
-
-        </div> */}
-        <Route exact path='/login' component={(props) => <Login signin={signin} username={username} />}/>
-        <Route exact path='/register' component={(props) => <Register signin={signin} username={username} />} />
-        <Route exact path='/home/form' component={(props) => <SavingsForm username={username} storedUserDetails={storedUserDetails} updateSavingTarget={updateSavingTarget} />} />
-        <Route exact path='/home/newplan' component={(props) => <SavingGrid username={username} />} />
-        <Route exact path='/home/exisitingplans' component={(props) => <ExistingPlans username={username} storedUserDetails={storedUserDetails} newSavingTarget={this.state.newSavingTarget} />} />
-        <Route exact path='/home/planhistory' component={(props) => <PlanHistory username={username} userId={storedUserDetails.id} />} />
-
-        <Footer />
-
+        <div style={{ display: "flex", minHeight: "100vh", flexDirection: "column" }}>
+          <Navbar username={username} signout={signout} />
+        <div style={{ flex: 1 }}>
+          <Route exact path='/login' component={(props) => <Login signin={signin} username={username} />}/>
+          <Route exact path='/register' component={(props) => <Register signin={signin} username={username} />} />
+          <Route exact path='/home/form' component={(props) => <SavingsForm username={username} storedUserDetails={storedUserDetails} updateSavingTarget={updateSavingTarget} />} />
+          <Route exact path='/home/newplan' component={(props) => <SavingGrid username={username} />} />
+          <Route exact path='/home/exisitingplans' component={(props) => <ExistingPlans username={username} storedUserDetails={storedUserDetails} newSavingTarget={this.state.newSavingTarget} />} />
+          <Route exact path='/home/planhistory' component={(props) => <PlanHistory username={username} userId={storedUserDetails.id} />} />
+        </div>
+          <Footer />
+        </div>
     </div>
     )
   }

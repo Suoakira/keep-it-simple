@@ -19,6 +19,7 @@ class MapComments extends Component {
     }
 
     mapComments = () => {
+        console.log(this.props.savingTargets)
         const copyComments = [...this.state.userComments]
         return copyComments.map(comment => 
         <CommentCard 
@@ -60,6 +61,9 @@ class MapComments extends Component {
 }
 
     componentDidMount() {
+
+
+
         fetch("http://localhost:3000/api/v1/users")
             .then(data => data.json())
             .then(users => this.setState({ 
@@ -72,9 +76,10 @@ class MapComments extends Component {
         const { comment } = this.state
         const { open, close, savingTargets } = this.props
         return (
-            <Modal dimmer="blurring" open={open} onClose={close} closeOnDimmerClick={false} centered={false}>
+            
+            <Modal dimmer="blurring" size="small" open={open} onClose={close} closeOnDimmerClick={false} centered={false}>
+                
                 <Modal.Content>
-     
                     <Comment.Group centered={true}>
                         <Header as='h3' dividing>
                             {(savingTargets.plan == "group") ?
@@ -99,7 +104,9 @@ class MapComments extends Component {
                         <Button onClick={() => this.handleSubmit()} content='Add Reply' labelPosition='left' icon='edit' primary />
                         </Form>
                     </Comment.Group>
+                 
                 </Modal.Content>
+          
                 <Modal.Actions>
                     <Button
                         primary
@@ -109,6 +116,7 @@ class MapComments extends Component {
                         onClick={close}
                     />
                 </Modal.Actions>
+         
             </Modal>
           )
     }

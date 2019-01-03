@@ -348,6 +348,14 @@ border-bottom-right-radius: 12px;
 .historypad {
     padding-top: 10px;
 }
+
+#graphpad {
+    padding-top: 65px;
+
+}
+#commentpad {
+    padding: 1265px;
+}
 /* -------------------------------- overflowing text ----------------------------------------- */
 
 .box-area {
@@ -377,6 +385,8 @@ border-bottom-right-radius: 12px;
   flex: 1;
 }
 
+
+/* ------------------- align center ------------------------- */
 
 
 
