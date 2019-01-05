@@ -14,7 +14,7 @@ class DeleteModal extends Component {
                 <Modal dimmer="blurring" size="mini" closeOnDimmerClick={false} open={openDelete} onClose={closeDelete}>
                     <Modal.Header>Delete Plan</Modal.Header>
                     <Modal.Content>
-                        <p>Are you sure you want to delete <b>{name}</b></p>
+                        <p>Are you sure you want to delete this plan.<b>{name}</b></p>
                     </Modal.Content>
                     <Modal.Actions>
                         <Button onClick={() => closeDelete()}negative>No</Button>

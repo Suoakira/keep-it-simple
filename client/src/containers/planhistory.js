@@ -83,14 +83,18 @@ class PlanHistory extends Component {
                                 
                             </Table.Row>
                         </Table.Header>
-
-                        <Table.Body>
-                            {this.state.savingTargets ?
-                                this.mapStartRows()
-                                :
-                                null
-                            }
-                        </Table.Body>
+                        
+                            <Table.Body>
+                                {this.state.savingTargets ?
+                                    
+                                        this.mapStartRows()
+                                    
+                                        :
+                                        null
+                                }
+                            
+                            </Table.Body>
+                     
                     </Table>
                     </Segment>
                     </Segment>
@@ -116,7 +120,7 @@ class PlanHistory extends Component {
 
                     <Table.Body>
                         {this.state.savingTargets ?
-                            this.mapEndRows()
+                            this.mapEndRows().reverse()
                             :
                             null
                         }
@@ -125,6 +129,7 @@ class PlanHistory extends Component {
                     </Table>
                             </Segment>
                     </Segment>
+                    <div className="historypad"></div>
                 </div>
                 :
                 <div>

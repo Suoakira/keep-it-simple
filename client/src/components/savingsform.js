@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import { Button, Divider, Grid, Header, Icon, Search, Segment, Select, Form, Message } from 'semantic-ui-react'
+import {   Grid, Header, Segment, Select, Form, Message } from 'semantic-ui-react'
 
 import API from "../API"
 import { Redirect } from "react-router-dom"
 
 
 import {
-    DateInput,
-    TimeInput,
-    DateTimeInput,
     DatesRangeInput
 } from 'semantic-ui-calendar-react';
 
@@ -25,10 +22,11 @@ class SavingsForm extends Component {
                 user_id: undefined,
                 datesRange: '',
                 amount: undefined,
-                user_id: undefined,
                 propSavingTargets: undefined,
                 errorST: "",
-                errorUST: ""
+                errorUST: "",
+                submit: false, 
+                arrayOfUTS: []
             }
         }
 
@@ -72,11 +70,15 @@ class SavingsForm extends Component {
                     console.log(resp.error)
                     this.setState({ errorUST: resp.error })
                 } else {
+                    this.setState({submit: true})
                     console.log(resp)
                 }
-                })     
+            })     
     }
-    // make post user_saving_targets(user, saving_target, amount) ????
+
+    mapJoinPostRequests = (savingTargets) => {
+        return savingTargets.map(savingTarget => API.postUserSavingsTarget(savingTarget))
+    }
 
     componentDidMount() {
         this.setState({
@@ -91,18 +93,30 @@ class SavingsForm extends Component {
             { key: 'p', text: 'Personal', value: 'Personal' },
             { key: 'g', text: 'Group', value: 'Group' },
         ]
+        const categoryOptions = [
+            { key: 'd', text: 'Debt', value: 'Debt' },
+            { key: 'v', text: 'Vacation', value: 'Vacation' },
+            { key: 'p', text: 'Present', value: 'Present' },
+            { key: 'h', text: 'Housing', value: 'Housing' },
+            { key: 's', text: 'Savings', value: 'Savings' },
+            { key: 'f', text: 'Family', value: 'Family' },
+            { key: 'c', text: 'Car', value: 'Car' },
+            { key: 'a', text: 'Charity', value: 'Charity' },
+            { key: 'o', text: 'Other', value: 'Other' },
+        ]
 
         return (
             <div className="wrapper">
+                {!this.state.submit ?
+                    <React.Fragment>
                 <Segment placeholder>
                     <Grid columns={2} stackable textAlign='center'>
-                    
                             <Grid.Row verticalAlign='middle'>
                                 <Grid.Column>
                                 <Header>Create Savings Plan</Header>
                             <Form error>
                                 <Form.Group>
-                                    <Form.Input label="Plan Name" placeholder='Name' name='name' value={name} onChange={this.handleChange} />
+                                            <Form.Input label="Plan Name" placeholder='Name' name='name' value={name} onChange={this.handleChange} />
                                 </Form.Group>
 
                                     {(this.state.errorST && this.state.errorUST && !this.state.name) ?
@@ -112,43 +126,47 @@ class SavingsForm extends Component {
                                         :
                                         null
                                     }
-
-    
-                                <Form.Group>
-                                    
+                                <Form.Group>  
                                     <Form.Field
-                            
                                         control={Select}
                                         options={planOptions}
-                                        label={{ children: 'Plan type?', htmlFor: 'form-select-control-gender' }}
+                                        label={{ children: 'Plan type?', htmlFor: 'planOptions' }}
                                         placeholder='Plan'
                                         search
                                         name="plan"
                                         value={plan}
                                         onChange={this.handleChange}
-                                        searchInput={{ id: 'form-select-control-gender' }}
+                                        searchInput={{ id: 'planOptions' }}
                                     />
-
                                 </Form.Group>
-                                    {(this.state.errorST && this.state.errorUST && !this.state.plan) ?
+
+                                    {(this.state.errorST && this.state.errorUST && !this.state.name) ?
                                         <div className="make-center">
-                                            <p>Please select a Plan type.</p>
+                                            <p>Please enter a valid Plan type.</p>
                                         </div>
                                         :
                                         null
                                     }
-
                                 <Form.Group>
-                                        <Form.Input label="Category" placeholder='Category' name='category' value={category} onChange={this.handleChange} />
+                                    <Form.Field
+                                        control={Select}
+                                        options={categoryOptions}
+                                        label={{ children: 'Category?', htmlFor: 'categoryOptions' }}
+                                        placeholder='category'
+                                        search
+                                        name="category"
+                                        value={category}
+                                        onChange={this.handleChange}
+                                        searchInput={{ id: 'categoryOptions' }}
+                                    />
                                 </Form.Group>
-                                    {(this.state.errorST && this.state.errorUST && !this.state.category) ?
-                                        <div className="make-center">
-                                            <p>Please enter a valid category Name</p>
-                                        </div>
-                                        :
-                                        null
-                                    }
-
+                                {(this.state.errorST && this.state.errorUST && !this.state.category) ?
+                                    <div className="make-center">
+                                        <p>Please enter a valid Category.</p>
+                                    </div>
+                                    :
+                                    null
+                                }
                                 <Form.Group>
                                 <Form.Input label="Image Url" placeholder='Image' name='target_image' value={target_image} onChange={this.handleChange}  />
                                 </Form.Group>
@@ -179,6 +197,7 @@ class SavingsForm extends Component {
                                         placeholder="From - To"
                                         value={this.state.datesRange}
                                         iconPosition="left"
+                                        /* minDate= {new Date()} */
                                         onChange={this.handleChange} />
                                     
                                 </Form.Group>
@@ -204,19 +223,28 @@ class SavingsForm extends Component {
                             </Grid.Column>
                             <Grid.Column>
                                     <div>
-                                        {!this.state.target_image?
-                                        <img src="https://cmkt-image-prd.global.ssl.fastly.net/0.1.0/ps/2014090/1360/2035/m1/fpnw/wm1/qdrpofpduuwwhs9zz7ayfuobitf8xwo42xcvdclixbrxaa4iabpct82rvc5zxrlf-.jpg?1481494830&s=dca5b92f8fe1937750c7cd78d4777c1d" id="savings-image1" alt="plant growing out of hand" />
-                                        :
+                                    {!this.state.target_image?
+                                                <img src="https://www.mstreetbank.com/wp-content/uploads/2018/04/piggy-bank-update.jpg" id="savings-image1" alt="plant growing out of hand" />
+                                    :
+                                    <Segment>
                                         <img src={this.state.target_image}/>
-                                        }
+                                    </Segment>
+                                    }
 
                                     </div>
              
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
+                
             </Segment>
+                <div className="historypad"></div>
+        </React.Fragment>      
+            :
+                    <Redirect to="/home/exisitingplans" />
+                }
             </div>
+            
 
 
  

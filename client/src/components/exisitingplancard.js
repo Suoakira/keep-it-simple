@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, List, Progress, Loader } from 'semantic-ui-react'
+import { Button, List, Progress, Loader, Statistic } from 'semantic-ui-react'
 import API from "../API"
 import DetailsModal from "../components/detailspage"
 import DeleteModal from "../components/deletemodal"
@@ -32,7 +32,7 @@ class exisitingPlanCard extends Component {
     }
 
     averageSavingperDay = (amount) => {
-        return Math.round(this.state.amount/this.totalNoDays())    
+        return Math.round(this.props.amount/this.totalNoDays())    
     }
 
     noDaysExpired = () => {
@@ -69,17 +69,17 @@ class exisitingPlanCard extends Component {
     }
 
     percentToSave = () => {
-        if (this.state.userSavingTargets) {
-            const percent = (this.leftToSave() / this.totalAmount()) * 100
+        if (this.props.savingTargets) {
+            const percent = (this.leftToSave() / this.props.amount) * 100
             return Math.round(percent)
         }
     }
 
-    totalAmount = () => {
-        let amount = 0
-        this.state.userSavingTargets.user_saving_targets.forEach(savingTarget => amount += savingTarget.amount)
-        return amount
-    }
+    // totalAmount = () => {
+    //     let amount = 0
+    //     this.state.userSavingTargets.user_saving_targets.forEach(savingTarget => amount += savingTarget.amount)
+    //     return amount
+    // }
 
     totalStateAmount = (array) => {
         let amount = 0
@@ -108,16 +108,20 @@ class exisitingPlanCard extends Component {
             .then(data => data.json())
             .then(savingTs => this.setState({ 
                 userSavingTargets: savingTs,
-                amount: this.totalStateAmount(savingTs.user_saving_targets)
             }))
     }
 
     render() { 
-
+        
         const { open, openDelete, userSavingTargets, openComment } = this.state
         const { close, closeDelete, closeAndDelete, showComment, closeComment } = this
-        const { savingTargets, userId } = this.props
+        const { savingTargets, userId, amount } = this.props
+        console.log(savingTargets)
+
+
             return (
+
+                savingTargets ?
             <div className="four wide ">  
                 <div className="ui link cards">
                     <div className="card" id="cardpad">
@@ -138,17 +142,17 @@ class exisitingPlanCard extends Component {
                                 <div className="extra content">
 
                                     <List>
-                                        <List.Item>
-                                            <List.Icon name='calendar' />
-                                            <List.Content>{this.noDaysToGo()} Days to Deadline</List.Content>
+                                        <List.Item>                                
+                                            <List.Icon className="coloricons" name='calendar' />
+                                            <List.Content><b>{this.noDaysToGo()}</b> Days to Deadline</List.Content>                                  
                                         </List.Item>
                                         <List.Item>
-                                            <List.Icon name='lock' />
-                                            <List.Content>{this.hasSavedSofar()}</List.Content>
+                                            <List.Icon className="coloricons"  name='lock' />
+                                                    <List.Content><b>{this.averageSavingperDay(amount)}</b> saved per day</List.Content>
                                         </List.Item>
                                         <List.Item>
-                                            <List.Icon name='pound sign' />
-                                                    <List.Content>{this.hasSavedSofar()}/{this.totalAmount()} Raised</List.Content>
+                                                    <List.Icon className="coloricons" name='pound sign' />
+                                                    <List.Content><b>{this.hasSavedSofar()}</b>/<b>{amount}</b> Raised</List.Content>
                                         </List.Item>
                                         <List.Item>
                                             <List.Content>
@@ -164,12 +168,13 @@ class exisitingPlanCard extends Component {
                             </React.Fragment>
                             <div className="extra content">
                             <span className="right floated">
+                                <div className="center">
                                 <Button
                                     negative
                                     size="small"
                                     onClick={() => this.showDelete()}
                                 >
-                                    X
+                                X
                                 </Button>
                                 <Button
                                     primary
@@ -178,13 +183,21 @@ class exisitingPlanCard extends Component {
                                 >
                                     Stats
                                 </Button>
+                                
                                 <Button
                                     primary
                                     size="small"
                                     onClick={() => showComment() }
                                 >
+                             
                                 <i class="comment icon"></i>
-                                Comments</Button>
+                                {(savingTargets.plan == "group") ?
+                                "Comments"
+                                :
+                                "Notes"
+                                }
+                                </Button>
+                                        </div>
                                 <DeleteModal
                                 name={savingTargets.name}
                                 openDelete={openDelete}
@@ -192,22 +205,23 @@ class exisitingPlanCard extends Component {
                                 closeAndDelete={closeAndDelete}
                                         />
                                 <DetailsModal 
-                                open={open} 
-                                close={close}
-                                image={savingTargets.target_image}
-                                name={savingTargets.name}
-                                category={savingTargets.category}
-                                daysToGo={this.noDaysToGo()}
-                                totalDays={this.totalNoDays()}
-                                daysSoFar={this.noDaysExpired()}
-                                savingPerDay={this.averageSavingperDay()}
-                                leftToSave={this.leftToSave()}
-                                savedSoFar={this.hasSavedSofar()}
-                                percentSave={this.percentToSave()}
-                                userSavingTargets={this.state.userSavingTargets}
+                                    open={open} 
+                                    close={close}
+                                    image={savingTargets.target_image}
+                                    name={savingTargets.name}
+                                    category={savingTargets.category}
+                                    daysToGo={this.noDaysToGo()}
+                                    totalDays={this.totalNoDays()}
+                                    daysSoFar={this.noDaysExpired()}
+                                    savingPerDay={this.averageSavingperDay()}
+                                    leftToSave={this.leftToSave()}
+                                    savedSoFar={this.hasSavedSofar()}
+                                    percentSave={this.percentToSave()}
+                                    userSavingTargets={savingTargets}
                                 />
                                 <MapComments
                                     open={openComment}
+                                    savingTargets={savingTargets}
                                     close={closeComment}
                                     userSavingTargets={this.state.userSavingTargets}
                                     savingTargetId={savingTargets.id}
@@ -220,8 +234,7 @@ class exisitingPlanCard extends Component {
                                 <span className="right floated">
                             Plan Launched {this.convertDateToString()}
                             </span>
-                            <span>
-                                    
+                            <span>  
                                 {/* {savingTargets.end_date} */}
                             </span>
                             </div>
@@ -229,6 +242,11 @@ class exisitingPlanCard extends Component {
                     </div>
                 </div>
             </div>
+            :
+
+            <Loader>Loading</Loader>
+            
+
             )
         
          

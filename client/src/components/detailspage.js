@@ -6,7 +6,8 @@ import { Line } from 'rc-progress';
 class DetailsModal extends Component {
     state = { 
         usernames: [],
-        amounts: []
+        amounts: [],
+        users: undefined
      }
 
     close = () => this.setState({ open: false })
@@ -18,11 +19,19 @@ class DetailsModal extends Component {
      }
 
     mapData = () => {
-         this.props.userSavingTargets.user_saving_targets.map(data => this.setState({
-             usernames: [...this.state.usernames, this.getUserName(data.user_id)],
-             amounts: [...this.state.amounts, data.amount]
+        let amounts = undefined
+        let usernames = undefined
+        console.log("function fires", this.props.userSavingTargets.user_saving_targets)
+        usernames = this.props.userSavingTargets.user_saving_targets.map(data => this.getUserName(data.user_id))
+        amounts = this.props.userSavingTargets.user_saving_targets.map(data => data.amount)
+
+
+     
+            this.setState({
+                usernames: usernames,
+                amounts: amounts
          })      
-        )
+        
      }
 
     amountToPercent = () => {
@@ -37,8 +46,10 @@ class DetailsModal extends Component {
     // placeholder to simulate number of days
     mapProgressBars = () => {
         const copyAmounts = [...this.state.amounts]
+        console.log(copyAmounts.pop())
+
         return copyAmounts.map((amount, index) => 
-        <Header> {this.state.usernames[index]}
+        <Header> {this.state.usernames[index + 1]}
                 <Progress percent={Math.round(this.randomNumber() * this.amountToPercent())} size='small' indicating progress />
         </Header> )
      }
@@ -57,32 +68,34 @@ class DetailsModal extends Component {
                     datasets: [{
                         data: [this.props.daysSoFar, this.props.daysToGo],
                         backgroundColor: [
-                            '#FF6384',
-                            '#FFCE56',
+                            '#f6546a',
+                            '#3399ff',
 
                         ],
                         hoverBackgroundColor: [
-                            '#FF6384',
-                            '#FFCE56',
+                            '#f6546a',
+                            '#3399ff',
                         ]
                     }]
                 },
-                percentToSave: this.props.percentSave
-            })
-        ).then(() => this.mapData())
+                percentToSave: this.props.percentSave,
+                userSavingTargets: this.props.userSavingTargets.user_saving_targets
+                }, () => this.mapData())
+        )
     }
     // https://github.com/jerairrest/react-chartjs-2 for documentation on carting
     render() {
-        const { open, close, image, name, category, daysToGo, totalDays, daysSoFar, savingPerDay, leftToSave, savedSoFar } = this.props
+        const { open, close, name, daysToGo, daysSoFar, savingPerDay, savedSoFar } = this.props
         const { percentToSave } = this.state
+
         return (
-            this.state.users?
+            this.state.users && this.state.userSavingTargets ?
                 
            
             <div>
 
            
-                <Modal dimmer="blurring" open={open} onClose={close} closeOnDimmerClick={false} centered={false}>
+                <Modal dimmer="blurring" size="medium" open={open} onClose={close} closeOnDimmerClick={false} centered={false}>
                     <Modal.Header>{name}</Modal.Header>
                     
                     <Modal.Content image>
@@ -92,8 +105,8 @@ class DetailsModal extends Component {
                                 
                                     <Modal.Description>
                                             
-                                        <Statistic.Group>
-                                            <Statistic color='red' text-align='center'>
+                                        <Statistic.Group >
+                                                <Statistic color='red'>
                                                 <Statistic.Value>{daysToGo}</Statistic.Value>
                                                 <Statistic.Label>Days To Target</Statistic.Label>
                                             </Statistic>
@@ -124,7 +137,11 @@ class DetailsModal extends Component {
                             </Segment>
                             </Header>
                             <Modal.Description>
+                                <div id="graphpad">
+                                    
                                 <Doughnut data={this.state.data1} /> 
+                                    </div>
+                                
                             </Modal.Description>
                     </Modal.Content>
                         {this.mapProgressBars()[1] ?
@@ -158,6 +175,7 @@ class DetailsModal extends Component {
             </div>
             :
             <Loader>Loading</Loader>
+            
         )
     }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, Redirect } from "react-router-dom"
-import { Header, Label, Message } from 'semantic-ui-react'
+import { Header, Label, Message, Icon } from 'semantic-ui-react'
 import {
     Form, Input, TextArea, Checkbox, Radio, RadioGroup, Dropdown, Select,
 } from 'formsy-semantic-ui-react'
@@ -68,7 +68,6 @@ class Register extends Component {
                                 validationErrors={{ isEmail: 'Email not valid' }}
                                 errorLabel={<Label color="red" pointing />}
                                  />
-
                         </Form.Group>
                         <Form.Group>
 

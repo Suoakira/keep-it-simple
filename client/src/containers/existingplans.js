@@ -41,7 +41,6 @@ class ExisitingPlans extends Component {
     }
 
     // Pagination code, could be refactored to DRY later
-
     pagination = (array, pageUp, pageDown) => {
         return array.slice(pageUp, pageDown)  
     }
@@ -68,6 +67,11 @@ class ExisitingPlans extends Component {
         }
     }
 
+    totalStateAmount = (array) => {
+        let amount = 0
+        array.forEach(savingTarget => amount += savingTarget.amount)
+        return amount
+    }
     
 
     mapPersonalPlans = () => {
@@ -82,8 +86,8 @@ class ExisitingPlans extends Component {
             &&
             (savingTargets.name.toLowerCase().includes(this.state.searchFilter.toLowerCase()))
             )))
-
-        return personalPlan.map(savingTargets => <ExisitingPlansCard savingTargets={savingTargets} localeDelete={localeDelete} userId={userId}/>)
+        console.log('this.state.storedUserDetails.saving_targets', this.state.storedUserDetails.saving_targets)
+        return personalPlan.map(savingTargets => <ExisitingPlansCard amount={this.totalStateAmount(savingTargets.user_saving_targets)} savingTargets={savingTargets} localeDelete={localeDelete} userId={userId}/>).reverse()
     }
 
     mapGroupPlans = () => {
@@ -96,11 +100,11 @@ class ExisitingPlans extends Component {
             && 
             (this.hasStartDatePassed(savingTargets.start_date, savingTargets.end_date)
             &&
-                (savingTargets.name.toLowerCase().includes(this.state.searchFilter.toLowerCase()))
+            (savingTargets.name.toLowerCase().includes(this.state.searchFilter.toLowerCase()))
             )))
         
         return groupPlan.map(savingTargets => 
-        <ExisitingPlansCard savingTargets={savingTargets} localeDelete={localeDelete} userId={userId} />)
+            <ExisitingPlansCard amount={this.totalStateAmount(savingTargets.user_saving_targets)} savingTargets={savingTargets} localeDelete={localeDelete} userId={userId} />).reverse()
     }
 
     localeDelete = (saving) => {
@@ -136,23 +140,6 @@ class ExisitingPlans extends Component {
                                     />
                             <i class="search icon"></i>
                         </div>
-                            {togglePlan ?
-                            <Button
-                                primary
-                                size="large"
-                                onClick={() => toggleButton()}
-                            >
-                                Upcoming Plans
-                            </Button>
-                            :
-                            <Button
-                                primary
-                                size="large"
-                                onClick={() => toggleButton()}
-                            >
-                                Current Plans
-                            </Button>    
-                            }
                     </div>
             {username?
                 <React.Fragment>
@@ -169,7 +156,7 @@ class ExisitingPlans extends Component {
                                 
                                 <React.Fragment>
                                 <div className="ui grid container">
-                                                    {this.pagination(this.mapPersonalPlans(), this.state.pageUpP, this.state.pageDownP)}
+                                    {this.pagination(this.mapPersonalPlans(), this.state.pageUpP, this.state.pageDownP)}
                                 </div>                          
 
                                 </React.Fragment>
@@ -223,6 +210,9 @@ class ExisitingPlans extends Component {
                 </React.Fragment>
                 }
 
+                </div>
+                <div className="footpad">
+  
                 </div>
             </React.Fragment>
         

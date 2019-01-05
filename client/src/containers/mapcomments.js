@@ -19,6 +19,7 @@ class MapComments extends Component {
     }
 
     mapComments = () => {
+        console.log(this.props.savingTargets)
         const copyComments = [...this.state.userComments]
         return copyComments.map(comment => 
         <CommentCard 
@@ -39,6 +40,8 @@ class MapComments extends Component {
             saving_target_id: this.props.savingTargetId,
             text: this.state.comment            
         }
+        
+        this.updateScroll()
 
         API.postComment(comment)
             .then(data => {
@@ -47,10 +50,15 @@ class MapComments extends Component {
                 } else {
                     this.setState({
                         userComments: [...this.state.userComments, data]
-                    })
+                    }, () => this.updateScroll())
                 }
             })
     }
+
+    updateScroll = () => {
+    const element = document.querySelector(".box-area")
+    element.scrollTop = element.scrollHeight
+}
 
     componentDidMount() {
         fetch("http://localhost:3000/api/v1/users")
@@ -63,17 +71,24 @@ class MapComments extends Component {
 
     render() { 
         const { comment } = this.state
-        const { open, close } = this.props
+        const { open, close, savingTargets } = this.props
         return (
-            <Modal dimmer="blurring" open={open} onClose={close} closeOnDimmerClick={false} centered={false}>
+            
+            <Modal dimmer="blurring" size="small" open={open} onClose={close} closeOnDimmerClick={false} centered={false}>
+                
                 <Modal.Content>
-     
-                    <Comment.Group>
+                    <Comment.Group centered={true}>
                         <Header as='h3' dividing>
-                            Comments
+                            {(savingTargets.plan == "group") ?
+                            "Comments"
+                            :
+                            "Notes"
+                            }
                         </Header>
-                        {(this.props.userSavingTargets && this.state.users) ?
-                                this.mapComments()
+                        {(this.props.userSavingTargets && this.state.users && this.state.userComments) ?
+                        <div className="box-area">
+                                {this.mapComments()}
+                        </div>
                                 :
                                 null
                             }
@@ -86,7 +101,9 @@ class MapComments extends Component {
                         <Button onClick={() => this.handleSubmit()} content='Add Reply' labelPosition='left' icon='edit' primary />
                         </Form>
                     </Comment.Group>
+                 
                 </Modal.Content>
+          
                 <Modal.Actions>
                     <Button
                         primary
@@ -96,6 +113,7 @@ class MapComments extends Component {
                         onClick={close}
                     />
                 </Modal.Actions>
+         
             </Modal>
           )
     }

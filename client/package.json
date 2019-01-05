@@ -18,6 +18,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
+    "react-sticky-footer": "0.1.0-rc3",
     "semantic-ui-calendar": "0.0.8",
     "semantic-ui-calendar-react": "^0.12.1",
     "semantic-ui-css": "^2.4.1",

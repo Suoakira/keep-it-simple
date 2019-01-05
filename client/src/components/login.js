@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import API from "../API"
 import { Link, Redirect } from "react-router-dom"
 import { Form, Input, TextArea, Button, Icon, Header, Message } from 'semantic-ui-react'
+import Image from "../images/savings.jpg"
 
 class Login extends Component {
     constructor(props) {
