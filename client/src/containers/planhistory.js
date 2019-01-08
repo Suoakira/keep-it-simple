@@ -41,7 +41,7 @@ class PlanHistory extends Component {
     mapStartRows = () => {
         const copyTargets = [...this.state.savingTargets]
         this.sortByDate(copyTargets)
-        return this.filterStart(copyTargets).map(target => <HistoryRow name={target.name} category={target.category} amount={this.getAmount(target)} daysToGo={`(${this.noDaysBetween(new Date(Date.now()), new Date(target.start_date))} days)`} startDate={target.start_date} /> )
+        return this.filterStart(copyTargets).map(target => <HistoryRow name={target.name} category={target.category} amount={this.getAmount(target)} daysToGo={`(${this.noDaysBetween(new Date(Date.now()), new Date(target.start_date))} days to start)`} startDate={target.start_date} /> )
     }
     mapEndRows = () => {
         const copyTargets = [...this.state.savingTargets]

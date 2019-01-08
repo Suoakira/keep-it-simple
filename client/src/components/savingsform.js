@@ -226,9 +226,13 @@ class SavingsForm extends Component {
                                     {!this.state.target_image?
                                                 <img src="https://www.mstreetbank.com/wp-content/uploads/2018/04/piggy-bank-update.jpg" id="savings-image1" alt="plant growing out of hand" />
                                     :
+                                                <div className="width-container">
                                     <Segment>
-                                        <img src={this.state.target_image}/>
+                                        
+                                            <img src={this.state.target_image}/>
+                                   
                                     </Segment>
+                                    </div>
                                     }
 
                                     </div>
