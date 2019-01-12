@@ -8,8 +8,8 @@ const HistoryRow = (props) => (
         <Table.Cell>{props.name}</Table.Cell>
         <Table.Cell>{props.category}</Table.Cell>
         <Table.Cell>{props.amount}</Table.Cell>
-        
     </Table.Row>
 )
 
 export default HistoryRow
+
