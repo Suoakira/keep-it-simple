@@ -266,7 +266,8 @@ border-bottom-right-radius: 12px;
    background-repeat: no-repeat;
    background-position: center;
    background-size: cover;
-   height: 60em;
+    height: 80em;
+   
  }
 
  #container1{
@@ -279,6 +280,11 @@ border-bottom-right-radius: 12px;
     padding-left: 35%;
     width: 200%;
     height: auto;
+}
+.background-login-register {
+
+    background-color: black;
+
 }
 
 

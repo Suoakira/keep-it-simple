@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import {   Grid, Header, Segment, Select, Form, Message } from 'semantic-ui-react'
+import _ from 'lodash'
+import {   Grid, Header, Segment, Select, Form, Message, Search } from 'semantic-ui-react'
 
 import API from "../API"
 import { Redirect } from "react-router-dom"
@@ -26,7 +27,9 @@ class SavingsForm extends Component {
                 errorST: "",
                 errorUST: "",
                 submit: false, 
-                arrayOfUTS: []
+                arrayOfUTS: [],
+
+                allUsers: undefined
             }
         }
 
@@ -81,14 +84,43 @@ class SavingsForm extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            storedUserDetails: this.props.storedUserDetails,
-            user_id: this.props.storedUserDetails.id
-        })
+        fetch("http://localhost:3000/api/v1/users")
+        .then(resp => resp.json())
+            .then(data => this.setState({
+                storedUserDetails: this.props.storedUserDetails,
+                user_id: this.props.storedUserDetails.id,
+                users: data
+            }) 
+        )
     }
 
+    // --------------------------Search Feature Start ------------------------------------------ //
+    componentWillMount() {
+        this.resetComponent()
+    }
+
+    resetComponent = () => this.setState({ isLoading: false, results: [], value: '' })
+
+    handleResultSelect = (e, { result }) => this.setState({ value: result.title })
+
+    handleSearchChange = (e, { value }) => {
+        this.setState({ isLoading: true, value })
+
+        setTimeout(() => {
+            if (this.state.value.length < 1) return this.resetComponent()
+
+            const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
+            const isMatch = result => re.test(result.username)
+
+            this.setState({
+                isLoading: false,
+            })
+        }, 300)
+    }
+    // --------------------------Search Feature End ------------------------------------------ //
+
     render() { 
-        const { name, category, target_image, amount, plan } = this.state
+        const { name, category, target_image, amount, plan, isLoading, value, allUsers } = this.state
         const planOptions = [
             { key: 'p', text: 'Personal', value: 'Personal' },
             { key: 'g', text: 'Group', value: 'Group' },
@@ -138,8 +170,41 @@ class SavingsForm extends Component {
                                         onChange={this.handleChange}
                                         searchInput={{ id: 'planOptions' }}
                                     />
-                                </Form.Group>
 
+                                </Form.Group>
+                                            {(this.state.plan === "Group") ?
+                                            <React.Fragment>
+                                                <p>Search for a user, you wish to add to you're plan. And state how much they should save!</p>
+
+                                                <Grid>
+                                                    <Grid.Column width={6}>
+                                                        <Search
+                                                            loading={isLoading}
+                                                            onResultSelect={this.handleResultSelect}
+                                                            onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true })}
+                                                            results={allUsers}
+                                                            value={value}
+                                                            {...this.props}
+                                                        />
+                                                    </Grid.Column>
+                                                    <Grid.Column width={10}>
+                                                        <Segment>
+                                                            <Header>State</Header>
+                                                            <pre style={{ overflowX: 'auto' }}>{JSON.stringify(this.state.allUsers, null, 2)}</pre>
+                                                            <Header>Options</Header>
+                                                            <pre style={{ overflowX: 'auto' }}>{JSON.stringify(allUsers, null, 2)}</pre>
+                                                        </Segment>
+                                                    </Grid.Column>
+                                                </Grid>
+                                                </React.Fragment>
+                                                :
+                                                null
+                                            }
+
+                                    
+                                    
+                                    
+        
                                     {(this.state.errorST && this.state.errorUST && !this.state.name) ?
                                         <div className="make-center">
                                             <p>Please enter a valid Plan type.</p>

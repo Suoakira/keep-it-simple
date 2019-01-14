@@ -209,14 +209,11 @@ class ExisitingPlans extends Component {
                     to="/login" /> 
                 </React.Fragment>
                 }
-
                 </div>
                 <div className="footpad">
-  
                 </div>
             </React.Fragment>
-        
-        
+
                 )
             }
         }
