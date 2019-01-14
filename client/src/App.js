@@ -92,10 +92,8 @@ class App extends Component {
         <div style={{ display: "flex", minHeight: "100vh", flexDirection: "column" }}>
           <Navbar username={username} signout={signout} />
         <div style={{ flex: 1 }}>
-            <div className="background-login-register">
-            <Route exact path='/login' component={(props) => <Login signin={signin} username={username} />}/>
-            <Route exact path='/register' component={(props) => <Register signin={signin} username={username} />} />
-            </div>
+          <Route exact path='/login' component={(props) => <Login signin={signin} username={username} />}/>
+          <Route exact path='/register' component={(props) => <Register signin={signin} username={username} />} />
           <Route exact path='/home/form' component={(props) => <SavingsForm username={username} storedUserDetails={storedUserDetails} updateSavingTarget={updateSavingTarget} />} />
           <Route exact path='/home/newplan' component={(props) => <SavingGrid username={username} />} />
           <Route exact path='/home/exisitingplans' component={(props) => <ExistingPlans username={username} storedUserDetails={storedUserDetails} newSavingTarget={this.state.newSavingTarget} />} />
