@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Button, List, Progress, Loader, Statistic } from 'semantic-ui-react'
 import API from "../API"
-import DetailsModal from "../components/detailspage"
-import DeleteModal from "../components/deletemodal"
-import MapComments from "../containers/mapcomments"
+import DetailsModal from "./DetailsPage"
+import DeleteModal from "./DeleteModal"
+import MapComments from "../containers/MapComments"
 
 class exisitingPlanCard extends Component {
     constructor(props) {

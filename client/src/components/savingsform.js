@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
+import ResultRenderer from "./ResultRenderer"
 import {   Grid, Header, Segment, Select, Form, Message, Search } from 'semantic-ui-react'
 
 import API from "../API"
@@ -89,7 +90,7 @@ class SavingsForm extends Component {
             .then(data => this.setState({
                 storedUserDetails: this.props.storedUserDetails,
                 user_id: this.props.storedUserDetails.id,
-                users: data
+                allUsers: data
             }) 
         )
     }
@@ -101,7 +102,7 @@ class SavingsForm extends Component {
 
     resetComponent = () => this.setState({ isLoading: false, results: [], value: '' })
 
-    handleResultSelect = (e, { result }) => this.setState({ value: result.title })
+    handleResultSelect = (e, { result }) => this.setState({ value: result.username })
 
     handleSearchChange = (e, { value }) => {
         this.setState({ isLoading: true, value })
@@ -114,13 +115,14 @@ class SavingsForm extends Component {
 
             this.setState({
                 isLoading: false,
+                results: _.filter(this.state.allUsers, isMatch)
             })
         }, 300)
     }
     // --------------------------Search Feature End ------------------------------------------ //
 
     render() { 
-        const { name, category, target_image, amount, plan, isLoading, value, allUsers } = this.state
+        const { name, category, target_image, amount, plan, isLoading, value, allUsers, results } = this.state
         const planOptions = [
             { key: 'p', text: 'Personal', value: 'Personal' },
             { key: 'g', text: 'Group', value: 'Group' },
@@ -148,7 +150,7 @@ class SavingsForm extends Component {
                                 <Header>Create Savings Plan</Header>
                             <Form error>
                                 <Form.Group>
-                                            <Form.Input label="Plan Name" placeholder='Name' name='name' value={name} onChange={this.handleChange} />
+                                    <Form.Input label="Plan Name" placeholder='Name' name='name' value={name} onChange={this.handleChange} />
                                 </Form.Group>
 
                                     {(this.state.errorST && this.state.errorUST && !this.state.name) ?
@@ -170,40 +172,28 @@ class SavingsForm extends Component {
                                         onChange={this.handleChange}
                                         searchInput={{ id: 'planOptions' }}
                                     />
-
+                                        
                                 </Form.Group>
-                                            {(this.state.plan === "Group") ?
-                                            <React.Fragment>
-                                                <p>Search for a user, you wish to add to you're plan. And state how much they should save!</p>
+                                    {(this.state.plan === "Group") ?
+                                    <Form.Group>  
+                             
+                                        <Search
+                                            loading={isLoading}
+                                                        placeholder="Enter Username..."
+                                            onResultSelect={this.handleResultSelect}
+                                            onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true })}
+                                            results={results}
+                                            value={value}
+                                            {...this.props}
+                                            resultRenderer={ResultRenderer}
+                                        />
+                                            {/* not wired up yet */}
+                                            <Form.Input placeholder='target £' name='target' value={name} onChange={this.handleChange} />
 
-                                                <Grid>
-                                                    <Grid.Column width={6}>
-                                                        <Search
-                                                            loading={isLoading}
-                                                            onResultSelect={this.handleResultSelect}
-                                                            onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true })}
-                                                            results={allUsers}
-                                                            value={value}
-                                                            {...this.props}
-                                                        />
-                                                    </Grid.Column>
-                                                    <Grid.Column width={10}>
-                                                        <Segment>
-                                                            <Header>State</Header>
-                                                            <pre style={{ overflowX: 'auto' }}>{JSON.stringify(this.state.allUsers, null, 2)}</pre>
-                                                            <Header>Options</Header>
-                                                            <pre style={{ overflowX: 'auto' }}>{JSON.stringify(allUsers, null, 2)}</pre>
-                                                        </Segment>
-                                                    </Grid.Column>
-                                                </Grid>
-                                                </React.Fragment>
-                                                :
-                                                null
-                                            }
-
-                                    
-                                    
-                                    
+                                                    </Form.Group>  
+                                        :
+                                        null
+                                    }
         
                                     {(this.state.errorST && this.state.errorUST && !this.state.name) ?
                                         <div className="make-center">

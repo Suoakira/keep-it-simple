@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ExisitingPlansCard from "../components/exisitingplancard"
+import ExisitingPlansCard from "../components/ExisitingPlanCard"
 import { Redirect, Link } from "react-router-dom"
 import { Button, Header, Icon, Modal, Loader, Segment } from 'semantic-ui-react'
 import { Pagination } from 'semantic-ui-react'
