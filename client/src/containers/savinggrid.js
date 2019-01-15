@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import '../App'
 import SavingsData from "../savedata"
-import SavingsCard from "../components/savingscard"
+import SavingsCard from "../components/SavingsCard"
 import { Redirect } from "react-router-dom"
 import { Segment, Header } from 'semantic-ui-react';
 

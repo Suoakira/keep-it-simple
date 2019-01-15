@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import Login from "./components/login"
+import Login from "./components/Login"
 import { Route, Switch, Link } from 'react-router-dom'
-import Register from "./components/register"
+import Register from "./components/Register"
 import API from "./API"
-import Navbar from "./components/navbar"
-import SavingGrid from "./containers/savinggrid"
-import SavingsForm from "./components/savingsform"
-import ExistingPlans from "./containers/existingplans"
-import PlanHistory from "./containers/planhistory"
-import Footer from "./components/footer"
+import Navbar from "./components/Navbar"
+import SavingGrid from "./containers/SavingGrid"
+import SavingsForm from "./components/SavingsForm"
+import ExistingPlans from "./containers/ExistingPlans"
+import PlanHistory from "./containers/PlanHistory"
+import Footer from "./components/Footer"
 
 
 

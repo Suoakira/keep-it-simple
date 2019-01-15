@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from "react-router-dom"
 import { Table, Loader, Segment, Header } from 'semantic-ui-react'
-import HistoryRow from "../components/historyrow"
+import HistoryRow from "../components/HistoryRow"
 
 class PlanHistory extends Component {
     constructor(props) {

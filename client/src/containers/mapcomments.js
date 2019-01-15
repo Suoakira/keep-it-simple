@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, Button, Comment, Form, Header } from 'semantic-ui-react'
-import CommentCard from "../components/commentcard"
+import CommentCard from "../components/CommentCard"
 import API from "../API"
 
 class MapComments extends Component {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Header, Image, Modal, Progress, Statistic, Loader, Segment } from 'semantic-ui-react'
-import { Doughnut } from 'react-chartjs-2';
-import { Line } from 'rc-progress';
+import { Doughnut } from 'react-chartjs-2'
 
 class DetailsModal extends Component {
     state = { 
