@@ -30,7 +30,9 @@ class SavingsForm extends Component {
                 submit: false, 
                 arrayOfUTS: [],
 
-                allUsers: undefined
+                allUsers: undefined,
+                results: undefined,
+                groupUsers: undefined
             }
         }
 
@@ -82,6 +84,10 @@ class SavingsForm extends Component {
 
     mapJoinPostRequests = (savingTargets) => {
         return savingTargets.map(savingTarget => API.postUserSavingsTarget(savingTarget))
+    }
+
+    addUserToPlan = () => {
+
     }
 
     componentDidMount() {
@@ -174,25 +180,27 @@ class SavingsForm extends Component {
                                     />
                                         
                                 </Form.Group>
-                                    {(this.state.plan === "Group") ?
+                                    {(this.state.plan === "Group") &&
+                                    /* this should be in a modal popup */
                                     <Form.Group>  
-                             
+                                        <Form.Field>
                                         <Search
-                                            loading={isLoading}
-                                                        placeholder="Enter Username..."
-                                            onResultSelect={this.handleResultSelect}
-                                            onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true })}
-                                            results={results}
-                                            value={value}
-                                            {...this.props}
-                                            resultRenderer={ResultRenderer}
-                                        />
-                                            {/* not wired up yet */}
-                                            <Form.Input placeholder='target £' name='target' value={name} onChange={this.handleChange} />
-
-                                                    </Form.Group>  
-                                        :
-                                        null
+                                                loading={isLoading}
+                                                placeholder="Enter Username..."
+                                                onResultSelect={this.handleResultSelect}
+                                                onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true })}
+                                                results={results}
+                                                value={value}
+                                                {...this.props}
+                                                resultRenderer={ResultRenderer}
+                                            />
+                                                {/* not wired up yet */}
+                                                <Form.Input placeholder='£ amount' name='target' value={name} onChange={this.handleChange} />
+                                                <button onClick={() => this.addUserToPlan()}class="mini primary ui button">
+                                                    Add User
+                                                </button>
+                                            </Form.Field>
+                                        </Form.Group>  
                                     }
         
                                     {(this.state.errorST && this.state.errorUST && !this.state.name) ?
@@ -252,7 +260,7 @@ class SavingsForm extends Component {
                                         placeholder="From - To"
                                         value={this.state.datesRange}
                                         iconPosition="left"
-                                        /* minDate= {new Date()} */
+                                        minDate= {new Date()}
                                         onChange={this.handleChange} />
                                     
                                 </Form.Group>
