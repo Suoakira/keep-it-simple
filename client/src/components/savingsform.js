@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 import ResultRenderer from "./ResultRenderer"
-import {   Grid, Header, Segment, Select, Form, Message, Search } from 'semantic-ui-react'
+import {   Grid, Header, Segment, Select, Form, Message, Search, Icon } from 'semantic-ui-react'
 
 import API from "../API"
 import { Redirect } from "react-router-dom"
@@ -30,7 +30,9 @@ class SavingsForm extends Component {
                 submit: false, 
                 arrayOfUTS: [],
 
-                allUsers: undefined
+                allUsers: undefined,
+                results: undefined,
+                groupUsers: []
             }
         }
 
@@ -83,6 +85,32 @@ class SavingsForm extends Component {
     mapJoinPostRequests = (savingTargets) => {
         return savingTargets.map(savingTarget => API.postUserSavingsTarget(savingTarget))
     }
+
+// ------------------------------------ wtart adding a user to a plan -------------------------------------
+    addUserToPlan = () => {
+        if (this.state.results[0] && this.state.target) {
+        console.log("added user to group")
+        const copyUser = JSON.parse(JSON.stringify([...this.state.results][0]))
+        console.log(copyUser)
+        const amount = this.state.target
+        console.log(amount)
+        this.setState({ groupUsers: [...this.state.groupUsers,
+            {user: copyUser, 
+            amount: amount}]
+        })
+        } else {
+            // replace this alert box
+            alert("you didnt enter a user or amount (placeholder alert)")
+        }
+    }
+
+    mapGroupUsers = () => {
+        const copyGroupUsers = [...this.state.groupUsers]
+        return copyGroupUsers.map(groupMember => <p>{groupMember.user.username} {groupMember.amount}  </p>)
+
+    }
+
+    // ----------------------------------- end adding a user to plan ------------------------------------
 
     componentDidMount() {
         fetch("http://localhost:3000/api/v1/users")
@@ -144,21 +172,19 @@ class SavingsForm extends Component {
                 {!this.state.submit ?
                     <React.Fragment>
                 <Segment placeholder>
-                    <Grid columns={2} stackable textAlign='center'>
+                            <Grid columns={2} stretched verticalAlign="middle">
                             <Grid.Row verticalAlign='middle'>
-                                <Grid.Column>
+                                <Grid.Column width={8}>
                                 <Header>Create Savings Plan</Header>
                             <Form error>
                                 <Form.Group>
                                     <Form.Input label="Plan Name" placeholder='Name' name='name' value={name} onChange={this.handleChange} />
                                 </Form.Group>
 
-                                    {(this.state.errorST && this.state.errorUST && !this.state.name) ?
+                                    {(this.state.errorST && this.state.errorUST && !this.state.name) &&
                                         <div className="make-center">
                                             <p>Please enter a valid Plan Name.</p>
                                         </div>
-                                        :
-                                        null
                                     }
                                 <Form.Group>  
                                     <Form.Field
@@ -174,25 +200,37 @@ class SavingsForm extends Component {
                                     />
                                         
                                 </Form.Group>
-                                    {(this.state.plan === "Group") ?
+                                    {(this.state.plan === "Group") &&
+                                    /* this should be in a modal popup */
                                     <Form.Group>  
-                             
+                                        <Form.Field>
+                                            
+                                     
+                                            
+                                            
+                                            <b>Add a User and amount they should save</b>
+                                                {this.state.groupUsers[0] &&
+                                                    <Segment>
+                                                        {this.mapGroupUsers()}
+                                                    </Segment>
+                                                }
                                         <Search
-                                            loading={isLoading}
-                                                        placeholder="Enter Username..."
-                                            onResultSelect={this.handleResultSelect}
-                                            onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true })}
-                                            results={results}
-                                            value={value}
-                                            {...this.props}
-                                            resultRenderer={ResultRenderer}
-                                        />
-                                            {/* not wired up yet */}
-                                            <Form.Input placeholder='target £' name='target' value={name} onChange={this.handleChange} />
-
-                                                    </Form.Group>  
-                                        :
-                                        null
+                                                loading={isLoading}
+                                                placeholder="Enter Username..."
+                                                onResultSelect={this.handleResultSelect}
+                                                onSearchChange={_.debounce(this.handleSearchChange, 500, { leading: true })}
+                                                results={results}
+                                                value={value}
+                                                {...this.props}
+                                                resultRenderer={ResultRenderer}
+                                            />
+                                                {/* not wired up yet */}
+                                                    <Icon name='pound sign' />Amount<Form.Input type="number" name='target' value={name} onChange={this.handleChange}></Form.Input>
+                                                <button onClick={() => this.addUserToPlan()}class="mini primary ui button">
+                                                    Add User
+                                                </button>
+                                            </Form.Field>
+                                        </Form.Group>  
                                     }
         
                                     {(this.state.errorST && this.state.errorUST && !this.state.name) ?
@@ -252,7 +290,7 @@ class SavingsForm extends Component {
                                         placeholder="From - To"
                                         value={this.state.datesRange}
                                         iconPosition="left"
-                                        /* minDate= {new Date()} */
+                                        minDate= {new Date()}
                                         onChange={this.handleChange} />
                                     
                                 </Form.Group>
@@ -276,7 +314,7 @@ class SavingsForm extends Component {
                                     }
                             </Form>
                             </Grid.Column>
-                            <Grid.Column>
+                            <Grid.Column width={8}>
                                     <div>
                                     {!this.state.target_image?
                                                 <img src="https://www.mstreetbank.com/wp-content/uploads/2018/04/piggy-bank-update.jpg" id="savings-image1" alt="plant growing out of hand" />
