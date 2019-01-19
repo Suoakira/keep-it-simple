@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 import ResultRenderer from "./ResultRenderer"
-import {   Grid, Header, Segment, Select, Form, Message, Search } from 'semantic-ui-react'
+import {   Grid, Header, Segment, Select, Form, Message, Search, Icon } from 'semantic-ui-react'
 
 import API from "../API"
 import { Redirect } from "react-router-dom"
@@ -172,21 +172,19 @@ class SavingsForm extends Component {
                 {!this.state.submit ?
                     <React.Fragment>
                 <Segment placeholder>
-                    <Grid columns={2} stackable textAlign='center'>
+                            <Grid columns={2} stretched verticalAlign="middle">
                             <Grid.Row verticalAlign='middle'>
-                                <Grid.Column>
+                                <Grid.Column width={8}>
                                 <Header>Create Savings Plan</Header>
                             <Form error>
                                 <Form.Group>
                                     <Form.Input label="Plan Name" placeholder='Name' name='name' value={name} onChange={this.handleChange} />
                                 </Form.Group>
 
-                                    {(this.state.errorST && this.state.errorUST && !this.state.name) ?
+                                    {(this.state.errorST && this.state.errorUST && !this.state.name) &&
                                         <div className="make-center">
                                             <p>Please enter a valid Plan Name.</p>
                                         </div>
-                                        :
-                                        null
                                     }
                                 <Form.Group>  
                                     <Form.Field
@@ -227,7 +225,7 @@ class SavingsForm extends Component {
                                                 resultRenderer={ResultRenderer}
                                             />
                                                 {/* not wired up yet */}
-                                                <Form.Input placeholder='£ amount' name='target' value={name} onChange={this.handleChange} />
+                                                    <Icon name='pound sign' />Amount<Form.Input type="number" name='target' value={name} onChange={this.handleChange}></Form.Input>
                                                 <button onClick={() => this.addUserToPlan()}class="mini primary ui button">
                                                     Add User
                                                 </button>
@@ -316,7 +314,7 @@ class SavingsForm extends Component {
                                     }
                             </Form>
                             </Grid.Column>
-                            <Grid.Column>
+                            <Grid.Column width={8}>
                                     <div>
                                     {!this.state.target_image?
                                                 <img src="https://www.mstreetbank.com/wp-content/uploads/2018/04/piggy-bank-update.jpg" id="savings-image1" alt="plant growing out of hand" />
