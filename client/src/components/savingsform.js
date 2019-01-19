@@ -86,6 +86,7 @@ class SavingsForm extends Component {
         return savingTargets.map(savingTarget => API.postUserSavingsTarget(savingTarget))
     }
 
+// ------------------------------------ wtart adding a user to a plan -------------------------------------
     addUserToPlan = () => {
         if (this.state.results[0] && this.state.target) {
         console.log("added user to group")
@@ -102,6 +103,14 @@ class SavingsForm extends Component {
             alert("you didnt enter a user or amount (placeholder alert)")
         }
     }
+
+    mapGroupUsers = () => {
+        const copyGroupUsers = [...this.state.groupUsers]
+        return copyGroupUsers.map(groupMember => <p>{groupMember.user.username} {groupMember.amount}  </p>)
+
+    }
+
+    // ----------------------------------- end adding a user to plan ------------------------------------
 
     componentDidMount() {
         fetch("http://localhost:3000/api/v1/users")
@@ -197,7 +206,16 @@ class SavingsForm extends Component {
                                     /* this should be in a modal popup */
                                     <Form.Group>  
                                         <Form.Field>
+                                            
+                                     
+                                            
+                                            
                                             <b>Add a User and amount they should save</b>
+                                                {this.state.groupUsers[0] &&
+                                                    <Segment>
+                                                        {this.mapGroupUsers()}
+                                                    </Segment>
+                                                }
                                         <Search
                                                 loading={isLoading}
                                                 placeholder="Enter Username..."
