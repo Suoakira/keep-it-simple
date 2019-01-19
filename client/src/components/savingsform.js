@@ -32,7 +32,7 @@ class SavingsForm extends Component {
 
                 allUsers: undefined,
                 results: undefined,
-                groupUsers: undefined
+                groupUsers: []
             }
         }
 
@@ -87,7 +87,20 @@ class SavingsForm extends Component {
     }
 
     addUserToPlan = () => {
-
+        if (this.state.results[0] && this.state.target) {
+        console.log("added user to group")
+        const copyUser = JSON.parse(JSON.stringify([...this.state.results][0]))
+        console.log(copyUser)
+        const amount = this.state.target
+        console.log(amount)
+        this.setState({ groupUsers: [...this.state.groupUsers,
+            {user: copyUser, 
+            amount: amount}]
+        })
+        } else {
+            // replace this alert box
+            alert("you didnt enter a user or amount (placeholder alert)")
+        }
     }
 
     componentDidMount() {
@@ -184,6 +197,7 @@ class SavingsForm extends Component {
                                     /* this should be in a modal popup */
                                     <Form.Group>  
                                         <Form.Field>
+                                            <b>Add a User and amount they should save</b>
                                         <Search
                                                 loading={isLoading}
                                                 placeholder="Enter Username..."
