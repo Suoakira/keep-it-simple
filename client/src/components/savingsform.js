@@ -32,7 +32,9 @@ class SavingsForm extends Component {
 
                 allUsers: undefined,
                 results: undefined,
-                groupUsers: []
+                groupUsers: [],
+                mapToApi: []
+
             }
         }
 
@@ -82,8 +84,19 @@ class SavingsForm extends Component {
             })     
     }
 
-    mapJoinPostRequests = (savingTargets) => {
-        return savingTargets.map(savingTarget => API.postUserSavingsTarget(savingTarget))
+    mapJoinPostRequests = (savingTargetId) => {
+                let loggedInUser = {
+                user_id: this.state.user_id,
+                saving_target_id: undefined,
+                amount: this.state.amount
+                }
+        const savingTargets = [...this.state.groupUsers]
+        // cant just unshift here as user hasnt submitted their amount they should save yet
+        savingTargets.unshift(loggedInUser)
+        console.log(savingTargets)
+
+    
+        // return savingTargets.map(savingTarget => API.postUserSavingsTarget(savingTarget))
     }
 
 // ------------------------------------ wtart adding a user to a plan -------------------------------------
@@ -94,9 +107,19 @@ class SavingsForm extends Component {
         console.log(copyUser)
         const amount = this.state.target
         console.log(amount)
-        this.setState({ groupUsers: [...this.state.groupUsers,
-            {user: copyUser, 
-            amount: amount}]
+        console.log(copyUser.id)
+        this.setState({ 
+            groupUsers: [...this.state.groupUsers,
+            {user: copyUser,
+            user_id: copyUser.id ,
+            amount: amount}],
+            mapToApi: [...this.state.mapToApi,
+        {
+            user_id: copyUser.id,
+            saving_target_id: undefined,
+            amount: amount
+        }
+            ]
         })
         } else {
             // replace this alert box
@@ -166,6 +189,7 @@ class SavingsForm extends Component {
             { key: 'a', text: 'Charity', value: 'Charity' },
             { key: 'o', text: 'Other', value: 'Other' },
         ]
+        this.mapJoinPostRequests()
 
         return (
             <div className="wrapper">
@@ -204,10 +228,6 @@ class SavingsForm extends Component {
                                     /* this should be in a modal popup */
                                     <Form.Group>  
                                         <Form.Field>
-                                            
-                                     
-                                            
-                                            
                                             <b>Add a User and amount they should save</b>
                                                 {this.state.groupUsers[0] &&
                                                     <Segment>
