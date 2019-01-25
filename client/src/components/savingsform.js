@@ -32,7 +32,9 @@ class SavingsForm extends Component {
 
                 allUsers: undefined,
                 results: undefined,
-                groupUsers: []
+                groupUsers: [],
+                mapToApi: []
+
             }
         }
 
@@ -62,28 +64,35 @@ class SavingsForm extends Component {
                     this.setState({error: resp.error})
                 } else {
                 SavingTargetId = resp.id
+                const savingTargets = [...this.state.mapToApi]
+                    savingTargets.unshift({
+                        user_id: this.state.user_id,
+                        saving_target_id: SavingTargetId,
+                        amount: this.state.amount
+                    })
+                    this.setState({ mapToApi: savingTargets })
                 console.log(resp)
                 }
             })
-            .then(() => API.postUserSavingsTarget(
-                {
-                user_id: user_id,
-                saving_target_id: SavingTargetId,
-                amount: amount
-                }
-            )).then(resp => {
-                if (resp.error) {
-                    console.log(resp.error)
-                    this.setState({ errorUST: resp.error })
-                } else {
-                    this.setState({submit: true})
-                    console.log(resp)
-                }
-            })     
-    }
+            .then(() => this.mapJoinPostRequests(SavingTargetId)    
+            )}
 
-    mapJoinPostRequests = (savingTargets) => {
-        return savingTargets.map(savingTarget => API.postUserSavingsTarget(savingTarget))
+    mapJoinPostRequests = (savingTargetId) => {
+        const savingTargets = [...this.state.mapToApi]
+        // cant just unshift here as user hasnt submitted their amount they should save yet
+        // savingTargets.unshift(loggedInUser)
+        console.log(savingTargets)
+        savingTargets.map(target => target.saving_target_id = savingTargetId)
+        console.log(savingTargets)
+        return savingTargets.map(savingTarget => API.postUserSavingsTarget(savingTarget).then(resp => {
+            if (resp.error) {
+                console.log(resp.error)
+                this.setState({ errorUST: resp.error })
+            } else {
+                this.setState({ submit: true })
+                console.log(resp)
+            }
+        }))
     }
 
 // ------------------------------------ wtart adding a user to a plan -------------------------------------
@@ -94,9 +103,19 @@ class SavingsForm extends Component {
         console.log(copyUser)
         const amount = this.state.target
         console.log(amount)
-        this.setState({ groupUsers: [...this.state.groupUsers,
-            {user: copyUser, 
-            amount: amount}]
+        console.log(copyUser.id)
+        this.setState({ 
+            groupUsers: [...this.state.groupUsers,
+            {user: copyUser,
+            user_id: copyUser.id ,
+            amount: amount}],
+            mapToApi: [...this.state.mapToApi,
+        {
+            user_id: copyUser.id,
+            saving_target_id: undefined,
+            amount: amount
+        }
+            ]
         })
         } else {
             // replace this alert box
@@ -150,7 +169,7 @@ class SavingsForm extends Component {
     // --------------------------Search Feature End ------------------------------------------ //
 
     render() { 
-        const { name, category, target_image, amount, plan, isLoading, value, allUsers, results } = this.state
+        const { name, category, target_image, amount, plan, isLoading, value, allUsers, target, results } = this.state
         const planOptions = [
             { key: 'p', text: 'Personal', value: 'Personal' },
             { key: 'g', text: 'Group', value: 'Group' },
@@ -166,6 +185,7 @@ class SavingsForm extends Component {
             { key: 'a', text: 'Charity', value: 'Charity' },
             { key: 'o', text: 'Other', value: 'Other' },
         ]
+        
 
         return (
             <div className="wrapper">
@@ -204,10 +224,6 @@ class SavingsForm extends Component {
                                     /* this should be in a modal popup */
                                     <Form.Group>  
                                         <Form.Field>
-                                            
-                                     
-                                            
-                                            
                                             <b>Add a User and amount they should save</b>
                                                 {this.state.groupUsers[0] &&
                                                     <Segment>
@@ -225,7 +241,7 @@ class SavingsForm extends Component {
                                                 resultRenderer={ResultRenderer}
                                             />
                                                 {/* not wired up yet */}
-                                                    <Icon name='pound sign' />Amount<Form.Input type="number" name='target' value={name} onChange={this.handleChange}></Form.Input>
+                                                    <Icon name='pound sign' />Amount<Form.Input type="number" name='target' value={target} onChange={this.handleChange}></Form.Input>
                                                 <button onClick={() => this.addUserToPlan()}class="mini primary ui button">
                                                     Add User
                                                 </button>
@@ -233,12 +249,10 @@ class SavingsForm extends Component {
                                         </Form.Group>  
                                     }
         
-                                    {(this.state.errorST && this.state.errorUST && !this.state.name) ?
+                                    {(this.state.errorST && this.state.errorUST && !this.state.name) &&
                                         <div className="make-center">
                                             <p>Please enter a valid Plan type.</p>
                                         </div>
-                                        :
-                                        null
                                     }
                                 <Form.Group>
                                     <Form.Field
@@ -253,34 +267,28 @@ class SavingsForm extends Component {
                                         searchInput={{ id: 'categoryOptions' }}
                                     />
                                 </Form.Group>
-                                {(this.state.errorST && this.state.errorUST && !this.state.category) ?
+                                {(this.state.errorST && this.state.errorUST && !this.state.category) &&
                                     <div className="make-center">
                                         <p>Please enter a valid Category.</p>
                                     </div>
-                                    :
-                                    null
                                 }
                                 <Form.Group>
                                 <Form.Input label="Image Url" placeholder='Image' name='target_image' value={target_image} onChange={this.handleChange}  />
                                 </Form.Group>
-                                    {(this.state.errorST && this.state.errorUST && !this.state.target_image) ?
+                                    {(this.state.errorST && this.state.errorUST && !this.state.target_image) &&
                                         <div className="make-center">
                                             <p>Please enter a valid image url.</p>
                                         </div>
-                                        :
-                                        null
                                     }
 
                                 <Form.Group>
                                 <Form.Input type="number" label="Amount to save (£)" placeholder='Amount' name='amount' value={amount} onChange={this.handleChange} />
                                 </Form.Group>
 
-                                    {(this.state.errorST && this.state.errorUST && !this.state.target_image) ?
+                                    {(this.state.errorST && this.state.errorUST && !this.state.target_image) &&
                                         <div className="make-center">
                                             <p>Please enter an amount to save.</p>
                                         </div>
-                                        :
-                                        null
                                     }
                                 
                                 <Form.Group>
@@ -295,22 +303,18 @@ class SavingsForm extends Component {
                                     
                                 </Form.Group>
 
-                                    {(this.state.errorST && this.state.errorUST && !this.state.start_date && !this.state.end_date ) ?
+                                    {(this.state.errorST && this.state.errorUST && !this.state.start_date && !this.state.end_date ) &&
                                         <div className="make-center">
                                             <p>Please enter a valid start, and end date</p>
                                         </div>
-                                        :
-                                        null
                                     }
                                     <div class="ui medium primary button" onClick={(event) => this.handleSubmit(event)}>Create Plan <i class="right arrow icon"></i></div>
-                                    {this.state.error ?
+                                    {this.state.error &&
                                         <Message
                                             error
                                             header='Action Forbidden'
                                             content={this.state.error}
                                         />
-                                        :
-                                        null
                                     }
                             </Form>
                             </Grid.Column>
