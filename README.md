@@ -1,6 +1,6 @@
 # keep-it-simple
 
-This is a th frontend to for a money management app. 
+This is a the frontend to for a Money Management app. 
 
 The provides users with a simple organised way to organise all their saving goals.
 
